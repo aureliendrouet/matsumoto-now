@@ -9,6 +9,7 @@ on:
 
 permissions:
   contents: write
+  actions: write # to dispatch the deploy workflow after committing new data
 
 concurrency:
   group: fetch-data
@@ -32,9 +33,11 @@ jobs:
         run: node scripts/fetch-city-data.mjs
 
       - name: Commit if changed
+        id: commit
         run: |
           if git diff --quiet -- public/data/alerts.json; then
             echo "No changes."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           git config user.name "github-actions[bot]"
@@ -42,3 +45,12 @@ jobs:
           git add public/data/alerts.json
           git commit -m "data: refresh city alerts"
           git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      # Pushes made with GITHUB_TOKEN do not trigger `on: push` workflows
+      # (anti-recursion rule), so kick the deploy explicitly.
+      - name: Trigger deploy
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml --ref main --repo "$GITHUB_REPOSITORY"
