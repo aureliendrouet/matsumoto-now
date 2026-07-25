@@ -2,17 +2,12 @@
 
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { ui, type Lang, type UIKey } from '../i18n/ui';
+import { ui, getLang, type Lang, type UIKey } from '../i18n/ui';
 import { fetchQuakes, intensityLabel, type Quake } from './quakes';
 import { fmtDateTime, fmtNum } from './format';
 import { chartMessage } from './chart';
 
 const MATSUMOTO: [number, number] = [36.238, 137.972];
-
-function getLang(): Lang {
-  const lang = document.documentElement.lang;
-  return lang === 'ja' || lang === 'fr' ? lang : 'en';
-}
 
 function make(tag: string, className?: string, text?: string): HTMLElement {
   const node = document.createElement(tag);

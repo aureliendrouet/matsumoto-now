@@ -1,4 +1,4 @@
-import { ui, defaultLang, type Lang, type UIKey } from './ui';
+import { ui, languages, defaultLang, type Lang, type UIKey } from './ui';
 
 export function useTranslations(lang: Lang) {
   return function t(key: UIKey): string {
@@ -20,12 +20,10 @@ export function localePath(lang: Lang, path = ''): string {
   return withBase(`/${lang}/${clean ? `${clean}/` : ''}`);
 }
 
-export const langParams = [
-  { params: { lang: 'en' } },
-  { params: { lang: 'ja' } },
-  { params: { lang: 'fr' } },
-] as const;
+export const langParams = (Object.keys(languages) as Lang[]).map((lang) => ({
+  params: { lang },
+}));
 
 export function asLang(value: string | undefined): Lang {
-  return value === 'ja' || value === 'fr' ? value : 'en';
+  return (value && value in languages ? value : defaultLang) as Lang;
 }

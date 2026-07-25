@@ -1,7 +1,7 @@
 /** Alerts page: live JMA warnings + city feeds fetched by the scheduled GitHub Action
  *  into /data/alerts.json (see scripts/fetch-city-data.mjs). */
 
-import { ui, type Lang, type UIKey } from '../i18n/ui';
+import { ui, getLang, type Lang, type UIKey } from '../i18n/ui';
 import { fmtDateTime } from './format';
 
 export interface AlertItem {
@@ -18,15 +18,12 @@ interface AlertsFile {
   items: AlertItem[];
 }
 
-function getLang(): Lang {
-  const lang = document.documentElement.lang;
-  return lang === 'ja' || lang === 'fr' ? lang : 'en';
-}
-
+/** Titles are machine-translated to EN and FR only (DeepL quota); every other
+ *  non-Japanese language falls back to the English translation. */
 function displayTitle(item: AlertItem, lang: Lang): string {
-  if (lang === 'en') return item.titleEn ?? item.title;
+  if (lang === 'ja') return item.title;
   if (lang === 'fr') return item.titleFr ?? item.titleEn ?? item.title;
-  return item.title;
+  return item.titleEn ?? item.title;
 }
 
 function make(tag: string, className?: string, text?: string): HTMLElement {

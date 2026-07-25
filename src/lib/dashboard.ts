@@ -1,6 +1,6 @@
 /** Dashboard hydration: fetches all live sources in parallel and renders widgets. */
 
-import { ui, type Lang, type UIKey } from '../i18n/ui';
+import { ui, getLang, type Lang, type UIKey } from '../i18n/ui';
 import { fmtTime, fmtDateShort, fmtWeekday, fmtDateTime, fmtNum } from './format';
 import { fetchAmedasNow, fetchWarnings, windDirLabel, warningLabel } from './jma';
 import { fetchForecast, fetchAirQuality, pm25Level, uvLevel, type Forecast } from './openmeteo';
@@ -8,11 +8,6 @@ import { fetchPollenToday, pollenLevel } from './pollen';
 import { fetchQuakes, intensityLabel } from './quakes';
 import { lineChart, barChart, chartMessage } from './chart';
 import { wmoIcon, wmoLabel } from './wmo';
-
-function getLang(): Lang {
-  const lang = document.documentElement.lang;
-  return lang === 'ja' || lang === 'fr' ? lang : 'en';
-}
 
 function widget(name: string): HTMLElement | null {
   return document.querySelector<HTMLElement>(`[data-widget="${name}"]`);

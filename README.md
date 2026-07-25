@@ -1,10 +1,11 @@
 # Matsumoto Now · 松本なう
 
-An unofficial, trilingual (English / 日本語 / Français) live dashboard for citizens of
-Matsumoto City, Nagano: weather, warnings, air quality, pollen, earthquakes,
-city alerts, crime statistics, city buses, evacuation shelters & AEDs, and
-emergency medical contacts — all from free public data sources, hosted for
-free on GitHub Pages.
+An unofficial live dashboard for citizens of Matsumoto City, Nagano, in
+13 languages (English, 日本語, Français, Español, Português, Italiano, Deutsch,
+Norsk, 中文, 한국어, Filipino, Tiếng Việt, ไทย): weather, warnings, air quality,
+pollen, earthquakes, city alerts, crime statistics, city buses, evacuation
+shelters & AEDs, and emergency medical contacts — all from free public data
+sources, hosted for free on GitHub Pages.
 
 ## How it works
 
@@ -24,10 +25,15 @@ free on GitHub Pages.
   Slow-moving open data (police crime CSVs, GTFS bus feeds, shelter/AED
   designations) is refreshed monthly by `.github/workflows/fetch-monthly.yml`
   into `public/data/{crime,bus,shelters}.json`.
-- **i18n**: every page exists under `/en/`, `/ja/` and `/fr/`; the root
-  redirects by browser language. UI strings live in `src/i18n/ui.ts`. JMA and
-  WMO codes are mapped to English and French in `src/lib/jma.ts` /
-  `src/lib/wmo.ts`.
+- **i18n**: every page exists under each language slug (`/en/`, `/ja/`,
+  `/fr/`, `/es/`, `/pt/`, `/it/`, `/de/`, `/no/`, `/zh/`, `/ko/`, `/tl/`,
+  `/vi/`, `/th/`); the root redirects by browser language. Each language is
+  one module in `src/i18n/locales/` holding the UI dictionary plus JMA
+  warning, WMO weather-code, and compass labels — `npx tsx
+  scripts/check-locales.mjs` verifies every locale has exactly the same keys.
+  City-alert titles are machine-translated (DeepL) to English and French
+  only; other languages show the English title. The Resources and About
+  pages are curated in en/ja/fr and fall back to English elsewhere.
 
 ## Local development
 
@@ -48,7 +54,9 @@ npm run fetch-data # populate public/data/alerts.json from the live city feeds
 4. Optional — English/French translation of city alerts: create a free DeepL
    API account and add the key as a repository secret named `DEEPL_API_KEY`
    (**Settings → Secrets and variables → Actions**). Without it, alert titles
-   are shown in Japanese on the English and French pages too.
+   are shown in Japanese on every non-Japanese page. (Only EN and FR are
+   machine-translated, to preserve the DeepL free-tier quota; other languages
+   reuse the English titles.)
 
 The scheduled fetch workflow needs no setup; it starts running on schedule
 once the repo is on GitHub. (GitHub may pause schedules on inactive forks —
@@ -86,6 +94,10 @@ emergency follow official guidance (110 police / 119 fire & ambulance).
 
 ## Ideas for later
 
+- Live police incident feed (bears, suspicious persons, scams): the Raiporisu
+  web map (map.police.nagano.dsvc.jp) exposes fresh public TSVs, but the
+  Nagano Police terms prohibit republication without permission — ask
+  生活安全企画課 first. The Safety page links to the official map instead.
 - Duty-doctor (休日当番医) live schedule: the Matsumoto City Medical
   Association publishes a clean daily rotation at matsu-med.or.jp, but their
   terms prohibit reproduction without written permission — ask them first.

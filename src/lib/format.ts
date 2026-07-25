@@ -2,8 +2,24 @@ import type { Lang } from '../i18n/ui';
 
 const JST = 'Asia/Tokyo';
 
+const LOCALES: Record<Lang, string> = {
+  en: 'en-GB',
+  ja: 'ja-JP',
+  fr: 'fr-FR',
+  es: 'es-ES',
+  pt: 'pt-BR',
+  it: 'it-IT',
+  de: 'de-DE',
+  no: 'nb-NO',
+  zh: 'zh-CN',
+  ko: 'ko-KR',
+  tl: 'fil-PH',
+  vi: 'vi-VN',
+  th: 'th-TH',
+};
+
 export function locale(lang: Lang): string {
-  return lang === 'ja' ? 'ja-JP' : lang === 'fr' ? 'fr-FR' : 'en-GB';
+  return LOCALES[lang] ?? 'en-GB';
 }
 
 export function fmtTime(d: Date, lang: Lang): string {

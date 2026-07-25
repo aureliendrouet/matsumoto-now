@@ -4,7 +4,7 @@
 
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { ui, type Lang, type UIKey } from '../i18n/ui';
+import { ui, getLang, type Lang, type UIKey } from '../i18n/ui';
 
 const MATSUMOTO: [number, number] = [36.238, 137.972];
 const AED_MIN_ZOOM = 14;
@@ -31,11 +31,6 @@ interface ShelterFile {
   fetched: string;
   shelters: Shelter[];
   aeds: Aed[];
-}
-
-function getLang(): Lang {
-  const lang = document.documentElement.lang;
-  return lang === 'ja' || lang === 'fr' ? lang : 'en';
 }
 
 function make(tag: string, className?: string, text?: string): HTMLElement {

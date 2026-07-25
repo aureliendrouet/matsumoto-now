@@ -13,14 +13,88 @@ const t = useTranslations(lang);
 
 <Base lang={lang} title={t('safety.title')} active="safety">
   <h1 class="page-title">{t('safety.title')}</h1>
-  <p class="page-sub">{t('crime.subtitle')}</p>
+  <p class="page-sub">{t('safety.subtitle')}</p>
 
   <div class="grid">
+    <section class="card col-12">
+      <ul class="contact-list">
+        <li>
+          <a class="tel" href="tel:110">110</a>
+          <div class="what">
+            <div class="title">{t('safety.police110')}</div>
+            <div class="meta">{t('safety.police110Desc')}</div>
+          </div>
+        </li>
+        <li>
+          <a class="tel" href="tel:%239110">#9110</a>
+          <div class="what">
+            <div class="title">{t('safety.consult')}</div>
+            <div class="meta">{t('safety.consultDesc')}</div>
+          </div>
+        </li>
+        <li>
+          <a class="tel" href="tel:0263250110">0263-25-0110</a>
+          <div class="what">
+            <div class="title">
+              <a
+                href="https://www.pref.nagano.lg.jp/police/keisatsusho/matsumoto.html"
+                target="_blank"
+                rel="noopener"
+              >
+                {t('safety.station')}
+              </a>
+            </div>
+            <div class="meta">{t('safety.stationDesc')}</div>
+          </div>
+        </li>
+      </ul>
+      <p class="card-note">
+        {t('safety.app110')}
+        <a
+          href="https://www.npa.go.jp/bureau/safetylife/110/app/index.html"
+          target="_blank"
+          rel="noopener"
+        >
+          110番アプリ ↗
+        </a>
+      </p>
+    </section>
+
+    <section class="card col-6">
+      <h3>
+        <a href="https://www.raipolice-nagano.jp/" target="_blank" rel="noopener">
+          {t('safety.raipolice')} ↗
+        </a>
+      </h3>
+      <p class="card-sub">{t('safety.raipoliceDesc')}</p>
+      <p style="margin: 0">
+        <a href="https://map.police.nagano.dsvc.jp/" target="_blank" rel="noopener">
+          {t('safety.map')} ↗
+        </a>
+        <br />
+        <span class="card-note" style="display: inline-block; margin-top: 4px">{t('safety.mapDesc')}</span>
+      </p>
+    </section>
+
+    <section class="card col-6">
+      <h3>
+        <a
+          href="https://www.city.matsumoto.nagano.jp/soshiki/7/2746.html"
+          target="_blank"
+          rel="noopener"
+        >
+          {t('safety.anshin')} ↗
+        </a>
+      </h3>
+      <p class="card-sub" style="margin-bottom: 0">{t('safety.anshinDesc')}</p>
+    </section>
+
     <section class="card col-5">
       <div class="card-head">
         <h2>{t('crime.title')}</h2>
         <span class="updated" data-crime-year />
       </div>
+      <p class="card-sub">{t('crime.subtitle')}</p>
       <div data-widget="crime">
         <p class="placeholder">{t('common.loading')}</p>
       </div>
@@ -44,15 +118,6 @@ const t = useTranslations(lang);
       <div data-widget="crime-detail">
         <p class="placeholder">{t('common.loading')}</p>
       </div>
-    </section>
-
-    <section class="card col-12">
-      <h3>
-        <a href="https://www.raipolice-nagano.jp/" target="_blank" rel="noopener">
-          {t('safety.raipolice')} ↗
-        </a>
-      </h3>
-      <p class="card-sub" style="margin-bottom: 0">{t('safety.raipoliceDesc')}</p>
     </section>
   </div>
 </Base>

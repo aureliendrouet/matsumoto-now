@@ -10,7 +10,7 @@ interface Props {
 
 const { lang, active = 'dashboard' } = Astro.props;
 const t = useTranslations(lang);
-const otherLangs = (Object.keys(languages) as Lang[]).filter((l) => l !== lang);
+const allLangs = Object.keys(languages) as Lang[];
 
 const items = [
   { id: 'dashboard', path: '', label: t('nav.dashboard') },
@@ -51,13 +51,18 @@ const activePath = activeItem?.path ?? '';
         </span>
       </a>
       <div class="header-actions">
-        {
-          otherLangs.map((l) => (
-            <a class="pill-btn" href={localePath(l, activePath)} data-lang-switch={l} rel="alternate" hreflang={l}>
+        <select
+          class="pill-btn lang-select"
+          data-lang-select
+          aria-label="Language"
+          data-paths={JSON.stringify(Object.fromEntries(allLangs.map((l) => [l, localePath(l, activePath)])))}
+        >
+          {allLangs.map((l) => (
+            <option value={l} selected={l === lang}>
               {languages[l]}
-            </a>
-          ))
-        }
+            </option>
+          ))}
+        </select>
         <button class="pill-btn" type="button" data-theme-toggle aria-label={t('common.themeToggle')}>
           <span aria-hidden="true" data-theme-icon>◐</span>
         </button>
@@ -90,15 +95,14 @@ const activePath = activeItem?.path ?? '';
     } catch {}
   });
 
-  // Remember the language chosen explicitly, for the root redirect.
-  for (const link of document.querySelectorAll<HTMLElement>('[data-lang-switch]')) {
-    link.addEventListener('click', () => {
-      const lang = link.dataset.langSwitch;
-      if (lang) {
-        try {
-          localStorage.setItem('lang', lang);
-        } catch {}
-      }
-    });
-  }
+  // Language dropdown: remember the choice (for the root redirect) and navigate.
+  const langSelect = document.querySelector<HTMLSelectElement>('[data-lang-select]');
+  langSelect?.addEventListener('change', () => {
+    const lang = langSelect.value;
+    try {
+      localStorage.setItem('lang', lang);
+    } catch {}
+    const paths = JSON.parse(langSelect.dataset.paths ?? '{}') as Record<string, string>;
+    if (paths[lang]) location.href = paths[lang];
+  });
 </script>

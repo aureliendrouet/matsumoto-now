@@ -26,15 +26,7 @@ const t = useTranslations(lang);
 
     <section class="card col-5">
       <h2>{t('quakes.mapTitle')}</h2>
-      <p class="card-sub">
-        {
-          lang === 'ja'
-            ? '円の大きさ＝マグニチュード'
-            : lang === 'fr'
-              ? 'Taille du cercle = magnitude'
-              : 'Circle size = magnitude'
-        }
-      </p>
+      <p class="card-sub">{t('quakes.circleNote')}</p>
       <div class="map-frame" id="quake-map"></div>
     </section>
   </div>

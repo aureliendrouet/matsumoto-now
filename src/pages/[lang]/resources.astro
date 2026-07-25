@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import { useTranslations, langParams, asLang } from '../../i18n/utils';
 import { features } from '../../features';
+import type { UIKey } from '../../i18n/ui';
 
 export function getStaticPaths() {
   return features.resourcesPage ? langParams : [];
@@ -10,68 +11,19 @@ export function getStaticPaths() {
 const lang = asLang(Astro.params.lang);
 const t = useTranslations(lang);
 
-const resources = [
-  {
-    url: 'https://www.city.matsumoto.nagano.jp/',
-    en: { name: 'Matsumoto City official website', desc: 'City hall services and announcements. Has a machine-translation widget for English and other languages.' },
-    ja: { name: '松本市公式ホームページ', desc: '市役所の手続き・お知らせの公式サイト。' },
-    fr: { name: 'Site officiel de la ville de Matsumoto', desc: 'Démarches et annonces de la mairie. Un widget de traduction automatique est disponible.' },
-  },
-  {
-    url: 'https://www.city.matsumoto.nagano.jp/site/bousai/',
-    en: { name: 'Matsumoto disaster-prevention portal', desc: 'Hazard maps, evacuation shelters, and emergency preparation from the city.' },
-    ja: { name: '松本市防災ポータル', desc: 'ハザードマップ・避難所・防災情報のポータル。' },
-    fr: { name: 'Portail prévention des catastrophes', desc: 'Cartes des risques, abris d’évacuation et préparation aux urgences.' },
-  },
-  {
-    url: 'https://www.city.matsumoto.nagano.jp/soshiki/7/2746.html',
-    en: { name: 'Matsumoto Anshin-net (emergency email)', desc: 'Register your email to receive the city’s disaster-radio broadcasts (Japanese).' },
-    ja: { name: '松本安心ネット（登録制メール）', desc: '防災行政無線の内容をメールで受け取れる登録サービス。' },
-    fr: { name: 'Matsumoto Anshin-net (e-mails d’urgence)', desc: 'Inscrivez votre e-mail pour recevoir les diffusions de la radio municipale de prévention (en japonais).' },
-  },
-  {
-    url: 'https://www.city.matsumoto.nagano.jp/soshiki/58/78317.html',
-    en: { name: 'Garbage sorting guide (8 languages)', desc: 'Official waste-sorting calendars in English, Chinese, Korean, Portuguese, Vietnamese and more (PDF).' },
-    ja: { name: 'ごみの分別・収集カレンダー', desc: '地区別のごみカレンダー（多言語PDFあり）。アプリ「さんあ〜る」も便利。' },
-    fr: { name: 'Guide de tri des déchets (8 langues)', desc: 'Calendriers officiels de tri en anglais, chinois, coréen, portugais, vietnamien, etc. (PDF — pas de version française).' },
-  },
-  {
-    // The medical association's site policy asks that links point to the top page.
-    url: 'https://www.matsu-med.or.jp/',
-    en: { name: 'Holiday & night duty doctors', desc: 'Which clinics are on duty today (updated daily 9:00, Japanese). Night emergency clinic: 0263-38-0622.' },
-    ja: { name: '休日・夜間当番医（松本市医師会）', desc: '本日の当番医（毎朝9時更新）。夜間急病センター 0263-38-0622。' },
-    fr: { name: 'Médecins de garde (week-ends et nuits)', desc: 'Cliniques de garde du jour (mise à jour chaque matin à 9 h, en japonais). Centre de nuit : 0263-38-0622.' },
-  },
-  {
-    url: 'https://www.river.go.jp/index',
-    en: { name: 'River levels (Kawabou)', desc: 'National river water-level and rain gauges, including the Matsumoto area.' },
-    ja: { name: '川の防災情報（国土交通省）', desc: '河川水位・雨量・河川カメラ。' },
-    fr: { name: 'Niveaux des rivières (Kawabou)', desc: 'Stations nationales de mesure des niveaux d’eau et des pluies, y compris la région de Matsumoto.' },
-  },
-  {
-    url: 'https://soramame.env.go.jp/',
-    en: { name: 'Official air-quality stations (Soramame)', desc: 'Ministry of the Environment monitoring — Matsumoto has three stations.' },
-    ja: { name: 'そらまめくん（環境省 大気汚染物質広域監視）', desc: '松本市内3測定局の公式測定値。' },
-    fr: { name: 'Stations officielles de qualité de l’air (Soramame)', desc: 'Surveillance du ministère de l’Environnement — trois stations à Matsumoto.' },
-  },
-  {
-    url: 'https://www.raipolice-nagano.jp/',
-    en: { name: 'Raiporisu — Nagano Police safety app', desc: 'Crime, scam, suspicious-person and bear-sighting alerts on a map (smartphone app, Japanese).' },
-    ja: { name: 'ライポリス（長野県警防犯アプリ）', desc: '犯罪・不審者・特殊詐欺・クマ出没情報などをマップで通知。' },
-    fr: { name: 'Raiporisu — appli de la police de Nagano', desc: 'Alertes criminalité, arnaques, individus suspects et observations d’ours sur une carte (appli smartphone, en japonais).' },
-  },
-  {
-    url: 'https://www.city.matsumoto.nagano.jp/soshiki/222/3237.html',
-    en: { name: 'City buses (Gurutto Matsumoto Bus)', desc: 'Routes, timetables and real-time bus locations for local buses.' },
-    ja: { name: 'ぐるっとまつもとバス（市内バス）', desc: '路線図・時刻表・バスロケーションシステム。' },
-    fr: { name: 'Bus municipaux (Gurutto Matsumoto Bus)', desc: 'Lignes, horaires et position des bus en temps réel.' },
-  },
-  {
-    url: 'https://page.line.me/ric7546t',
-    en: { name: 'Matsumoto City official LINE', desc: 'Garbage-day reminders and emergency notifications by district.' },
-    ja: { name: '松本市公式LINE', desc: '地区ごとのごみ収集日通知や緊急情報の配信。' },
-    fr: { name: 'Compte LINE officiel de la ville', desc: 'Rappels des jours de collecte des déchets et notifications d’urgence par quartier.' },
-  },
+// Names/descriptions live in the locale dictionaries (res.<slug>.name/desc).
+const resources: { slug: string; url: string }[] = [
+  { slug: 'city', url: 'https://www.city.matsumoto.nagano.jp/' },
+  { slug: 'bousai', url: 'https://www.city.matsumoto.nagano.jp/site/bousai/' },
+  { slug: 'anshin', url: 'https://www.city.matsumoto.nagano.jp/soshiki/7/2746.html' },
+  { slug: 'garbage', url: 'https://www.city.matsumoto.nagano.jp/soshiki/58/78317.html' },
+  // The medical association's site policy asks that links point to the top page.
+  { slug: 'dutyDoctor', url: 'https://www.matsu-med.or.jp/' },
+  { slug: 'kawabou', url: 'https://www.river.go.jp/index' },
+  { slug: 'soramame', url: 'https://soramame.env.go.jp/' },
+  { slug: 'raipolice', url: 'https://www.raipolice-nagano.jp/' },
+  { slug: 'bus', url: 'https://www.city.matsumoto.nagano.jp/soshiki/222/3237.html' },
+  { slug: 'line', url: 'https://page.line.me/ric7546t' },
 ];
 ---
 
@@ -85,11 +37,11 @@ const resources = [
         <section class="card col-6">
           <h3>
             <a href={r.url} target="_blank" rel="noopener">
-              {r[lang].name} ↗
+              {t(`res.${r.slug}.name` as UIKey)} ↗
             </a>
           </h3>
           <p class="card-sub" style="margin-bottom: 0">
-            {r[lang].desc}
+            {t(`res.${r.slug}.desc` as UIKey)}
           </p>
         </section>
       ))

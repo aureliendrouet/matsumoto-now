@@ -1,7 +1,7 @@
 /** Safety page: Nagano Prefectural Police crime open data, pre-aggregated for
  *  Matsumoto by scripts/fetch-crime-data.mjs into /data/crime.json (updated yearly). */
 
-import { ui, type Lang, type UIKey } from '../i18n/ui';
+import { ui, getLang, type Lang, type UIKey } from '../i18n/ui';
 import { fmtNum } from './format';
 import { barChart, chartMessage } from './chart';
 
@@ -89,8 +89,7 @@ function renderDetail(host: HTMLElement, file: CrimeFile, lang: Lang, t: (k: UIK
 }
 
 export function initSafetyPage(): void {
-  const docLang = document.documentElement.lang;
-  const lang: Lang = docLang === 'ja' || docLang === 'fr' ? docLang : 'en';
+  const lang = getLang();
   const t = (key: UIKey): string => ui[lang][key] ?? ui.en[key];
   initCrime(lang, t);
 }

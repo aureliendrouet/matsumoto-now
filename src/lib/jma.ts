@@ -1,4 +1,4 @@
-import type { Lang } from '../i18n/ui';
+import { locales, type Lang } from '../i18n/ui';
 import { jstParts, pad2 } from './format';
 
 /** Matsumoto AMeDAS station (松本特別地域気象観測所). */
@@ -19,13 +19,10 @@ export interface AmedasNow {
   snow: number | null; // cm
 }
 
-const DIR_EN = ['—', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW', 'N'];
-const DIR_JA = ['静穏', '北北東', '北東', '東北東', '東', '東南東', '南東', '南南東', '南', '南南西', '南西', '西南西', '西', '西北西', '北西', '北北西', '北'];
-const DIR_FR = ['—', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSO', 'SO', 'OSO', 'O', 'ONO', 'NO', 'NNO', 'N'];
-
+/** Compass labels live in the locale modules (index 0 = calm, 1–16 = NNE…N). */
 export function windDirLabel(dir: number | null, lang: Lang): string {
   if (dir === null || dir < 0 || dir > 16) return '—';
-  return (lang === 'ja' ? DIR_JA : lang === 'fr' ? DIR_FR : DIR_EN)[dir]!;
+  return locales[lang].dirs[dir] ?? locales.en.dirs[dir] ?? '—';
 }
 
 function pick(field: unknown): number | null {
@@ -75,46 +72,44 @@ export type WarnLevel = 'advisory' | 'warning' | 'emergency';
 export interface ActiveWarning {
   code: string;
   level: WarnLevel;
-  en: string;
-  ja: string;
-  fr: string;
 }
 
+/** Labels live in the locale modules; English is the fallback. */
 export function warningLabel(w: ActiveWarning, lang: Lang): string {
-  return w[lang];
+  return locales[lang].warnings[w.code] ?? locales.en.warnings[w.code] ?? `Code ${w.code}`;
 }
 
-/** JMA warning/advisory codes (bosai warning JSON). */
-const WARN_CODES: Record<string, { level: WarnLevel; en: string; ja: string; fr: string }> = {
-  '02': { level: 'warning', en: 'Snowstorm warning', ja: '暴風雪警報', fr: 'Alerte tempête de neige' },
-  '03': { level: 'warning', en: 'Heavy rain warning', ja: '大雨警報', fr: 'Alerte fortes pluies' },
-  '04': { level: 'warning', en: 'Flood warning', ja: '洪水警報', fr: 'Alerte inondation' },
-  '05': { level: 'warning', en: 'Storm warning', ja: '暴風警報', fr: 'Alerte vent violent' },
-  '06': { level: 'warning', en: 'Heavy snow warning', ja: '大雪警報', fr: 'Alerte fortes chutes de neige' },
-  '07': { level: 'warning', en: 'High wave warning', ja: '波浪警報', fr: 'Alerte fortes vagues' },
-  '08': { level: 'warning', en: 'Storm surge warning', ja: '高潮警報', fr: 'Alerte onde de tempête' },
-  '10': { level: 'advisory', en: 'Heavy rain advisory', ja: '大雨注意報', fr: 'Avis de fortes pluies' },
-  '12': { level: 'advisory', en: 'Heavy snow advisory', ja: '大雪注意報', fr: 'Avis de fortes chutes de neige' },
-  '13': { level: 'advisory', en: 'Snow & wind advisory', ja: '風雪注意報', fr: 'Avis de vent et neige' },
-  '14': { level: 'advisory', en: 'Thunderstorm advisory', ja: '雷注意報', fr: 'Avis d’orages' },
-  '15': { level: 'advisory', en: 'Strong wind advisory', ja: '強風注意報', fr: 'Avis de vent fort' },
-  '16': { level: 'advisory', en: 'High wave advisory', ja: '波浪注意報', fr: 'Avis de fortes vagues' },
-  '17': { level: 'advisory', en: 'Snowmelt advisory', ja: '融雪注意報', fr: 'Avis de fonte des neiges' },
-  '18': { level: 'advisory', en: 'Flood advisory', ja: '洪水注意報', fr: 'Avis d’inondation' },
-  '19': { level: 'advisory', en: 'Storm surge advisory', ja: '高潮注意報', fr: 'Avis d’onde de tempête' },
-  '20': { level: 'advisory', en: 'Dense fog advisory', ja: '濃霧注意報', fr: 'Avis de brouillard dense' },
-  '21': { level: 'advisory', en: 'Dry air advisory', ja: '乾燥注意報', fr: 'Avis d’air sec' },
-  '22': { level: 'advisory', en: 'Avalanche advisory', ja: 'なだれ注意報', fr: 'Avis d’avalanche' },
-  '23': { level: 'advisory', en: 'Low temperature advisory', ja: '低温注意報', fr: 'Avis de basses températures' },
-  '24': { level: 'advisory', en: 'Frost advisory', ja: '霜注意報', fr: 'Avis de gelée' },
-  '25': { level: 'advisory', en: 'Icing advisory', ja: '着氷注意報', fr: 'Avis de givrage' },
-  '26': { level: 'advisory', en: 'Snow accretion advisory', ja: '着雪注意報', fr: 'Avis d’accumulation de neige' },
-  '32': { level: 'emergency', en: 'Snowstorm emergency warning', ja: '暴風雪特別警報', fr: 'Alerte spéciale tempête de neige' },
-  '33': { level: 'emergency', en: 'Heavy rain emergency warning', ja: '大雨特別警報', fr: 'Alerte spéciale fortes pluies' },
-  '35': { level: 'emergency', en: 'Storm emergency warning', ja: '暴風特別警報', fr: 'Alerte spéciale vent violent' },
-  '36': { level: 'emergency', en: 'Heavy snow emergency warning', ja: '大雪特別警報', fr: 'Alerte spéciale fortes chutes de neige' },
-  '37': { level: 'emergency', en: 'High wave emergency warning', ja: '波浪特別警報', fr: 'Alerte spéciale fortes vagues' },
-  '38': { level: 'emergency', en: 'Storm surge emergency warning', ja: '高潮特別警報', fr: 'Alerte spéciale onde de tempête' },
+/** Severity of each JMA warning/advisory code (bosai warning JSON). */
+const WARN_LEVELS: Record<string, WarnLevel> = {
+  '02': 'warning',
+  '03': 'warning',
+  '04': 'warning',
+  '05': 'warning',
+  '06': 'warning',
+  '07': 'warning',
+  '08': 'warning',
+  '10': 'advisory',
+  '12': 'advisory',
+  '13': 'advisory',
+  '14': 'advisory',
+  '15': 'advisory',
+  '16': 'advisory',
+  '17': 'advisory',
+  '18': 'advisory',
+  '19': 'advisory',
+  '20': 'advisory',
+  '21': 'advisory',
+  '22': 'advisory',
+  '23': 'advisory',
+  '24': 'advisory',
+  '25': 'advisory',
+  '26': 'advisory',
+  '32': 'emergency',
+  '33': 'emergency',
+  '35': 'emergency',
+  '36': 'emergency',
+  '37': 'emergency',
+  '38': 'emergency',
 };
 
 export interface WarningsResult {
@@ -139,17 +134,7 @@ export async function fetchWarnings(): Promise<WarningsResult> {
       for (const w of area.warnings ?? []) {
         const code = w.code;
         if (!code || code === '00' || w.status === '解除') continue;
-        const def = WARN_CODES[code];
-        const entry: ActiveWarning = def
-          ? { code, ...def }
-          : {
-              code,
-              level: 'advisory',
-              en: `Advisory (code ${code})`,
-              ja: `気象情報（コード${code}）`,
-              fr: `Avis météo (code ${code})`,
-            };
-        found.set(code, entry);
+        found.set(code, { code, level: WARN_LEVELS[code] ?? 'advisory' });
       }
     }
   }

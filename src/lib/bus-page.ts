@@ -3,7 +3,7 @@
 
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { ui, type Lang, type UIKey } from '../i18n/ui';
+import { ui, getLang, type Lang, type UIKey } from '../i18n/ui';
 import { chartMessage } from './chart';
 
 const MATSUMOTO: [number, number] = [36.238, 137.972];
@@ -28,11 +28,6 @@ interface BusFile {
   attribution: string;
   routes: BusRoute[];
   stops: BusStop[];
-}
-
-function getLang(): Lang {
-  const lang = document.documentElement.lang;
-  return lang === 'ja' || lang === 'fr' ? lang : 'en';
 }
 
 function make(tag: string, className?: string, text?: string): HTMLElement {
