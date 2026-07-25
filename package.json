@@ -7,7 +7,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "fetch-data": "node scripts/fetch-city-data.mjs"
+    "fetch-data": "node scripts/fetch-city-data.mjs",
+    "fetch-monthly": "node scripts/fetch-crime-data.mjs && node scripts/fetch-bus-data.mjs && node scripts/fetch-shelter-data.mjs",
+    "fetch-air": "node scripts/fetch-air-data.mjs"
   },
   "dependencies": {
     "astro": "^5.12.0",
@@ -15,6 +17,7 @@
   },
   "devDependencies": {
     "@types/leaflet": "^1.9.12",
+    "fflate": "^0.8.3",
     "playwright": "^1.62.0"
   }
 }

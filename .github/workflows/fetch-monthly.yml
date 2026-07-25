@@ -1,10 +1,10 @@
-name: Fetch city data
+name: Fetch monthly data
 
 on:
   schedule:
-    # Every 30 minutes. City feeds and the Anshin-net archive have no CORS
-    # headers, so this job fetches them into public/data/alerts.json.
-    - cron: '*/30 * * * *'
+    # Slow-moving open data: police crime CSVs (yearly, ~June), GTFS bus feeds
+    # (a few revisions per year), shelter/AED designations (rare).
+    - cron: '23 3 5 * *'
   workflow_dispatch:
 
 permissions:
@@ -12,7 +12,7 @@ permissions:
   actions: write # to dispatch the deploy workflow after committing new data
 
 concurrency:
-  group: fetch-data
+  group: fetch-monthly
   cancel-in-progress: false
 
 jobs:
@@ -24,23 +24,16 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: 24
+          cache: npm
 
-      - name: Fetch feeds
-        env:
-          # Optional: add a DeepL API key (free tier) as a repository secret to
-          # get English translations of alert titles.
-          DEEPL_API_KEY: ${{ secrets.DEEPL_API_KEY }}
-        run: node scripts/fetch-city-data.mjs
+      # fetch-bus-data.mjs needs fflate to read the GTFS zip
+      - run: npm ci
 
-      # Measured air quality (Soramame) — only while the feature is enabled,
-      # so the site doesn't redeploy hourly for data it never shows.
-      - name: Fetch measured air quality
+      - name: Fetch crime, bus and shelter data
         run: |
-          if grep -q 'measuredAir: true' src/features.ts; then
-            node scripts/fetch-air-data.mjs
-          else
-            echo "measuredAir is off — skipping."
-          fi
+          node scripts/fetch-crime-data.mjs
+          node scripts/fetch-bus-data.mjs
+          node scripts/fetch-shelter-data.mjs
 
       - name: Commit if changed
         id: commit
@@ -53,7 +46,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add public/data/
-          git commit -m "data: refresh city alerts"
+          git commit -m "data: refresh monthly open data (crime, bus, shelters)"
           git push
           echo "changed=true" >> "$GITHUB_OUTPUT"
 

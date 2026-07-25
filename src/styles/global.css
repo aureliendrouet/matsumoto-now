@@ -672,6 +672,145 @@ table.data th.num {
   font-variant-numeric: tabular-nums;
 }
 
+/* ---- filter chips (shelter hazard filter) ---------------------------------- */
+
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 14px;
+}
+.filter-row .flabel {
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-right: 4px;
+}
+.filter-btn {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--ink-2);
+  border-radius: 999px;
+  padding: 5px 14px;
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+}
+.filter-btn:hover {
+  border-color: var(--accent);
+}
+.filter-btn[aria-pressed='true'] {
+  background: var(--wash);
+  border-color: var(--accent);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* ---- ranked bar list (crime top areas) ------------------------------------ */
+
+.rank-list {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+}
+.rank-list li {
+  display: grid;
+  grid-template-columns: minmax(96px, auto) 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 4px 0;
+}
+.rank-list .name {
+  font-size: 12.5px;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+.rank-list .track {
+  min-width: 0;
+}
+.rank-list .bar {
+  display: block;
+  height: 14px;
+  border-radius: 0 4px 4px 0; /* rounded data end, square at the baseline */
+  background: var(--series-1);
+}
+.rank-list .count {
+  font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+/* ---- emergency contacts --------------------------------------------------- */
+
+.contact-list {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px 22px;
+}
+.contact-list li {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  min-width: 0;
+}
+.contact-list .tel,
+.med-head .tel {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 64px;
+  padding: 0 12px;
+  height: 44px;
+  border-radius: var(--radius-s);
+  font-weight: 700;
+  font-size: 16px;
+  border: 1px solid var(--border);
+  background: var(--wash);
+  color: var(--ink);
+  text-decoration: none;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.contact-list .what {
+  min-width: 0;
+}
+
+.med-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+.med-head h2 {
+  margin: 0;
+}
+.med-head .tel-big {
+  height: 52px;
+  font-size: 20px;
+  border-color: var(--accent);
+}
+.med-card .med-scope {
+  margin: 8px 0 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+.contact-list .what .title {
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.contact-list .what .meta {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
 /* ---- meters (UV / pollen level) ------------------------------------------ */
 
 .meter {
@@ -700,6 +839,20 @@ table.data th.num {
   width: 100%;
   background: var(--plane);
   font-family: var(--font-sans);
+}
+
+.map-frame.map-tall {
+  height: 560px;
+}
+
+/* Leaflet layer-switcher: follow the site theme */
+.map-frame .leaflet-control-layers {
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-s);
+  box-shadow: none;
+  font-size: 12.5px;
 }
 
 @media (max-width: 640px) {

@@ -1,0 +1,37 @@
+---
+import Base from '../../layouts/Base.astro';
+import { useTranslations, langParams, asLang } from '../../i18n/utils';
+import { features } from '../../features';
+
+export function getStaticPaths() {
+  return features.sheltersPage ? langParams : [];
+}
+
+const lang = asLang(Astro.params.lang);
+const t = useTranslations(lang);
+---
+
+<Base lang={lang} title={t('shelter.title')} active="shelters">
+  <h1 class="page-title">{t('shelter.title')}</h1>
+  <p class="page-sub">{t('shelter.subtitle')}</p>
+
+  <div class="grid">
+    <section class="card col-12">
+      <div class="filter-row" data-widget="hazard-filter" role="group" aria-label={t('shelter.filterLabel')}>
+        <span class="flabel">{t('shelter.filterLabel')}</span>
+      </div>
+      <div class="map-frame map-tall" id="shelter-map"></div>
+      <p class="card-note">{t('shelter.evacNote')}</p>
+      <p class="card-note">
+        {t('shelter.zoomNote')}
+        {' · '}
+        {t('shelter.attribution')}
+      </p>
+    </section>
+  </div>
+</Base>
+
+<script>
+  import { initShelterPage } from '../../lib/shelter-page';
+  initShelterPage();
+</script>

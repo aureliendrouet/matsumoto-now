@@ -1,0 +1,40 @@
+---
+import Base from '../../layouts/Base.astro';
+import { useTranslations, langParams, asLang } from '../../i18n/utils';
+import { features } from '../../features';
+
+export function getStaticPaths() {
+  return features.busesPage ? langParams : [];
+}
+
+const lang = asLang(Astro.params.lang);
+const t = useTranslations(lang);
+---
+
+<Base lang={lang} title={t('bus.title')} active="buses">
+  <h1 class="page-title">{t('bus.title')}</h1>
+  <p class="page-sub">{t('bus.subtitle')}</p>
+
+  <div class="grid">
+    <section class="card col-12">
+      <div class="map-frame map-tall" id="bus-map"></div>
+      <p class="card-note">
+        {t('bus.zoomNote')}
+        {' · '}
+        {t('bus.attribution')}
+      </p>
+    </section>
+
+    <section class="card col-12">
+      <h2>{t('bus.routes')}</h2>
+      <div data-widget="bus-routes">
+        <p class="placeholder">{t('common.loading')}</p>
+      </div>
+    </section>
+  </div>
+</Base>
+
+<script>
+  import { initBusPage } from '../../lib/bus-page';
+  initBusPage();
+</script>

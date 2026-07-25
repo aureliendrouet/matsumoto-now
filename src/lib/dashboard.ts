@@ -8,6 +8,7 @@ import { fetchPollenToday, pollenLevel } from './pollen';
 import { fetchQuakes, intensityLabel } from './quakes';
 import { lineChart, barChart, chartMessage } from './chart';
 import { wmoIcon, wmoLabel } from './wmo';
+import { initCrime } from './crime';
 
 function getLang(): Lang {
   const lang = document.documentElement.lang;
@@ -335,6 +336,81 @@ async function initAir(lang: Lang, t: (k: UIKey) => string): Promise<void> {
   }
 }
 
+interface AirStationHour {
+  time: string;
+  so2: number | null;
+  no2: number | null;
+  ox: number | null;
+  spm: number | null;
+  pm25: number | null;
+}
+
+async function initAirStation(lang: Lang, t: (k: UIKey) => string): Promise<void> {
+  const host = widget('air-station');
+  if (!host) return;
+  try {
+    const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+    const res = await fetch(`${base}/data/air.json`, { cache: 'no-store' });
+    if (!res.ok) throw new Error(String(res.status));
+    const file = (await res.json()) as { hours: AirStationHour[] };
+    const hours = file.hours ?? [];
+    const latest = [...hours].reverse().find((h) => h.pm25 !== null || h.ox !== null);
+    host.textContent = '';
+    if (!latest) {
+      host.appendChild(make('p', 'placeholder', t('airStation.empty')));
+      return;
+    }
+
+    const stats = make('div', 'stat-row');
+    const stat = (label: string, value: string, unit: string) => {
+      const s = make('div', 'stat');
+      s.appendChild(make('div', 'label', label));
+      const v = make('div', 'value', value);
+      v.appendChild(make('span', 'unit', unit));
+      s.appendChild(v);
+      stats.appendChild(s);
+    };
+    if (latest.pm25 !== null) stat(t('air.pm25'), fmtNum(latest.pm25, lang), ' µg/m³');
+    if (latest.ox !== null) stat(t('airStation.ox'), fmtNum(latest.ox, lang, 3), ' ppm');
+    if (latest.no2 !== null) stat(t('air.no2'), fmtNum(latest.no2, lang, 3), ' ppm');
+    if (latest.spm !== null) stat(t('airStation.spm'), fmtNum(latest.spm, lang, 3), ' mg/m³');
+    host.appendChild(stats);
+
+    if (latest.pm25 !== null) {
+      const level = pm25Level(latest.pm25);
+      const b = badge(`${t('air.pm25')}: ${t(`air.level.${level}` as UIKey)}`, level);
+      b.style.marginTop = '12px';
+      host.appendChild(b);
+    }
+
+    const withPm = hours.filter((h) => h.pm25 !== null);
+    if (withPm.length > 3) {
+      const sparkTitle = make('p', 'card-sub', t('airStation.sparkTitle'));
+      sparkTitle.style.margin = '16px 0 4px';
+      host.appendChild(sparkTitle);
+      const spark = make('div');
+      host.appendChild(spark);
+      lineChart(
+        spark,
+        withPm.map((h) => ({ label: fmtDateTime(new Date(h.time), lang), value: h.pm25! })),
+        {
+          seriesName: 'PM2.5',
+          unit: ' µg/m³',
+          height: 150,
+          xEvery: 12,
+          valueFmt: decimal(lang),
+          tableLabel: t('common.viewTable'),
+          tableHead: [t('common.time'), 'PM2.5 (µg/m³)'],
+        },
+      );
+    }
+
+    setUpdated('[data-air-station-updated]', new Date(latest.time), lang, t);
+  } catch {
+    chartMessage(host, t('common.error'), true);
+  }
+}
+
 async function initPollen(lang: Lang, t: (k: UIKey) => string): Promise<void> {
   const host = widget('pollen');
   if (!host) return;
@@ -430,6 +506,8 @@ export function initDashboard(): void {
   void initNow(lang, t, forecastP);
   void initForecast(lang, t, forecastP);
   void initAir(lang, t);
+  void initAirStation(lang, t);
   void initPollen(lang, t);
   void initQuakes(lang, t);
+  initCrime(lang, t);
 }

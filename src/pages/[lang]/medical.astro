@@ -1,0 +1,95 @@
+---
+import Base from '../../layouts/Base.astro';
+import { useTranslations, langParams, asLang } from '../../i18n/utils';
+import { features } from '../../features';
+
+export function getStaticPaths() {
+  return features.medicalPage ? langParams : [];
+}
+
+const lang = asLang(Astro.params.lang);
+const t = useTranslations(lang);
+
+const findLinks = [
+  {
+    url: 'https://qq.pref.nagano.lg.jp/',
+    name: 'ながの医療情報Net',
+    desc: t('med.findNagano'),
+  },
+  {
+    url: 'https://iryou.teikyouseido.mhlw.go.jp/',
+    name: '医療情報ネット ナビイ',
+    desc: t('med.findNavii'),
+  },
+];
+---
+
+<Base lang={lang} title={t('med.title')} active="medical">
+  <h1 class="page-title">{t('med.title')}</h1>
+  <p class="page-sub">{t('med.pageSubtitle')}</p>
+
+  <div class="grid">
+    <section class="card col-6 med-card">
+      <div class="med-head">
+        <a class="tel tel-big" href="tel:119">119</a>
+        <h2>{t('med.emergency')}</h2>
+      </div>
+      <p class="card-sub">{t('med.emergencyDesc')}</p>
+      <p class="med-scope">{t('med.emergencyScope')}</p>
+    </section>
+
+    <section class="card col-6 med-card">
+      <div class="med-head">
+        <a class="tel tel-big" href="tel:0263380622">0263-38-0622</a>
+        <h2>{t('med.night')}</h2>
+      </div>
+      <p class="card-sub">{t('med.nightDesc')}</p>
+      <p class="med-scope">{t('med.nightScope')}</p>
+    </section>
+
+    <section class="card col-6 med-card">
+      <div class="med-head">
+        <a class="tel tel-big" href="tel:%237119">#7119</a>
+        <h2>{t('med.adult')}</h2>
+      </div>
+      <p class="card-sub">{t('med.adultHours')}</p>
+      <p class="med-scope">{t('med.adultScope')}</p>
+      <p class="med-scope">{t('med.langNote')}</p>
+    </section>
+
+    <section class="card col-6 med-card">
+      <div class="med-head">
+        <a class="tel tel-big" href="tel:%238000">#8000</a>
+        <h2>{t('med.child')}</h2>
+      </div>
+      <p class="card-sub">{t('med.childHours')}</p>
+      <p class="med-scope">{t('med.childScope')}</p>
+      <p class="med-scope">{t('med.langNote')}</p>
+    </section>
+
+    <section class="card col-6">
+      <h2>{t('med.dutyTitle')}</h2>
+      <p class="card-sub">{t('med.dutyDesc')}</p>
+      <p style="margin: 0">
+        <a href="https://www.matsu-med.or.jp/" target="_blank" rel="noopener">
+          matsu-med.or.jp ↗
+        </a>
+      </p>
+    </section>
+
+    <section class="card col-6">
+      <h2>{t('med.findTitle')}</h2>
+      {
+        findLinks.map((l) => (
+          <p class="card-sub" style="margin-bottom: 10px">
+            <a href={l.url} target="_blank" rel="noopener">
+              {l.name} ↗
+            </a>
+            <br />
+            {l.desc}
+          </p>
+        ))
+      }
+    </section>
+  </div>
+</Base>

@@ -15,13 +15,22 @@ export const features = {
   weekOutlook: true, // 7-day strip
   precipitationChart: true, // 24 h precipitation-probability chart
   airQuality: true, // Open-Meteo modelled air quality
+  // Soramame measured station values — OFF until Nagano Prefecture (station
+  // operator) confirms republication; the Soramame API manual asks to inquire
+  // for non-national stations. Data pipeline is ready (scripts/fetch-air-data.mjs).
+  measuredAir: false,
   pollen: false, // Weathernews Pollen Robo — OFF until Weathernews confirms public-site use
   uv: true, // UV index card
   quakesPreview: true, // "Recent earthquakes" card on the dashboard
+  emergencyContacts: true, // static emergency medical contacts card (no data feed)
+  crimeStats: true, // Nagano police crime open data (yearly, scheduled fetch)
 
   /* whole pages (also hidden from the nav) */
   earthquakesPage: true,
   alertsPage: true,
+  busesPage: true, // city bus route/stop map (GTFS open data)
+  sheltersPage: true, // evacuation shelters & AED map (GSI + city open data)
+  medicalPage: true, // emergency medical contacts page (static, verified facts)
   resourcesPage: true,
 } as const;
 

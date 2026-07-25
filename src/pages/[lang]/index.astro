@@ -99,6 +99,27 @@ const t = useTranslations(lang);
     }
 
     {
+      features.measuredAir && (
+        <section class="card col-6">
+          <div class="card-head">
+            <h2>{t('airStation.title')}</h2>
+            <span class="updated" data-air-station-updated />
+          </div>
+          <p class="card-sub">{t('airStation.subtitle')}</p>
+          <div data-widget="air-station">
+            <p class="placeholder">{t('common.loading')}</p>
+          </div>
+          <p class="card-note">
+            {t('airStation.note')}
+            <a href="https://soramame.env.go.jp/" target="_blank" rel="noopener">
+              soramame.env.go.jp
+            </a>
+          </p>
+        </section>
+      )
+    }
+
+    {
       features.pollen && (
         <section class="card col-8">
           <h2>{t('pollen.title')}</h2>
@@ -118,6 +139,95 @@ const t = useTranslations(lang);
           <div data-widget="uv">
             <p class="placeholder">{t('common.loading')}</p>
           </div>
+        </section>
+      )
+    }
+
+    {
+      features.crimeStats && (
+        <section class="card col-5">
+          <div class="card-head">
+            <h2>{t('crime.title')}</h2>
+            <span class="updated" data-crime-year />
+          </div>
+          <p class="card-sub">{t('crime.subtitle')}</p>
+          <div data-widget="crime">
+            <p class="placeholder">{t('common.loading')}</p>
+          </div>
+          <p class="card-note">
+            {t('crime.note')}{' '}
+            <a
+              href="https://www.pref.nagano.lg.jp/police/toukei/hanzai/opendata.html"
+              target="_blank"
+              rel="noopener"
+            >
+              {t('crime.source')}
+            </a>
+          </p>
+        </section>
+      )
+    }
+
+    {
+      features.crimeStats && (
+        <section class="card col-7">
+          <div class="card-head">
+            <h2>{t('crime.topAreas')}</h2>
+            <span class="updated" data-crime-year />
+          </div>
+          <div data-widget="crime-detail">
+            <p class="placeholder">{t('common.loading')}</p>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      features.emergencyContacts && (
+        <section class="card col-12">
+          <div class="card-head">
+            <h2>{t('med.title')}</h2>
+            {features.medicalPage && (
+              <a href={localePath(lang, 'medical')}>{t('med.viewPage')} →</a>
+            )}
+          </div>
+          <p class="card-sub">{t('med.subtitle')}</p>
+          <ul class="contact-list">
+            <li>
+              <a class="tel" href="tel:119">119</a>
+              <div class="what">
+                <div class="title">{t('med.emergency')}</div>
+                <div class="meta">{t('med.emergencyDesc')}</div>
+              </div>
+            </li>
+            <li>
+              <a class="tel" href="tel:0263380622">0263-38-0622</a>
+              <div class="what">
+                <div class="title">{t('med.night')}</div>
+                <div class="meta">{t('med.nightDesc')}</div>
+              </div>
+            </li>
+            <li>
+              <a class="tel" href="tel:%237119">#7119</a>
+              <div class="what">
+                <div class="title">{t('med.adult')}</div>
+                <div class="meta">{t('med.adultDesc')}</div>
+              </div>
+            </li>
+            <li>
+              <a class="tel" href="tel:%238000">#8000</a>
+              <div class="what">
+                <div class="title">{t('med.child')}</div>
+                <div class="meta">{t('med.childDesc')}</div>
+              </div>
+            </li>
+          </ul>
+          <p class="card-note">
+            {t('med.dutyNote')}
+            <a href="https://www.matsu-med.or.jp/" target="_blank" rel="noopener">
+              matsu-med.or.jp
+            </a>
+          </p>
         </section>
       )
     }

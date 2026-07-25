@@ -18,6 +18,13 @@ const items = [
     ? [{ id: 'earthquakes', path: 'earthquakes', label: t('nav.earthquakes') }]
     : []),
   ...(features.alertsPage ? [{ id: 'alerts', path: 'alerts', label: t('nav.alerts') }] : []),
+  ...(features.busesPage ? [{ id: 'buses', path: 'buses', label: t('nav.buses') }] : []),
+  ...(features.sheltersPage
+    ? [{ id: 'shelters', path: 'shelters', label: t('nav.shelters') }]
+    : []),
+  ...(features.medicalPage
+    ? [{ id: 'medical', path: 'medical', label: t('nav.medical') }]
+    : []),
   ...(features.resourcesPage
     ? [{ id: 'resources', path: 'resources', label: t('nav.resources') }]
     : []),

@@ -2,8 +2,9 @@
 
 An unofficial, trilingual (English / 日本語 / Français) live dashboard for citizens of
 Matsumoto City, Nagano: weather, warnings, air quality, pollen, earthquakes,
-and city alerts — all from free public data sources, hosted for free on
-GitHub Pages.
+city alerts, crime statistics, city buses, evacuation shelters & AEDs, and
+emergency medical contacts — all from free public data sources, hosted for
+free on GitHub Pages.
 
 ## How it works
 
@@ -20,6 +21,9 @@ GitHub Pages.
   (Matsumoto City RSS feeds, Matsumoto Anshin-net) are pulled every 30 minutes
   by a GitHub Action (`.github/workflows/fetch-data.yml`) into
   `public/data/alerts.json` and committed, which redeploys the site.
+  Slow-moving open data (police crime CSVs, GTFS bus feeds, shelter/AED
+  designations) is refreshed monthly by `.github/workflows/fetch-monthly.yml`
+  into `public/data/{crime,bus,shelters}.json`.
 - **i18n**: every page exists under `/en/`, `/ja/` and `/fr/`; the root
   redirects by browser language. UI strings live in `src/i18n/ui.ts`. JMA and
   WMO codes are mapped to English and French in `src/lib/jma.ts` /
@@ -69,6 +73,11 @@ public-site use of the Pollen Robo open data is acceptable.
 | Weathernews Pollen Robo | pollen counts | attribution required; for a public site, confirm usage with Weathernews |
 | P2P地震情報 | earthquakes | secondary use permitted; rate limits apply |
 | Matsumoto City / 松本安心ネット | alerts, news | attribution (city terms, CC BY 4.0-aligned) |
+| 長野県警察 犯罪オープンデータ | crime statistics | CC BY 4.0-compatible, attribution |
+| 松本市 GTFS (gtfs-data.jp) | bus routes & stops | CC BY 4.0, attribution (松本市) |
+| 国土地理院 指定緊急避難場所データ | evacuation shelters | attribution (政府標準利用規約) |
+| 松本市オープンデータ | AED locations | CC BY 4.0, attribution |
+| 環境省 そらまめくん | measured air quality (disabled) | preliminary values; non-national stations: confirm reuse with the operator (長野県) |
 | 国土地理院 (GSI) | map tiles | attribution |
 
 **Disclaimer:** this is a volunteer community project, not affiliated with
@@ -77,11 +86,11 @@ emergency follow official guidance (110 police / 119 fire & ambulance).
 
 ## Ideas for later
 
-- Crime map from Nagano Prefectural Police per-incident open-data CSVs
-  (neighborhood level, updated annually) — needs a build-time convert step.
-- Evacuation shelters / AED map from the city's GIS open data (Shapefile →
-  GeoJSON, CC BY 4.0).
-- Bus route map from the city's GTFS feeds on gtfs-data.jp (CORS-open GeoJSON).
-- Duty-doctor (休日当番医) daily scrape.
-- Official air-quality station values via the Soramame API (needs the
-  scheduled fetch, no CORS).
+- Duty-doctor (休日当番医) live schedule: the Matsumoto City Medical
+  Association publishes a clean daily rotation at matsu-med.or.jp, but their
+  terms prohibit reproduction without written permission — ask them first.
+  (The medical page currently links out instead.)
+- Crime map (the police CSVs have neighborhood names but no coordinates —
+  would need geocoding against MLIT 位置参照情報).
+- Enable `measuredAir` once Nagano Prefecture confirms republication of the
+  Soramame station values (pipeline is ready in `scripts/fetch-air-data.mjs`).

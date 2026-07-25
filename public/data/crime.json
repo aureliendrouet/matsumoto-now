@@ -1,0 +1,102 @@
+{
+  "fetched": "2026-07-25T07:42:05.928Z",
+  "year": 2025,
+  "prevYear": 2024,
+  "categories": [
+    {
+      "key": "bicycleTheft",
+      "count": 411,
+      "prev": 344
+    },
+    {
+      "key": "carBreakIn",
+      "count": 20,
+      "prev": 27
+    },
+    {
+      "key": "partsTheft",
+      "count": 12,
+      "prev": 16
+    },
+    {
+      "key": "carTheft",
+      "count": 11,
+      "prev": 5
+    },
+    {
+      "key": "motorcycleTheft",
+      "count": 4,
+      "prev": 3
+    },
+    {
+      "key": "snatching",
+      "count": 0,
+      "prev": 0
+    },
+    {
+      "key": "vendingMachine",
+      "count": 0,
+      "prev": 0
+    }
+  ],
+  "topAreas": [
+    {
+      "name": "中央４丁目",
+      "count": 40
+    },
+    {
+      "name": "深志１丁目",
+      "count": 33
+    },
+    {
+      "name": "村井町南１丁目",
+      "count": 24
+    },
+    {
+      "name": "旭３丁目",
+      "count": 19
+    },
+    {
+      "name": "中央１丁目",
+      "count": 18
+    },
+    {
+      "name": "出川町",
+      "count": 16
+    },
+    {
+      "name": "大字島内",
+      "count": 15
+    },
+    {
+      "name": "大字岡田松岡",
+      "count": 12
+    }
+  ],
+  "byHour": [
+    8,
+    0,
+    3,
+    0,
+    1,
+    2,
+    13,
+    46,
+    24,
+    21,
+    26,
+    23,
+    19,
+    28,
+    17,
+    17,
+    27,
+    32,
+    34,
+    24,
+    15,
+    13,
+    13,
+    5
+  ]
+}

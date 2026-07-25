@@ -12,11 +12,14 @@ export const ui = {
     'site.name': 'Matsumoto Now',
     'site.tagline': 'Live weather, air, safety and city information for Matsumoto, Nagano',
     'site.description':
-      'An unofficial dashboard aggregating live public data for citizens of Matsumoto City: weather, warnings, air quality, pollen, earthquakes and city notices — in English and Japanese.',
+      'An unofficial dashboard aggregating live public data for citizens of Matsumoto City: weather, warnings, air quality, earthquakes, city notices, buses, evacuation shelters and emergency contacts — in English, Japanese and French.',
 
     'nav.dashboard': 'Dashboard',
     'nav.earthquakes': 'Earthquakes',
     'nav.alerts': 'City alerts',
+    'nav.buses': 'Buses',
+    'nav.shelters': 'Shelters',
+    'nav.medical': 'Medical help',
     'nav.resources': 'Resources',
     'nav.about': 'About & data',
     'nav.menu': 'Menu',
@@ -81,6 +84,16 @@ export const ui = {
     'air.stationNote':
       'Official station measurements for Matsumoto are published on the MOE “Soramame” monitoring site.',
 
+    'airStation.title': 'Air quality — measured',
+    'airStation.subtitle':
+      'Hourly values from the official “Matsumoto” monitoring station (Shimadachi, run by Nagano Prefecture)',
+    'airStation.ox': 'Photochemical oxidants',
+    'airStation.spm': 'SPM',
+    'airStation.sparkTitle': 'PM2.5 — last 72 hours (measured)',
+    'airStation.note':
+      'Preliminary, unvalidated values (速報値) that may be corrected later. Source: MOE air monitoring system “Soramame” (measurement: Nagano Prefecture).',
+    'airStation.empty': 'No data fetched yet. Values appear once the scheduled data fetch has run.',
+
     'pollen.title': 'Pollen',
     'pollen.subtitle': 'Hourly pollen count today (Weathernews Pollen Robo, Matsumoto)',
     'pollen.offSeason': 'No pollen observations right now — likely off-season (roughly mid-January to early August).',
@@ -116,6 +129,89 @@ export const ui = {
     'alerts.anshin': 'Matsumoto Anshin-net',
     'alerts.jmaTitle': 'Weather warnings (live)',
 
+    'med.title': 'Emergency medical contacts',
+    'med.subtitle': 'Official contacts for sudden illness outside clinic hours.',
+    'med.emergency': 'Life-threatening emergency',
+    'med.emergencyDesc': 'Fire & ambulance — 24 hours',
+    'med.night': 'Night emergency clinic (pediatrics & internal medicine)',
+    'med.nightDesc': 'Every day 19:00–22:00 · Josai 2-5-22, Matsumoto',
+    'med.adult': 'Emergency phone consultation — adults',
+    'med.adultDesc':
+      'Weekday nights, 24 h on weekends & holidays · also 026-231-3021 · English & French supported',
+    'med.child': 'Emergency phone consultation — children',
+    'med.childDesc': 'Weekday nights, 24 h on weekends & holidays · also 026-235-1818',
+    'med.dutyNote':
+      'Duty doctors for Sundays and holidays (休日当番医) are published every morning at 9:00 by the Matsumoto City Medical Association:',
+    'med.viewPage': 'All emergency medical information',
+    'med.pageSubtitle':
+      'Who to call when you get sick or injured outside clinic hours in Matsumoto. All facts from official city and prefecture pages.',
+    'med.nightScope':
+      'Pediatrics and internal medicine only — no injuries or trauma. Open 365 days a year; call ahead if you can.',
+    'med.adultHours': 'Weekdays 19:00 – 8:00 next morning · weekends, holidays and year-end: 24 h',
+    'med.adultScope':
+      'Nurses help you judge how urgent it is and where to go. If #7119 does not connect (IP phones), call 026-231-3021.',
+    'med.childHours': 'Weekdays 19:00 – 8:00 next morning · weekends, holidays and year-end: 24 h',
+    'med.childScope':
+      'For children up to about 15. If #8000 does not connect (IP phones), call 026-235-1818.',
+    'med.langNote': 'Phone interpretation in 12 languages, including English and French.',
+    'med.emergencyScope':
+      'Sudden chest pain, heavy bleeding, loss of consciousness, stroke signs — do not hesitate, call 119 immediately.',
+    'med.dutyTitle': 'Duty doctors (Sundays & holidays)',
+    'med.dutyDesc':
+      'On Sundays and holidays, rotating clinics handle daytime care (internal medicine & pediatrics 9:00–17:00, surgery, ENT, eye). The rotation is published every morning at 9:00 by the Matsumoto City Medical Association (Japanese).',
+    'med.findTitle': 'Find a doctor or hospital',
+    'med.findNagano': 'Nagano medical information net — search hospitals and clinics by area, specialty and language (Japanese).',
+    'med.findNavii': 'National hospital search (ナビイ) by the Ministry of Health — has an English interface.',
+
+    'crime.title': 'Crime statistics',
+    'crime.subtitle':
+      'Reported street crimes in Matsumoto City, from the Nagano Prefectural Police open data (updated yearly).',
+    'crime.total': 'Reported incidents',
+    'crime.vsPrevYear': 'vs previous year',
+    'crime.topAreas': 'Bicycle theft — most affected neighborhoods',
+    'crime.byHour': 'Bicycle theft — time of day',
+    'crime.cat.bicycleTheft': 'Bicycle theft',
+    'crime.cat.carBreakIn': 'Theft from vehicles',
+    'crime.cat.partsTheft': 'Vehicle parts theft',
+    'crime.cat.carTheft': 'Car theft',
+    'crime.cat.motorcycleTheft': 'Motorcycle theft',
+    'crime.cat.snatching': 'Bag snatching',
+    'crime.cat.vendingMachine': 'Vending-machine theft',
+    'crime.empty': 'No data fetched yet. Statistics appear once the scheduled data fetch has run.',
+    'crime.source': 'Nagano Prefectural Police crime open data',
+    'crime.note':
+      'Only these seven street-crime categories are published as open data at neighborhood level; totals do not represent all crime.',
+
+    'bus.title': 'City bus map',
+    'bus.subtitle':
+      'Routes and stops of the Gurutto Matsumoto city buses (Town Sneaker and local lines). Highway buses and trains are not included.',
+    'bus.layerStation': 'From Matsumoto Station & bus terminal',
+    'bus.layerRegional': 'Town Sneaker & regional lines',
+    'bus.stops': 'Bus stops',
+    'bus.zoomNote': 'Zoom in to see bus stops. Hover or tap a line for its route name.',
+    'bus.routes': 'Routes',
+    'bus.attribution': 'Bus data: Matsumoto City, CC BY 4.0 · via the GTFS data repository (gtfs-data.jp)',
+
+    'shelter.title': 'Evacuation shelters & AED',
+    'shelter.subtitle':
+      'Designated emergency evacuation sites for Matsumoto City with the hazards each one covers, and public AED locations.',
+    'shelter.evacSites': 'Emergency evacuation sites',
+    'shelter.aed': 'AED (defibrillators)',
+    'shelter.hazardsCovered': 'Suitable during',
+    'shelter.hazard.flood': 'Flood',
+    'shelter.hazard.landslide': 'Landslide',
+    'shelter.hazard.earthquake': 'Earthquake',
+    'shelter.hazard.fire': 'Large fire',
+    'shelter.hazard.volcano': 'Volcanic eruption',
+    'shelter.filterLabel': 'Show sites suitable during:',
+    'shelter.all': 'All hazards',
+    'shelter.aedHours': 'Available',
+    'shelter.evacNote':
+      'Emergency evacuation sites (指定緊急避難場所) are where to flee during a hazard — a site safe in a flood is not necessarily safe in a landslide, so check the hazard tags. In an emergency, follow the city’s instructions.',
+    'shelter.attribution':
+      'Shelters: GSI (国土地理院) designated evacuation site data · AED: Matsumoto City open data, CC BY 4.0',
+    'shelter.zoomNote': 'Zoom in to see AED locations.',
+
     'resources.title': 'Useful links & resources',
     'resources.subtitle': 'Official services that have no data feed but are worth bookmarking.',
 
@@ -132,11 +228,14 @@ export const ui = {
     'site.name': '松本なう',
     'site.tagline': '松本市の天気・大気・防災・市政情報をリアルタイムで',
     'site.description':
-      '松本市民のための非公式ダッシュボード。天気、警報・注意報、大気汚染、花粉、地震、市からのお知らせを日本語と英語で集約しています。',
+      '松本市民のための非公式ダッシュボード。天気、警報・注意報、大気、地震、市のお知らせ、バス、避難場所、救急連絡先を日本語・英語・フランス語で集約しています。',
 
     'nav.dashboard': 'ダッシュボード',
     'nav.earthquakes': '地震情報',
     'nav.alerts': '市のお知らせ',
+    'nav.buses': 'バス',
+    'nav.shelters': '避難所',
+    'nav.medical': '救急医療',
     'nav.resources': 'リンク集',
     'nav.about': 'このサイトについて',
     'nav.menu': 'メニュー',
@@ -200,6 +299,15 @@ export const ui = {
     'air.level.high': '高い',
     'air.stationNote': '松本市内の公式測定局データは環境省「そらまめくん」で公開されています。',
 
+    'airStation.title': '大気の実測値',
+    'airStation.subtitle': '「松本」測定局（島立・長野県設置）の1時間値',
+    'airStation.ox': '光化学オキシダント',
+    'airStation.spm': '浮遊粒子状物質（SPM）',
+    'airStation.sparkTitle': 'PM2.5 — 過去72時間（実測値）',
+    'airStation.note':
+      '速報値のため、後日修正されることがあります。出典：環境省 大気汚染物質広域監視システム「そらまめくん」（測定：長野県）',
+    'airStation.empty': 'データ未取得です。定期取得が実行されると表示されます。',
+
     'pollen.title': '花粉情報',
     'pollen.subtitle': '今日の1時間ごとの花粉数（ウェザーニューズ ポールンロボ・松本市）',
     'pollen.offSeason': '現在、花粉の観測データはありません。観測期間（おおむね1月中旬〜8月上旬）外の可能性があります。',
@@ -231,6 +339,83 @@ export const ui = {
     'alerts.anshin': '松本安心ネット',
     'alerts.jmaTitle': '気象警報・注意報（ライブ）',
 
+    'med.title': '救急・夜間の医療連絡先',
+    'med.subtitle': '夜間や休日に急に具合が悪くなったときの公式窓口です。',
+    'med.emergency': '生命に関わる緊急時',
+    'med.emergencyDesc': '消防・救急（24時間）',
+    'med.night': '松本市小児科・内科夜間急病センター',
+    'med.nightDesc': '毎日 19:00〜22:00 ・ 松本市城西2-5-22',
+    'med.adult': '救急安心センター（おおむね15歳以上）',
+    'med.adultDesc': '平日夜間・土日祝は24時間 ・ 026-231-3021 でも利用可',
+    'med.child': '小児救急電話相談（こども）',
+    'med.childDesc': '平日夜間・土日祝は24時間 ・ 026-235-1818 でも利用可',
+    'med.dutyNote': '休日当番医は松本市医師会が毎朝9時に公開しています：',
+    'med.viewPage': '救急医療情報をすべて見る',
+    'med.pageSubtitle':
+      '夜間・休日に急に具合が悪くなったとき、けがをしたときの連絡先。市・県の公式情報に基づいています。',
+    'med.nightScope': '小児科・内科のみ（外傷などは対象外）。年中無休。できれば事前に電話してください。',
+    'med.adultHours': '平日 19:00〜翌朝8:00 ・ 土日祝・年末年始は24時間',
+    'med.adultScope':
+      '看護師が緊急度と受診先の相談に応じます。#7119 につながらない場合（IP電話など）は 026-231-3021 へ。',
+    'med.childHours': '平日 19:00〜翌朝8:00 ・ 土日祝・年末年始は24時間',
+    'med.childScope': 'おおむね15歳までのお子さんが対象。#8000 につながらない場合は 026-235-1818 へ。',
+    'med.langNote': '英語・フランス語を含む12か国語の電話通訳に対応しています。',
+    'med.emergencyScope':
+      '突然の激しい胸の痛み、大出血、意識がない、脳卒中のサインなど — ためらわず119番へ。',
+    'med.dutyTitle': '休日当番医',
+    'med.dutyDesc':
+      '日曜・祝日の日中は当番医療機関が診療します（内科・小児科 9:00〜17:00、外科系・耳鼻科・眼科など）。当番表は松本市医師会が毎朝9時に公開しています。',
+    'med.findTitle': '医療機関を探す',
+    'med.findNagano': 'ながの医療情報Net — 地域・診療科・対応言語から医療機関を検索できます。',
+    'med.findNavii': '医療情報ネット「ナビイ」（厚生労働省）— 全国の医療機関検索。英語表示あり。',
+
+    'crime.title': '犯罪発生状況',
+    'crime.subtitle': '松本市内の街頭犯罪の認知件数（長野県警察 犯罪オープンデータ・年1回更新）。',
+    'crime.total': '認知件数',
+    'crime.vsPrevYear': '前年比',
+    'crime.topAreas': '自転車盗 — 発生の多い町丁目',
+    'crime.byHour': '自転車盗 — 発生時間帯',
+    'crime.cat.bicycleTheft': '自転車盗',
+    'crime.cat.carBreakIn': '車上ねらい',
+    'crime.cat.partsTheft': '部品ねらい',
+    'crime.cat.carTheft': '自動車盗',
+    'crime.cat.motorcycleTheft': 'オートバイ盗',
+    'crime.cat.snatching': 'ひったくり',
+    'crime.cat.vendingMachine': '自動販売機ねらい',
+    'crime.empty': 'データ未取得です。定期取得が実行されると表示されます。',
+    'crime.source': '長野県警察 犯罪オープンデータ',
+    'crime.note':
+      '町丁目単位で公開されている街頭犯罪7手口のみの集計であり、犯罪全体の件数ではありません。',
+
+    'bus.title': '市内バス路線図',
+    'bus.subtitle':
+      '「ぐるっとまつもとバス」（タウンスニーカー・地域路線）の路線と停留所。高速バス・鉄道は含みません。',
+    'bus.layerStation': '松本駅・バスターミナル発着',
+    'bus.layerRegional': 'タウンスニーカー・地域連携バス',
+    'bus.stops': '停留所',
+    'bus.zoomNote': '地図を拡大すると停留所が表示されます。路線に触れると路線名が表示されます。',
+    'bus.routes': '路線一覧',
+    'bus.attribution': 'バスデータ: 松本市（CC BY 4.0）・GTFSデータリポジトリ（gtfs-data.jp）経由',
+
+    'shelter.title': '避難場所・AEDマップ',
+    'shelter.subtitle': '松本市の指定緊急避難場所（対応災害別）と、公共施設のAED設置場所。',
+    'shelter.evacSites': '指定緊急避難場所',
+    'shelter.aed': 'AED（自動体外式除細動器）',
+    'shelter.hazardsCovered': '対応する災害',
+    'shelter.hazard.flood': '洪水',
+    'shelter.hazard.landslide': '崖崩れ・土石流・地滑り',
+    'shelter.hazard.earthquake': '地震',
+    'shelter.hazard.fire': '大規模な火事',
+    'shelter.hazard.volcano': '火山現象',
+    'shelter.filterLabel': '災害の種類で絞り込み：',
+    'shelter.all': 'すべて',
+    'shelter.aedHours': '利用可能',
+    'shelter.evacNote':
+      '指定緊急避難場所は災害の危険から緊急に逃れるための場所です。洪水に対応する場所が土砂災害にも安全とは限らないため、対応災害の表示を確認してください。緊急時は市の指示に従ってください。',
+    'shelter.attribution':
+      '避難場所: 国土地理院 指定緊急避難場所データ ・ AED: 松本市オープンデータ（CC BY 4.0）',
+    'shelter.zoomNote': '地図を拡大するとAED設置場所が表示されます。',
+
     'resources.title': 'リンク集',
     'resources.subtitle': 'データ配信はないものの、ブックマークしておきたい公式サービス。',
 
@@ -247,11 +432,14 @@ export const ui = {
     'site.name': 'Matsumoto Now',
     'site.tagline': 'Météo, air, sécurité et vie municipale à Matsumoto (Nagano), en direct',
     'site.description':
-      'Tableau de bord non officiel agrégeant des données publiques en direct pour les habitants de Matsumoto : météo, alertes, qualité de l’air, pollens, séismes et annonces municipales — en français, anglais et japonais.',
+      'Tableau de bord non officiel agrégeant des données publiques en direct pour les habitants de Matsumoto : météo, alertes, qualité de l’air, séismes, annonces municipales, bus, abris d’évacuation et contacts d’urgence — en français, anglais et japonais.',
 
     'nav.dashboard': 'Tableau de bord',
     'nav.earthquakes': 'Séismes',
     'nav.alerts': 'Annonces de la ville',
+    'nav.buses': 'Bus',
+    'nav.shelters': 'Abris',
+    'nav.medical': 'Urgences santé',
     'nav.resources': 'Ressources',
     'nav.about': 'À propos & données',
     'nav.menu': 'Menu',
@@ -316,6 +504,16 @@ export const ui = {
     'air.stationNote':
       'Les mesures officielles des stations de Matsumoto sont publiées sur le site de surveillance « Soramame » du ministère de l’Environnement.',
 
+    'airStation.title': 'Qualité de l’air — mesures',
+    'airStation.subtitle':
+      'Valeurs horaires de la station officielle « Matsumoto » (Shimadachi, gérée par la préfecture de Nagano)',
+    'airStation.ox': 'Oxydants photochimiques',
+    'airStation.spm': 'SPM',
+    'airStation.sparkTitle': 'PM2,5 — dernières 72 h (mesures)',
+    'airStation.note':
+      'Valeurs préliminaires non validées (速報値), susceptibles d’être corrigées. Source : système de surveillance « Soramame » du ministère de l’Environnement (mesures : préfecture de Nagano).',
+    'airStation.empty': 'Pas encore de données. Les valeurs apparaîtront après la collecte planifiée.',
+
     'pollen.title': 'Pollens',
     'pollen.subtitle': 'Comptage horaire des pollens aujourd’hui (Weathernews Pollen Robo, Matsumoto)',
     'pollen.offSeason': 'Pas d’observation de pollens actuellement — probablement hors saison (environ mi-janvier à début août).',
@@ -350,6 +548,92 @@ export const ui = {
     'alerts.news': 'Actualités de la ville',
     'alerts.anshin': 'Matsumoto Anshin-net',
     'alerts.jmaTitle': 'Alertes météo (en direct)',
+
+    'med.title': 'Urgences médicales — contacts',
+    'med.subtitle':
+      'Contacts officiels en cas de problème de santé soudain en dehors des heures d’ouverture.',
+    'med.emergency': 'Urgence vitale',
+    'med.emergencyDesc': 'Pompiers & ambulance — 24 h/24',
+    'med.night': 'Centre de garde de nuit (pédiatrie & médecine interne)',
+    'med.nightDesc': 'Tous les jours 19 h – 22 h · Josai 2-5-22, Matsumoto',
+    'med.adult': 'Consultation téléphonique d’urgence — adultes',
+    'med.adultDesc':
+      'Soirs de semaine, 24 h/24 les week-ends & jours fériés · aussi 026-231-3021 · anglais & français disponibles',
+    'med.child': 'Consultation téléphonique d’urgence — enfants',
+    'med.childDesc': 'Soirs de semaine, 24 h/24 les week-ends & jours fériés · aussi 026-235-1818',
+    'med.dutyNote':
+      'Les médecins de garde des dimanches et jours fériés (休日当番医) sont publiés chaque matin à 9 h par l’association médicale de Matsumoto :',
+    'med.viewPage': 'Toutes les informations d’urgence médicale',
+    'med.pageSubtitle':
+      'Qui appeler en cas de maladie ou de blessure en dehors des heures d’ouverture à Matsumoto. Informations issues des pages officielles de la ville et de la préfecture.',
+    'med.nightScope':
+      'Pédiatrie et médecine interne uniquement — pas de blessures ni traumatismes. Ouvert 365 jours par an ; téléphonez avant de venir si possible.',
+    'med.adultHours': 'Semaine 19 h – 8 h le lendemain · week-ends, jours fériés et fin d’année : 24 h/24',
+    'med.adultScope':
+      'Des infirmiers vous aident à évaluer l’urgence et à choisir où consulter. Si le #7119 ne passe pas (téléphonie IP), composez le 026-231-3021.',
+    'med.childHours': 'Semaine 19 h – 8 h le lendemain · week-ends, jours fériés et fin d’année : 24 h/24',
+    'med.childScope':
+      'Pour les enfants jusqu’à 15 ans environ. Si le #8000 ne passe pas (téléphonie IP), composez le 026-235-1818.',
+    'med.langNote': 'Interprétation téléphonique en 12 langues, dont le français et l’anglais.',
+    'med.emergencyScope':
+      'Douleur thoracique soudaine, hémorragie importante, perte de connaissance, signes d’AVC — n’hésitez pas, appelez immédiatement le 119.',
+    'med.dutyTitle': 'Médecins de garde (dimanches & jours fériés)',
+    'med.dutyDesc':
+      'Les dimanches et jours fériés, des cliniques de garde assurent les soins de jour (médecine interne & pédiatrie 9 h – 17 h, chirurgie, ORL, ophtalmologie). Le tableau de garde est publié chaque matin à 9 h par l’association médicale de Matsumoto (en japonais).',
+    'med.findTitle': 'Trouver un médecin ou un hôpital',
+    'med.findNagano':
+      'Nagano medical information net — recherche d’établissements par zone, spécialité et langue parlée (en japonais).',
+    'med.findNavii':
+      'Recherche nationale d’établissements « ナビイ » (ministère de la Santé) — interface disponible en anglais.',
+
+    'crime.title': 'Statistiques de la délinquance',
+    'crime.subtitle':
+      'Infractions de voie publique signalées à Matsumoto, d’après les données ouvertes de la police de Nagano (mise à jour annuelle).',
+    'crime.total': 'Faits signalés',
+    'crime.vsPrevYear': 'vs année précédente',
+    'crime.topAreas': 'Vols de vélos — quartiers les plus touchés',
+    'crime.byHour': 'Vols de vélos — heure de la journée',
+    'crime.cat.bicycleTheft': 'Vol de vélo',
+    'crime.cat.carBreakIn': 'Vol à la roulotte',
+    'crime.cat.partsTheft': 'Vol de pièces de véhicule',
+    'crime.cat.carTheft': 'Vol de voiture',
+    'crime.cat.motorcycleTheft': 'Vol de moto',
+    'crime.cat.snatching': 'Vol à l’arraché',
+    'crime.cat.vendingMachine': 'Vol dans les distributeurs',
+    'crime.empty': 'Pas encore de données. Les statistiques apparaîtront après la collecte planifiée.',
+    'crime.source': 'Données ouvertes de la police préfectorale de Nagano',
+    'crime.note':
+      'Seules ces sept catégories de délits de voie publique sont publiées en données ouvertes au niveau des quartiers ; les totaux ne représentent pas l’ensemble de la délinquance.',
+
+    'bus.title': 'Carte des bus municipaux',
+    'bus.subtitle':
+      'Lignes et arrêts des bus municipaux « Gurutto Matsumoto » (Town Sneaker et lignes locales). Bus longue distance et trains non inclus.',
+    'bus.layerStation': 'Depuis la gare de Matsumoto & le terminal',
+    'bus.layerRegional': 'Town Sneaker & lignes régionales',
+    'bus.stops': 'Arrêts',
+    'bus.zoomNote': 'Zoomez pour afficher les arrêts. Survolez ou touchez une ligne pour voir son nom.',
+    'bus.routes': 'Lignes',
+    'bus.attribution': 'Données bus : ville de Matsumoto, CC BY 4.0 · via le dépôt GTFS (gtfs-data.jp)',
+
+    'shelter.title': 'Abris d’évacuation & DAE',
+    'shelter.subtitle':
+      'Sites d’évacuation d’urgence désignés de Matsumoto, avec les risques couverts par chacun, et les défibrillateurs (DAE) publics.',
+    'shelter.evacSites': 'Sites d’évacuation d’urgence',
+    'shelter.aed': 'DAE (défibrillateurs)',
+    'shelter.hazardsCovered': 'Adapté en cas de',
+    'shelter.hazard.flood': 'Inondation',
+    'shelter.hazard.landslide': 'Glissement de terrain',
+    'shelter.hazard.earthquake': 'Séisme',
+    'shelter.hazard.fire': 'Grand incendie',
+    'shelter.hazard.volcano': 'Éruption volcanique',
+    'shelter.filterLabel': 'Filtrer par type de risque :',
+    'shelter.all': 'Tous les risques',
+    'shelter.aedHours': 'Disponible',
+    'shelter.evacNote':
+      'Les sites d’évacuation d’urgence (指定緊急避難場所) servent à fuir un danger immédiat — un site sûr en cas d’inondation ne l’est pas forcément en cas de glissement de terrain : vérifiez les risques couverts. En cas d’urgence, suivez les consignes de la ville.',
+    'shelter.attribution':
+      'Abris : données des sites d’évacuation désignés de la GSI (国土地理院) · DAE : données ouvertes de la ville de Matsumoto, CC BY 4.0',
+    'shelter.zoomNote': 'Zoomez pour afficher les emplacements des DAE.',
 
     'resources.title': 'Liens & ressources utiles',
     'resources.subtitle': 'Services officiels sans flux de données, mais à garder dans ses favoris.',
