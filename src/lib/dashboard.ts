@@ -8,7 +8,6 @@ import { fetchPollenToday, pollenLevel } from './pollen';
 import { fetchQuakes, intensityLabel } from './quakes';
 import { lineChart, barChart, chartMessage } from './chart';
 import { wmoIcon, wmoLabel } from './wmo';
-import { initCrime } from './crime';
 
 function getLang(): Lang {
   const lang = document.documentElement.lang;
@@ -509,5 +508,4 @@ export function initDashboard(): void {
   void initAirStation(lang, t);
   void initPollen(lang, t);
   void initQuakes(lang, t);
-  initCrime(lang, t);
 }

@@ -25,6 +25,7 @@ const items = [
   ...(features.medicalPage
     ? [{ id: 'medical', path: 'medical', label: t('nav.medical') }]
     : []),
+  ...(features.safetyPage ? [{ id: 'safety', path: 'safety', label: t('nav.safety') }] : []),
   ...(features.resourcesPage
     ? [{ id: 'resources', path: 'resources', label: t('nav.resources') }]
     : []),

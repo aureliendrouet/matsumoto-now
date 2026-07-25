@@ -20,6 +20,7 @@ export const ui = {
     'nav.buses': 'Buses',
     'nav.shelters': 'Shelters',
     'nav.medical': 'Medical help',
+    'nav.safety': 'Safety',
     'nav.resources': 'Resources',
     'nav.about': 'About & data',
     'nav.menu': 'Menu',
@@ -163,6 +164,11 @@ export const ui = {
     'med.findNagano': 'Nagano medical information net — search hospitals and clinics by area, specialty and language (Japanese).',
     'med.findNavii': 'National hospital search (ナビイ) by the Ministry of Health — has an English interface.',
 
+    'safety.title': 'Safety & crime statistics',
+    'safety.raipolice': 'Raiporisu — Nagano Police safety app',
+    'safety.raipoliceDesc':
+      'Live crime, scam, suspicious-person and bear-sighting alerts on a map, from the Nagano Prefectural Police (smartphone app, Japanese).',
+
     'crime.title': 'Crime statistics',
     'crime.subtitle':
       'Reported street crimes in Matsumoto City, from the Nagano Prefectural Police open data (updated yearly).',
@@ -236,6 +242,7 @@ export const ui = {
     'nav.buses': 'バス',
     'nav.shelters': '避難所',
     'nav.medical': '救急医療',
+    'nav.safety': '防犯',
     'nav.resources': 'リンク集',
     'nav.about': 'このサイトについて',
     'nav.menu': 'メニュー',
@@ -369,6 +376,11 @@ export const ui = {
     'med.findNagano': 'ながの医療情報Net — 地域・診療科・対応言語から医療機関を検索できます。',
     'med.findNavii': '医療情報ネット「ナビイ」（厚生労働省）— 全国の医療機関検索。英語表示あり。',
 
+    'safety.title': '防犯・犯罪統計',
+    'safety.raipolice': 'ライポリス（長野県警防犯アプリ）',
+    'safety.raipoliceDesc':
+      '犯罪・不審者・特殊詐欺・クマ出没情報などをマップで通知する長野県警察の公式アプリ。',
+
     'crime.title': '犯罪発生状況',
     'crime.subtitle': '松本市内の街頭犯罪の認知件数（長野県警察 犯罪オープンデータ・年1回更新）。',
     'crime.total': '認知件数',
@@ -440,6 +452,7 @@ export const ui = {
     'nav.buses': 'Bus',
     'nav.shelters': 'Abris',
     'nav.medical': 'Urgences santé',
+    'nav.safety': 'Sécurité',
     'nav.resources': 'Ressources',
     'nav.about': 'À propos & données',
     'nav.menu': 'Menu',
@@ -585,6 +598,11 @@ export const ui = {
       'Nagano medical information net — recherche d’établissements par zone, spécialité et langue parlée (en japonais).',
     'med.findNavii':
       'Recherche nationale d’établissements « ナビイ » (ministère de la Santé) — interface disponible en anglais.',
+
+    'safety.title': 'Sécurité & délinquance',
+    'safety.raipolice': 'Raiporisu — appli de la police de Nagano',
+    'safety.raipoliceDesc':
+      'Alertes criminalité, arnaques, individus suspects et observations d’ours sur une carte, par la police préfectorale de Nagano (appli smartphone, en japonais).',
 
     'crime.title': 'Statistiques de la délinquance',
     'crime.subtitle':

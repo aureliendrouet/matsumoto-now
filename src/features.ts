@@ -23,7 +23,6 @@ export const features = {
   uv: true, // UV index card
   quakesPreview: true, // "Recent earthquakes" card on the dashboard
   emergencyContacts: true, // static emergency medical contacts card (no data feed)
-  crimeStats: true, // Nagano police crime open data (yearly, scheduled fetch)
 
   /* whole pages (also hidden from the nav) */
   earthquakesPage: true,
@@ -31,6 +30,7 @@ export const features = {
   busesPage: true, // city bus route/stop map (GTFS open data)
   sheltersPage: true, // evacuation shelters & AED map (GSI + city open data)
   medicalPage: true, // emergency medical contacts page (static, verified facts)
+  safetyPage: true, // crime statistics from Nagano police open data (yearly)
   resourcesPage: true,
 } as const;
 

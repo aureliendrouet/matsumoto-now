@@ -1,0 +1,63 @@
+---
+import Base from '../../layouts/Base.astro';
+import { useTranslations, langParams, asLang } from '../../i18n/utils';
+import { features } from '../../features';
+
+export function getStaticPaths() {
+  return features.safetyPage ? langParams : [];
+}
+
+const lang = asLang(Astro.params.lang);
+const t = useTranslations(lang);
+---
+
+<Base lang={lang} title={t('safety.title')} active="safety">
+  <h1 class="page-title">{t('safety.title')}</h1>
+  <p class="page-sub">{t('crime.subtitle')}</p>
+
+  <div class="grid">
+    <section class="card col-5">
+      <div class="card-head">
+        <h2>{t('crime.title')}</h2>
+        <span class="updated" data-crime-year />
+      </div>
+      <div data-widget="crime">
+        <p class="placeholder">{t('common.loading')}</p>
+      </div>
+      <p class="card-note">
+        {t('crime.note')}{' '}
+        <a
+          href="https://www.pref.nagano.lg.jp/police/toukei/hanzai/opendata.html"
+          target="_blank"
+          rel="noopener"
+        >
+          {t('crime.source')}
+        </a>
+      </p>
+    </section>
+
+    <section class="card col-7">
+      <div class="card-head">
+        <h2>{t('crime.topAreas')}</h2>
+        <span class="updated" data-crime-year />
+      </div>
+      <div data-widget="crime-detail">
+        <p class="placeholder">{t('common.loading')}</p>
+      </div>
+    </section>
+
+    <section class="card col-12">
+      <h3>
+        <a href="https://www.raipolice-nagano.jp/" target="_blank" rel="noopener">
+          {t('safety.raipolice')} ↗
+        </a>
+      </h3>
+      <p class="card-sub" style="margin-bottom: 0">{t('safety.raipoliceDesc')}</p>
+    </section>
+  </div>
+</Base>
+
+<script>
+  import { initSafetyPage } from '../../lib/crime';
+  initSafetyPage();
+</script>

@@ -1,7 +1,7 @@
-/** Crime statistics card: Nagano Prefectural Police open data, pre-aggregated for
+/** Safety page: Nagano Prefectural Police crime open data, pre-aggregated for
  *  Matsumoto by scripts/fetch-crime-data.mjs into /data/crime.json (updated yearly). */
 
-import type { Lang, UIKey } from '../i18n/ui';
+import { ui, type Lang, type UIKey } from '../i18n/ui';
 import { fmtNum } from './format';
 import { barChart, chartMessage } from './chart';
 
@@ -88,7 +88,14 @@ function renderDetail(host: HTMLElement, file: CrimeFile, lang: Lang, t: (k: UIK
   }
 }
 
-export function initCrime(lang: Lang, t: (k: UIKey) => string): void {
+export function initSafetyPage(): void {
+  const docLang = document.documentElement.lang;
+  const lang: Lang = docLang === 'ja' || docLang === 'fr' ? docLang : 'en';
+  const t = (key: UIKey): string => ui[lang][key] ?? ui.en[key];
+  initCrime(lang, t);
+}
+
+function initCrime(lang: Lang, t: (k: UIKey) => string): void {
   const statsHost = document.querySelector<HTMLElement>('[data-widget="crime"]');
   const detailHost = document.querySelector<HTMLElement>('[data-widget="crime-detail"]');
   if (!statsHost && !detailHost) return;
