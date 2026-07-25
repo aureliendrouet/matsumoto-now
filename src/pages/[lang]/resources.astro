@@ -1,9 +1,10 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { useTranslations, langParams, asLang } from '../../i18n/utils';
+import { features } from '../../features';
 
 export function getStaticPaths() {
-  return langParams;
+  return features.resourcesPage ? langParams : [];
 }
 
 const lang = asLang(Astro.params.lang);

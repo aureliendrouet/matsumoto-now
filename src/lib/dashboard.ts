@@ -113,7 +113,7 @@ async function initWarnings(lang: Lang, t: (k: UIKey) => string): Promise<void> 
 async function initNow(
   lang: Lang,
   t: (k: UIKey) => string,
-  forecastP: Promise<Forecast>,
+  forecastP: Promise<Forecast> | null,
 ): Promise<void> {
   const host = widget('now');
   if (!host) return;
@@ -161,6 +161,7 @@ async function initNow(
     setUpdated('[data-now-updated]', now.time, lang, t);
 
     // condition icon/label arrives with the forecast
+    if (!forecastP) return;
     try {
       const fc = await forecastP;
       const icon = make('div', undefined, wmoIcon(fc.current.weatherCode));
@@ -179,8 +180,9 @@ async function initNow(
 async function initForecast(
   lang: Lang,
   t: (k: UIKey) => string,
-  forecastP: Promise<Forecast>,
+  forecastP: Promise<Forecast> | null,
 ): Promise<void> {
+  if (!forecastP) return;
   const hostTemp = widget('hourly-temp');
   const hostWeek = widget('week');
   const hostPrecip = widget('precip');
@@ -420,7 +422,10 @@ export function initDashboard(): void {
   const lang = getLang();
   const t = (key: UIKey): string => ui[lang][key] ?? ui.en[key];
 
-  const forecastP = fetchForecast();
+  // Widgets absent from the page (feature toggles, see src/features.ts) are
+  // skipped entirely — including their API calls.
+  const needsForecast = ['now', 'hourly-temp', 'week', 'precip', 'uv'].some((n) => widget(n));
+  const forecastP = needsForecast ? fetchForecast() : null;
   void initWarnings(lang, t);
   void initNow(lang, t, forecastP);
   void initForecast(lang, t, forecastP);

@@ -50,6 +50,16 @@ The scheduled fetch workflow needs no setup; it starts running on schedule
 once the repo is on GitHub. (GitHub may pause schedules on inactive forks —
 re-enable under the Actions tab.)
 
+## Feature toggles
+
+Every dashboard card and secondary page can be switched on/off in
+`src/features.ts` — set a flag to `false` and push. Disabled cards disappear
+from the dashboard (and their APIs are no longer called); disabled pages are
+not built and vanish from the navigation.
+
+Currently `pollen` is **off** pending Weathernews' confirmation that
+public-site use of the Pollen Robo open data is acceptable.
+
 ## Data sources & terms
 
 | Source | Used for | Terms |

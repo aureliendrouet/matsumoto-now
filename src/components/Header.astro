@@ -1,6 +1,7 @@
 ---
 import { useTranslations, localePath } from '../i18n/utils';
 import { languages, type Lang } from '../i18n/ui';
+import { features } from '../features';
 
 interface Props {
   lang: Lang;
@@ -13,9 +14,13 @@ const otherLangs = (Object.keys(languages) as Lang[]).filter((l) => l !== lang);
 
 const items = [
   { id: 'dashboard', path: '', label: t('nav.dashboard') },
-  { id: 'earthquakes', path: 'earthquakes', label: t('nav.earthquakes') },
-  { id: 'alerts', path: 'alerts', label: t('nav.alerts') },
-  { id: 'resources', path: 'resources', label: t('nav.resources') },
+  ...(features.earthquakesPage
+    ? [{ id: 'earthquakes', path: 'earthquakes', label: t('nav.earthquakes') }]
+    : []),
+  ...(features.alertsPage ? [{ id: 'alerts', path: 'alerts', label: t('nav.alerts') }] : []),
+  ...(features.resourcesPage
+    ? [{ id: 'resources', path: 'resources', label: t('nav.resources') }]
+    : []),
   { id: 'about', path: 'about', label: t('nav.about') },
 ];
 

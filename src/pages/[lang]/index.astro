@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { useTranslations, langParams, asLang, localePath } from '../../i18n/utils';
+import { features } from '../../features';
 
 export function getStaticPaths() {
   return langParams;
@@ -12,103 +13,131 @@ const t = useTranslations(lang);
 
 <Base lang={lang} title={t('nav.dashboard')} active="dashboard">
   <div class="grid">
-    <!-- Warnings banner -->
-    <section
-      id="warnings"
-      class="banner ok col-12"
-      aria-live="polite"
-      data-widget="warnings"
-    >
-      <p class="placeholder" style="padding: 0">{t('common.loading')}</p>
-    </section>
+    {
+      features.warnings && (
+        <section id="warnings" class="banner ok col-12" aria-live="polite" data-widget="warnings">
+          <p class="placeholder" style="padding: 0">
+            {t('common.loading')}
+          </p>
+        </section>
+      )
+    }
 
-    <!-- Current conditions -->
-    <section class="card col-5">
-      <div class="card-head">
-        <h2>{t('now.title')}</h2>
-        <span class="updated" data-now-updated></span>
-      </div>
-      <p class="card-sub">{t('now.station')}</p>
-      <div data-widget="now">
-        <p class="placeholder">{t('common.loading')}</p>
-      </div>
-    </section>
+    {
+      features.currentConditions && (
+        <section class="card col-5">
+          <div class="card-head">
+            <h2>{t('now.title')}</h2>
+            <span class="updated" data-now-updated />
+          </div>
+          <p class="card-sub">{t('now.station')}</p>
+          <div data-widget="now">
+            <p class="placeholder">{t('common.loading')}</p>
+          </div>
+        </section>
+      )
+    }
 
-    <!-- Hourly temperature -->
-    <section class="card col-7">
-      <div class="card-head">
-        <h2>{t('forecast.hourly')}</h2>
-        <span class="updated" data-forecast-updated></span>
-      </div>
-      <p class="card-sub">{t('forecast.attribution')}</p>
-      <div data-widget="hourly-temp">
-        <p class="placeholder">{t('common.loading')}</p>
-      </div>
-    </section>
+    {
+      features.hourlyTemperature && (
+        <section class="card col-7">
+          <div class="card-head">
+            <h2>{t('forecast.hourly')}</h2>
+            <span class="updated" data-forecast-updated />
+          </div>
+          <p class="card-sub">{t('forecast.attribution')}</p>
+          <div data-widget="hourly-temp">
+            <p class="placeholder">{t('common.loading')}</p>
+          </div>
+        </section>
+      )
+    }
 
-    <!-- 7-day outlook -->
-    <section class="card col-12">
-      <h2>{t('forecast.week')}</h2>
-      <p class="card-sub">{t('forecast.attribution')}</p>
-      <div data-widget="week">
-        <p class="placeholder">{t('common.loading')}</p>
-      </div>
-    </section>
+    {
+      features.weekOutlook && (
+        <section class="card col-12">
+          <h2>{t('forecast.week')}</h2>
+          <p class="card-sub">{t('forecast.attribution')}</p>
+          <div data-widget="week">
+            <p class="placeholder">{t('common.loading')}</p>
+          </div>
+        </section>
+      )
+    }
 
-    <!-- Precipitation probability -->
-    <section class="card col-6">
-      <h2>{t('forecast.precip')}</h2>
-      <p class="card-sub">{t('forecast.attribution')}</p>
-      <div data-widget="precip">
-        <p class="placeholder">{t('common.loading')}</p>
-      </div>
-    </section>
+    {
+      features.precipitationChart && (
+        <section class="card col-6">
+          <h2>{t('forecast.precip')}</h2>
+          <p class="card-sub">{t('forecast.attribution')}</p>
+          <div data-widget="precip">
+            <p class="placeholder">{t('common.loading')}</p>
+          </div>
+        </section>
+      )
+    }
 
-    <!-- Air quality -->
-    <section class="card col-6">
-      <div class="card-head">
-        <h2>{t('air.title')}</h2>
-        <span class="updated" data-air-updated></span>
-      </div>
-      <p class="card-sub">{t('air.subtitle')}</p>
-      <div data-widget="air">
-        <p class="placeholder">{t('common.loading')}</p>
-      </div>
-      <p class="card-note">
-        {t('air.stationNote')}
-        <a href="https://soramame.env.go.jp/" target="_blank" rel="noopener">soramame.env.go.jp</a>
-      </p>
-    </section>
+    {
+      features.airQuality && (
+        <section class="card col-6">
+          <div class="card-head">
+            <h2>{t('air.title')}</h2>
+            <span class="updated" data-air-updated />
+          </div>
+          <p class="card-sub">{t('air.subtitle')}</p>
+          <div data-widget="air">
+            <p class="placeholder">{t('common.loading')}</p>
+          </div>
+          <p class="card-note">
+            {t('air.stationNote')}
+            <a href="https://soramame.env.go.jp/" target="_blank" rel="noopener">
+              soramame.env.go.jp
+            </a>
+          </p>
+        </section>
+      )
+    }
 
-    <!-- Pollen -->
-    <section class="card col-8">
-      <h2>{t('pollen.title')}</h2>
-      <p class="card-sub">{t('pollen.subtitle')}</p>
-      <div data-widget="pollen">
-        <p class="placeholder">{t('common.loading')}</p>
-      </div>
-    </section>
+    {
+      features.pollen && (
+        <section class="card col-8">
+          <h2>{t('pollen.title')}</h2>
+          <p class="card-sub">{t('pollen.subtitle')}</p>
+          <div data-widget="pollen">
+            <p class="placeholder">{t('common.loading')}</p>
+          </div>
+        </section>
+      )
+    }
 
-    <!-- UV -->
-    <section class="card col-4">
-      <h2>{t('forecast.uv')}</h2>
-      <p class="card-sub">{t('forecast.attribution')}</p>
-      <div data-widget="uv">
-        <p class="placeholder">{t('common.loading')}</p>
-      </div>
-    </section>
+    {
+      features.uv && (
+        <section class="card col-4">
+          <h2>{t('forecast.uv')}</h2>
+          <p class="card-sub">{t('forecast.attribution')}</p>
+          <div data-widget="uv">
+            <p class="placeholder">{t('common.loading')}</p>
+          </div>
+        </section>
+      )
+    }
 
-    <!-- Recent earthquakes -->
-    <section class="card col-12">
-      <div class="card-head">
-        <h2>{t('quakes.title')}</h2>
-        <a href={localePath(lang, 'earthquakes')}>{t('quakes.viewAll')} →</a>
-      </div>
-      <p class="card-sub">{t('quakes.subtitle')}</p>
-      <div data-widget="quakes">
-        <p class="placeholder">{t('common.loading')}</p>
-      </div>
-    </section>
+    {
+      features.quakesPreview && (
+        <section class="card col-12">
+          <div class="card-head">
+            <h2>{t('quakes.title')}</h2>
+            {features.earthquakesPage && (
+              <a href={localePath(lang, 'earthquakes')}>{t('quakes.viewAll')} →</a>
+            )}
+          </div>
+          <p class="card-sub">{t('quakes.subtitle')}</p>
+          <div data-widget="quakes">
+            <p class="placeholder">{t('common.loading')}</p>
+          </div>
+        </section>
+      )
+    }
   </div>
 </Base>
 
