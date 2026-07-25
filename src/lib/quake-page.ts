@@ -10,7 +10,8 @@ import { chartMessage } from './chart';
 const MATSUMOTO: [number, number] = [36.238, 137.972];
 
 function getLang(): Lang {
-  return document.documentElement.lang === 'ja' ? 'ja' : 'en';
+  const lang = document.documentElement.lang;
+  return lang === 'ja' || lang === 'fr' ? lang : 'en';
 }
 
 function make(tag: string, className?: string, text?: string): HTMLElement {

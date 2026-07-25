@@ -15,8 +15,9 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       try {
         lang = localStorage.getItem('lang');
       } catch {}
-      if (lang !== 'en' && lang !== 'ja') {
-        lang = (navigator.language || 'en').toLowerCase().startsWith('ja') ? 'ja' : 'en';
+      if (lang !== 'en' && lang !== 'ja' && lang !== 'fr') {
+        const nav = (navigator.language || 'en').toLowerCase();
+        lang = nav.startsWith('ja') ? 'ja' : nav.startsWith('fr') ? 'fr' : 'en';
       }
       location.replace(`${base}/${lang}/`);
     </script>
@@ -26,7 +27,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   </head>
   <body>
     <p style="font-family: system-ui; padding: 2rem">
-      <a href={`${base}/en/`}>English</a> · <a href={`${base}/ja/`}>日本語</a>
+      <a href={`${base}/en/`}>English</a> · <a href={`${base}/ja/`}>日本語</a> ·
+      <a href={`${base}/fr/`}>Français</a>
     </p>
   </body>
 </html>

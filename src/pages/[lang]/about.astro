@@ -9,50 +9,115 @@ export function getStaticPaths() {
 const lang = asLang(Astro.params.lang);
 const t = useTranslations(lang);
 
-const sources = [
+type L10n = { en: string; ja: string; fr: string };
+const same = (s: string): L10n => ({ en: s, ja: s, fr: s });
+
+const sources: { name: L10n; url: string; what: L10n; license: L10n }[] = [
   {
-    name: lang === 'ja' ? '気象庁（JMA）' : 'Japan Meteorological Agency (JMA)',
+    name: {
+      en: 'Japan Meteorological Agency (JMA)',
+      ja: '気象庁（JMA）',
+      fr: 'Agence météorologique du Japon (JMA)',
+    },
     url: 'https://www.jma.go.jp/',
-    what:
-      lang === 'ja'
-        ? 'アメダス実況（松本 48361）、警報・注意報（長野県 200000）'
-        : 'AMeDAS live observations (Matsumoto station 48361), warnings & advisories (Nagano 200000)',
-    license: lang === 'ja' ? '出典記載により利用可（政府標準利用規約）' : 'Free with attribution (Government Standard Terms, CC BY compatible)',
+    what: {
+      en: 'AMeDAS live observations (Matsumoto station 48361), warnings & advisories (Nagano 200000)',
+      ja: 'アメダス実況（松本 48361）、警報・注意報（長野県 200000）',
+      fr: 'Observations AMeDAS en direct (station Matsumoto 48361), alertes et avis (Nagano 200000)',
+    },
+    license: {
+      en: 'Free with attribution (Government Standard Terms, CC BY compatible)',
+      ja: '出典記載により利用可（政府標準利用規約）',
+      fr: 'Utilisation libre avec attribution (conditions standard du gouvernement, compatible CC BY)',
+    },
   },
   {
-    name: 'Open-Meteo',
+    name: same('Open-Meteo'),
     url: 'https://open-meteo.com/',
-    what:
-      lang === 'ja'
-        ? '天気予報・UV指数・大気質モデル値（CAMS）'
-        : 'Weather forecast, UV index, and modelled air quality (CAMS)',
-    license: lang === 'ja' ? '非商用無料・CC BY 4.0' : 'Free for non-commercial use, data CC BY 4.0',
+    what: {
+      en: 'Weather forecast, UV index, and modelled air quality (CAMS)',
+      ja: '天気予報・UV指数・大気質モデル値（CAMS）',
+      fr: 'Prévisions météo, indice UV et qualité de l’air modélisée (CAMS)',
+    },
+    license: {
+      en: 'Free for non-commercial use, data CC BY 4.0',
+      ja: '非商用無料・CC BY 4.0',
+      fr: 'Gratuit pour usage non commercial, données CC BY 4.0',
+    },
   },
   {
-    name: lang === 'ja' ? 'ウェザーニューズ ポールンロボ' : 'Weathernews “Pollen Robo” open data',
+    name: {
+      en: 'Weathernews “Pollen Robo” open data',
+      ja: 'ウェザーニューズ ポールンロボ',
+      fr: 'Données ouvertes « Pollen Robo » de Weathernews',
+    },
     url: 'https://wxtech.weathernews.com/',
-    what: lang === 'ja' ? '花粉観測データ（松本市 20202）' : 'Hourly pollen counts (Matsumoto, city code 20202)',
-    license: lang === 'ja' ? '帰属表示が必要' : 'Attribution required',
+    what: {
+      en: 'Hourly pollen counts (Matsumoto, city code 20202)',
+      ja: '花粉観測データ（松本市 20202）',
+      fr: 'Comptages horaires de pollens (Matsumoto, code 20202)',
+    },
+    license: {
+      en: 'Attribution required',
+      ja: '帰属表示が必要',
+      fr: 'Attribution requise',
+    },
   },
   {
-    name: 'P2P地震情報 (p2pquake.net)',
+    name: same('P2P地震情報 (p2pquake.net)'),
     url: 'https://www.p2pquake.net/',
-    what: lang === 'ja' ? '地震情報（気象庁発表の再配信）' : 'Earthquake reports (redistribution of JMA bulletins)',
-    license: lang === 'ja' ? '二次利用可' : 'Secondary use permitted',
+    what: {
+      en: 'Earthquake reports (redistribution of JMA bulletins)',
+      ja: '地震情報（気象庁発表の再配信）',
+      fr: 'Informations sismiques (rediffusion des bulletins JMA)',
+    },
+    license: {
+      en: 'Secondary use permitted',
+      ja: '二次利用可',
+      fr: 'Réutilisation autorisée',
+    },
   },
   {
-    name: lang === 'ja' ? '松本市・松本安心ネット' : 'Matsumoto City & Matsumoto Anshin-net',
+    name: {
+      en: 'Matsumoto City & Matsumoto Anshin-net',
+      ja: '松本市・松本安心ネット',
+      fr: 'Ville de Matsumoto & Matsumoto Anshin-net',
+    },
     url: 'https://www.city.matsumoto.nagano.jp/',
-    what: lang === 'ja' ? '市の新着・重要・緊急情報RSS' : 'City news, important-notice and emergency RSS feeds',
-    license: lang === 'ja' ? '出典記載（CC BY 4.0 準拠）' : 'Attribution (city terms, CC BY 4.0-aligned)',
+    what: {
+      en: 'City news, important-notice and emergency RSS feeds',
+      ja: '市の新着・重要・緊急情報RSS',
+      fr: 'Flux RSS des actualités, avis importants et urgences de la ville',
+    },
+    license: {
+      en: 'Attribution (city terms, CC BY 4.0-aligned)',
+      ja: '出典記載（CC BY 4.0 準拠）',
+      fr: 'Attribution (conditions de la ville, alignées CC BY 4.0)',
+    },
   },
   {
-    name: lang === 'ja' ? '国土地理院（GSI）' : 'Geospatial Information Authority of Japan (GSI)',
+    name: {
+      en: 'Geospatial Information Authority of Japan (GSI)',
+      ja: '国土地理院（GSI）',
+      fr: 'Autorité d’information géospatiale du Japon (GSI)',
+    },
     url: 'https://maps.gsi.go.jp/',
-    what: lang === 'ja' ? '地図タイル' : 'Map tiles',
-    license: lang === 'ja' ? '出典記載により利用可' : 'Free with attribution',
+    what: { en: 'Map tiles', ja: '地図タイル', fr: 'Fonds de carte' },
+    license: {
+      en: 'Free with attribution',
+      ja: '出典記載により利用可',
+      fr: 'Utilisation libre avec attribution',
+    },
   },
 ];
+
+const colWhat = { en: 'Data used', ja: '利用データ', fr: 'Données utilisées' }[lang];
+const colLicense = { en: 'License', ja: 'ライセンス', fr: 'Licence' }[lang];
+const builtWith = {
+  en: 'Built with Astro and served for free on GitHub Pages. The source code is open.',
+  ja: 'このサイトはAstroで構築され、GitHub Pagesで無料配信されています。ソースコードは公開されています。',
+  fr: 'Construit avec Astro et hébergé gratuitement sur GitHub Pages. Le code source est ouvert.',
+}[lang];
 ---
 
 <Base lang={lang} title={t('about.title')} active="about">
@@ -70,8 +135,8 @@ const sources = [
         <thead>
           <tr>
             <th>{t('common.source')}</th>
-            <th>{lang === 'ja' ? '利用データ' : 'Data used'}</th>
-            <th>{lang === 'ja' ? 'ライセンス' : 'License'}</th>
+            <th>{colWhat}</th>
+            <th>{colLicense}</th>
           </tr>
         </thead>
         <tbody>
@@ -80,11 +145,11 @@ const sources = [
               <tr>
                 <td>
                   <a href={s.url} target="_blank" rel="noopener">
-                    {s.name}
+                    {s.name[lang]}
                   </a>
                 </td>
-                <td>{s.what}</td>
-                <td>{s.license}</td>
+                <td>{s.what[lang]}</td>
+                <td>{s.license[lang]}</td>
               </tr>
             ))
           }
@@ -93,12 +158,6 @@ const sources = [
     </div>
 
     <p class="card-note">{t('about.updatedNote')}</p>
-    <p class="card-note">
-      {
-        lang === 'ja'
-          ? 'このサイトはAstroで構築され、GitHub Pagesで無料配信されています。ソースコードは公開されています。'
-          : 'Built with Astro and served for free on GitHub Pages. The source code is open.'
-      }
-    </p>
+    <p class="card-note">{builtWith}</p>
   </div>
 </Base>

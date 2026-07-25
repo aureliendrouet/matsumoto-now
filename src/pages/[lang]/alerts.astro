@@ -44,7 +44,7 @@ const t = useTranslations(lang);
       <div data-feed="news"><p class="placeholder">{t('common.loading')}</p></div>
     </section>
 
-    {lang === 'en' && <p class="card-note col-12">{t('alerts.mtNote')}</p>}
+    {lang !== 'ja' && <p class="card-note col-12">{t('alerts.mtNote')}</p>}
   </div>
 </Base>
 

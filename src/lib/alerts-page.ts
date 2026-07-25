@@ -8,6 +8,7 @@ export interface AlertItem {
   source: 'emergency' | 'important' | 'news' | 'anshin';
   title: string;
   titleEn?: string;
+  titleFr?: string;
   link: string;
   date: string | null;
 }
@@ -18,7 +19,14 @@ interface AlertsFile {
 }
 
 function getLang(): Lang {
-  return document.documentElement.lang === 'ja' ? 'ja' : 'en';
+  const lang = document.documentElement.lang;
+  return lang === 'ja' || lang === 'fr' ? lang : 'en';
+}
+
+function displayTitle(item: AlertItem, lang: Lang): string {
+  if (lang === 'en') return item.titleEn ?? item.title;
+  if (lang === 'fr') return item.titleFr ?? item.titleEn ?? item.title;
+  return item.title;
 }
 
 function make(tag: string, className?: string, text?: string): HTMLElement {
@@ -45,10 +53,11 @@ function renderFeed(host: HTMLElement, items: AlertItem[], lang: Lang, t: (k: UI
     a.href = item.link;
     a.target = '_blank';
     a.rel = 'noopener';
-    a.textContent = lang === 'en' && item.titleEn ? item.titleEn : item.title;
+    const shown = displayTitle(item, lang);
+    a.textContent = shown;
     title.appendChild(a);
     what.appendChild(title);
-    if (lang === 'en' && item.titleEn) {
+    if (lang !== 'ja' && shown !== item.title) {
       what.appendChild(make('div', 'meta', item.title));
     }
     li.appendChild(what);
@@ -82,7 +91,7 @@ export function initAlertsPage(): void {
 }
 
 async function renderWarningsBanner(lang: Lang, t: (k: UIKey) => string): Promise<void> {
-  const { fetchWarnings } = await import('./jma');
+  const { fetchWarnings, warningLabel } = await import('./jma');
   const { fmtDateTime: fmt } = await import('./format');
   const host = document.getElementById('warnings');
   if (!host) return;
@@ -98,7 +107,7 @@ async function renderWarningsBanner(lang: Lang, t: (k: UIKey) => string): Promis
       body.appendChild(make('strong', undefined, `${t('warnings.title')} — ${t('warnings.for')}`));
       const list = make('div', 'warn-list');
       for (const w of active) {
-        const b = make('span', 'badge', lang === 'ja' ? w.ja : w.en);
+        const b = make('span', 'badge', warningLabel(w, lang));
         const dot = make('span', 'dot');
         dot.style.background =
           w.level === 'emergency'

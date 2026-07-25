@@ -1,6 +1,7 @@
 export const languages = {
   en: 'English',
   ja: '日本語',
+  fr: 'Français',
 } as const;
 
 export type Lang = keyof typeof languages;
@@ -241,6 +242,126 @@ export const ui = {
 
     'footer.dataBy': 'データ: 気象庁 ・ Open-Meteo（CC BY 4.0） ・ ウェザーニューズ ポールンロボ ・ P2P地震情報 ・ 松本市',
     'footer.unofficial': '非公式のコミュニティサイトです。緊急時は 110（警察）／ 119（消防・救急）へ。',
+  },
+  fr: {
+    'site.name': 'Matsumoto Now',
+    'site.tagline': 'Météo, air, sécurité et vie municipale à Matsumoto (Nagano), en direct',
+    'site.description':
+      'Tableau de bord non officiel agrégeant des données publiques en direct pour les habitants de Matsumoto : météo, alertes, qualité de l’air, pollens, séismes et annonces municipales — en français, anglais et japonais.',
+
+    'nav.dashboard': 'Tableau de bord',
+    'nav.earthquakes': 'Séismes',
+    'nav.alerts': 'Annonces de la ville',
+    'nav.resources': 'Ressources',
+    'nav.about': 'À propos & données',
+    'nav.menu': 'Menu',
+
+    'common.loading': 'Chargement…',
+    'common.error': 'Impossible de charger ces données. Elles sont peut-être temporairement indisponibles.',
+    'common.retry': 'Réessayer',
+    'common.updated': 'Mis à jour',
+    'common.source': 'Source',
+    'common.viewTable': 'Voir en tableau',
+    'common.time': 'Heure',
+    'common.date': 'Date',
+    'common.today': 'Aujourd’hui',
+    'common.tomorrow': 'Demain',
+    'common.offline': 'Vous semblez être hors ligne.',
+    'common.themeToggle': 'Basculer entre thème clair et sombre',
+    'common.skipToContent': 'Aller au contenu',
+
+    'warnings.title': 'Alertes & avis météo',
+    'warnings.none': 'Aucune alerte ni avis météo en vigueur pour la ville de Matsumoto.',
+    'warnings.for': 'En vigueur pour la ville de Matsumoto',
+    'warnings.level.advisory': 'Avis',
+    'warnings.level.warning': 'Alerte',
+    'warnings.level.emergency': 'Alerte spéciale',
+    'warnings.source': 'Agence météorologique du Japon (Nagano)',
+
+    'now.title': 'En ce moment à Matsumoto',
+    'now.station': 'Mesures de la station météo de Matsumoto (AMeDAS, JMA)',
+    'now.temperature': 'Température',
+    'now.humidity': 'Humidité',
+    'now.wind': 'Vent',
+    'now.precip1h': 'Pluie (dernière heure)',
+    'now.sun1h': 'Ensoleillement (dernière heure)',
+    'now.snow': 'Épaisseur de neige',
+
+    'forecast.title': 'Prévisions',
+    'forecast.hourly': 'Prochaines 24 h — température',
+    'forecast.precip': 'Prochaines 24 h — probabilité de précipitations',
+    'forecast.week': 'Prévisions à 7 jours',
+    'forecast.high': 'Max',
+    'forecast.low': 'Min',
+    'forecast.pop': 'Précip.',
+    'forecast.uv': 'Indice UV du jour',
+    'forecast.uv.low': 'Faible',
+    'forecast.uv.moderate': 'Modéré',
+    'forecast.uv.high': 'Fort',
+    'forecast.uv.veryHigh': 'Très fort',
+    'forecast.uv.extreme': 'Extrême',
+    'forecast.attribution': 'Prévisions : Open-Meteo (CC BY 4.0)',
+
+    'air.title': 'Qualité de l’air',
+    'air.subtitle': 'Valeurs modélisées pour le centre de Matsumoto (CAMS via Open-Meteo)',
+    'air.pm25': 'PM2,5',
+    'air.pm10': 'PM10',
+    'air.o3': 'Ozone',
+    'air.no2': 'NO₂',
+    'air.sparkTitle': 'PM2,5 — dernières 48 h',
+    'air.level.good': 'Bonne',
+    'air.level.moderate': 'Moyenne',
+    'air.level.elevated': 'Élevée',
+    'air.level.high': 'Forte',
+    'air.stationNote':
+      'Les mesures officielles des stations de Matsumoto sont publiées sur le site de surveillance « Soramame » du ministère de l’Environnement.',
+
+    'pollen.title': 'Pollens',
+    'pollen.subtitle': 'Comptage horaire des pollens aujourd’hui (Weathernews Pollen Robo, Matsumoto)',
+    'pollen.offSeason': 'Pas d’observation de pollens actuellement — probablement hors saison (environ mi-janvier à début août).',
+    'pollen.level.low': 'Faible',
+    'pollen.level.medium': 'Modéré',
+    'pollen.level.high': 'Élevé',
+    'pollen.level.veryHigh': 'Très élevé',
+    'pollen.unit': 'grains/h',
+
+    'quakes.title': 'Séismes récents',
+    'quakes.subtitle': 'Dernière activité sismique publiée par la JMA (via P2P地震情報)',
+    'quakes.viewAll': 'Tous les séismes récents',
+    'quakes.magnitude': 'Magnitude',
+    'quakes.maxIntensity': 'Intensité max',
+    'quakes.depth': 'Profondeur',
+    'quakes.epicenter': 'Épicentre',
+    'quakes.feltNagano': 'Ressenti à Nagano',
+    'quakes.mapTitle': 'Carte des épicentres',
+    'quakes.intensityNote':
+      'L’intensité correspond à l’échelle sismique japonaise (shindo, 震度) : la force de la secousse en surface, à ne pas confondre avec la magnitude.',
+    'quakes.none': 'Aucun séisme récent signalé.',
+
+    'alerts.title': 'Annonces & urgences de la ville',
+    'alerts.subtitle':
+      'Informations d’urgence et annonces de la ville de Matsumoto et du système de diffusion « Matsumoto Anshin-net ».',
+    'alerts.empty':
+      'Pas encore de données. Les annonces apparaîtront après l’exécution de la collecte planifiée (GitHub Action).',
+    'alerts.mtNote':
+      'Les titres sont traduits automatiquement du japonais. Vérifiez toujours les détails sur la page officielle liée.',
+    'alerts.emergency': 'Informations d’urgence',
+    'alerts.important': 'Avis importants',
+    'alerts.news': 'Actualités de la ville',
+    'alerts.anshin': 'Matsumoto Anshin-net',
+    'alerts.jmaTitle': 'Alertes météo (en direct)',
+
+    'resources.title': 'Liens & ressources utiles',
+    'resources.subtitle': 'Services officiels sans flux de données, mais à garder dans ses favoris.',
+
+    'about.title': 'À propos de ce site',
+    'about.disclaimer':
+      'Matsumoto Now est un site bénévole non officiel, sans lien avec la ville de Matsumoto, la JMA ou les fournisseurs de données. Les données peuvent être retardées ou erronées — en cas d’urgence, suivez les consignes officielles. Police : 110 · Pompiers/Ambulance : 119.',
+    'about.dataTitle': 'Sources de données & attribution',
+    'about.updatedNote': 'Toutes les heures sont affichées en heure du Japon (JST).',
+
+    'footer.dataBy': 'Données : Agence météorologique du Japon · Open-Meteo (CC BY 4.0) · Weathernews Pollen Robo · P2P地震情報 · Ville de Matsumoto',
+    'footer.unofficial': 'Site communautaire non officiel. En cas d’urgence : 110 (police) / 119 (pompiers & ambulance).',
   },
 } as const;
 

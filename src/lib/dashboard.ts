@@ -2,7 +2,7 @@
 
 import { ui, type Lang, type UIKey } from '../i18n/ui';
 import { fmtTime, fmtDateShort, fmtWeekday, fmtDateTime, fmtNum } from './format';
-import { fetchAmedasNow, fetchWarnings, windDirLabel, type WarnLevel } from './jma';
+import { fetchAmedasNow, fetchWarnings, windDirLabel, warningLabel } from './jma';
 import { fetchForecast, fetchAirQuality, pm25Level, uvLevel, type Forecast } from './openmeteo';
 import { fetchPollenToday, pollenLevel } from './pollen';
 import { fetchQuakes, intensityLabel } from './quakes';
@@ -10,7 +10,8 @@ import { lineChart, barChart, chartMessage } from './chart';
 import { wmoIcon, wmoLabel } from './wmo';
 
 function getLang(): Lang {
-  return document.documentElement.lang === 'ja' ? 'ja' : 'en';
+  const lang = document.documentElement.lang;
+  return lang === 'ja' || lang === 'fr' ? lang : 'en';
 }
 
 function widget(name: string): HTMLElement | null {
@@ -93,7 +94,7 @@ async function initWarnings(lang: Lang, t: (k: UIKey) => string): Promise<void> 
       body.appendChild(head);
       const list = make('div', 'warn-list');
       for (const w of active) {
-        list.appendChild(badge(lang === 'ja' ? w.ja : w.en, w.level));
+        list.appendChild(badge(warningLabel(w, lang), w.level));
       }
       body.appendChild(list);
       const meta = make('div', undefined, `${t('warnings.source')} · ${t('common.updated')} ${fmtDateTime(reportTime, lang)}`);

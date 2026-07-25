@@ -1,6 +1,6 @@
 ---
 import { useTranslations, localePath } from '../i18n/utils';
-import type { Lang } from '../i18n/ui';
+import { languages, type Lang } from '../i18n/ui';
 
 interface Props {
   lang: Lang;
@@ -9,8 +9,7 @@ interface Props {
 
 const { lang, active = 'dashboard' } = Astro.props;
 const t = useTranslations(lang);
-const other: Lang = lang === 'en' ? 'ja' : 'en';
-const otherLabel = other === 'ja' ? '日本語' : 'English';
+const otherLangs = (Object.keys(languages) as Lang[]).filter((l) => l !== lang);
 
 const items = [
   { id: 'dashboard', path: '', label: t('nav.dashboard') },
@@ -21,7 +20,7 @@ const items = [
 ];
 
 const activeItem = items.find((i) => i.id === active);
-const switchHref = localePath(other, activeItem?.path ?? '');
+const activePath = activeItem?.path ?? '';
 ---
 
 <header class="site-header">
@@ -39,9 +38,13 @@ const switchHref = localePath(other, activeItem?.path ?? '');
         </span>
       </a>
       <div class="header-actions">
-        <a class="pill-btn" href={switchHref} data-lang-switch={other} rel="alternate" hreflang={other}
-          >{otherLabel}</a
-        >
+        {
+          otherLangs.map((l) => (
+            <a class="pill-btn" href={localePath(l, activePath)} data-lang-switch={l} rel="alternate" hreflang={l}>
+              {languages[l]}
+            </a>
+          ))
+        }
         <button class="pill-btn" type="button" data-theme-toggle aria-label={t('common.themeToggle')}>
           <span aria-hidden="true" data-theme-icon>◐</span>
         </button>
@@ -75,12 +78,14 @@ const switchHref = localePath(other, activeItem?.path ?? '');
   });
 
   // Remember the language chosen explicitly, for the root redirect.
-  document.querySelector('[data-lang-switch]')?.addEventListener('click', (ev) => {
-    const lang = (ev.currentTarget as HTMLElement).dataset.langSwitch;
-    if (lang) {
-      try {
-        localStorage.setItem('lang', lang);
-      } catch {}
-    }
-  });
+  for (const link of document.querySelectorAll<HTMLElement>('[data-lang-switch]')) {
+    link.addEventListener('click', () => {
+      const lang = link.dataset.langSwitch;
+      if (lang) {
+        try {
+          localStorage.setItem('lang', lang);
+        } catch {}
+      }
+    });
+  }
 </script>

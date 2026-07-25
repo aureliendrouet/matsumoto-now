@@ -20,8 +20,12 @@ export function localePath(lang: Lang, path = ''): string {
   return withBase(`/${lang}/${clean ? `${clean}/` : ''}`);
 }
 
-export const langParams = [{ params: { lang: 'en' } }, { params: { lang: 'ja' } }] as const;
+export const langParams = [
+  { params: { lang: 'en' } },
+  { params: { lang: 'ja' } },
+  { params: { lang: 'fr' } },
+] as const;
 
 export function asLang(value: string | undefined): Lang {
-  return value === 'ja' ? 'ja' : 'en';
+  return value === 'ja' || value === 'fr' ? value : 'en';
 }

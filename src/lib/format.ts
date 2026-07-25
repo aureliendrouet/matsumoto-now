@@ -3,7 +3,7 @@ import type { Lang } from '../i18n/ui';
 const JST = 'Asia/Tokyo';
 
 export function locale(lang: Lang): string {
-  return lang === 'ja' ? 'ja-JP' : 'en-GB';
+  return lang === 'ja' ? 'ja-JP' : lang === 'fr' ? 'fr-FR' : 'en-GB';
 }
 
 export function fmtTime(d: Date, lang: Lang): string {
