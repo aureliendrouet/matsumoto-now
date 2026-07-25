@@ -1,6 +1,6 @@
 # Matsumoto Now · 松本なう
 
-An unofficial, bilingual (English / 日本語) live dashboard for citizens of
+An unofficial, trilingual (English / 日本語 / Français) live dashboard for citizens of
 Matsumoto City, Nagano: weather, warnings, air quality, pollen, earthquakes,
 and city alerts — all from free public data sources, hosted for free on
 GitHub Pages.
@@ -20,9 +20,10 @@ GitHub Pages.
   (Matsumoto City RSS feeds, Matsumoto Anshin-net) are pulled every 30 minutes
   by a GitHub Action (`.github/workflows/fetch-data.yml`) into
   `public/data/alerts.json` and committed, which redeploys the site.
-- **i18n**: every page exists under `/en/` and `/ja/`; the root redirects by
-  browser language. UI strings live in `src/i18n/ui.ts`. JMA codes are mapped
-  to English in `src/lib/jma.ts`.
+- **i18n**: every page exists under `/en/`, `/ja/` and `/fr/`; the root
+  redirects by browser language. UI strings live in `src/i18n/ui.ts`. JMA and
+  WMO codes are mapped to English and French in `src/lib/jma.ts` /
+  `src/lib/wmo.ts`.
 
 ## Local development
 
@@ -40,10 +41,10 @@ npm run fetch-data # populate public/data/alerts.json from the live city feeds
 2. In the repository: **Settings → Pages → Source: GitHub Actions**.
 3. Push (or run the "Deploy to GitHub Pages" workflow manually). The site
    appears at `https://<username>.github.io/<repo>/`.
-4. Optional — English translation of city alerts: create a free DeepL API
-   account and add the key as a repository secret named `DEEPL_API_KEY`
+4. Optional — English/French translation of city alerts: create a free DeepL
+   API account and add the key as a repository secret named `DEEPL_API_KEY`
    (**Settings → Secrets and variables → Actions**). Without it, alert titles
-   are shown in Japanese on the English pages too.
+   are shown in Japanese on the English and French pages too.
 
 The scheduled fetch workflow needs no setup; it starts running on schedule
 once the repo is on GitHub. (GitHub may pause schedules on inactive forks —
