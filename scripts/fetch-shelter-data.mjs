@@ -20,7 +20,10 @@ import { writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const OUT = path.join(process.cwd(), 'public/data/shelters.json');
+// _2 = 指定緊急避難場所 (emergency evacuation sites, per-hazard flags)
+// _1 = 指定避難所 (designated shelters for longer stays, no hazard flags)
 const GSI_URL = 'https://hinanmap.gsi.go.jp/hinanjocp/defaultFtpData/geoJSON/20202_2.geojson';
+const GSI_STAY_URL = 'https://hinanmap.gsi.go.jp/hinanjocp/defaultFtpData/geoJSON/20202_1.geojson';
 const AED_URL = 'https://www2.wagmap.jp/matsumoto/matsumoto/opendata/map_3/CSV/opendata_30.csv';
 
 const HAZARDS = [
@@ -98,6 +101,20 @@ async function main() {
     })
     .filter((s) => s.name && Number.isFinite(s.lat) && Number.isFinite(s.lon));
 
+  const stayGeo = JSON.parse(decodeUtf8(await get(GSI_STAY_URL)));
+  const staySites = stayGeo.features
+    .map((f) => {
+      const [lon, lat] = f.geometry.coordinates;
+      const p = f.properties;
+      return {
+        name: p['施設・場所名'],
+        address: p['住所'],
+        lat: round5(lat),
+        lon: round5(lon),
+      };
+    })
+    .filter((s) => s.name && Number.isFinite(s.lat) && Number.isFinite(s.lon));
+
   const aedRows = parseCsv(decodeUtf8(await get(AED_URL)));
   const aeds = aedRows
     .map((r) => {
@@ -115,9 +132,11 @@ async function main() {
     })
     .filter((a) => a.name && Number.isFinite(a.lat) && Number.isFinite(a.lon));
 
-  const out = { fetched: new Date().toISOString(), shelters, aeds };
+  const out = { fetched: new Date().toISOString(), shelters, staySites, aeds };
   await writeFile(OUT, JSON.stringify(out) + '\n');
-  console.log(`wrote ${OUT}: ${shelters.length} evacuation sites, ${aeds.length} AEDs`);
+  console.log(
+    `wrote ${OUT}: ${shelters.length} evacuation sites, ${staySites.length} stay shelters, ${aeds.length} AEDs`,
+  );
 }
 
 main().catch((err) => {

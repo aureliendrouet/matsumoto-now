@@ -44,13 +44,17 @@ function renderList(
     li.appendChild(make('span', 'when', fmtDateTime(q.time, lang)));
     const what = make('div', 'what');
     const title = make('div', 'title', q.epicenterJa);
-    if (q.feltNagano) {
-      const felt = make('span', 'badge', t('quakes.feltNagano'));
+    if (q.matsumotoScale !== null || q.feltNagano) {
+      const text =
+        q.matsumotoScale !== null
+          ? `${t('quakes.feltMatsumoto')}: ${intensityLabel(q.matsumotoScale, lang)}`
+          : t('quakes.feltNagano');
+      const felt = make('span', 'badge', text);
       felt.style.marginLeft = '8px';
       felt.style.fontSize = '11.5px';
       felt.style.padding = '2px 9px';
       const dot = make('span', 'dot');
-      dot.style.background = 'var(--series-2)';
+      dot.style.background = q.matsumotoScale !== null ? 'var(--status-serious)' : 'var(--series-2)';
       felt.prepend(dot);
       title.appendChild(felt);
     }

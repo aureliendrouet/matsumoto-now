@@ -5,6 +5,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { ui, getLang, type Lang, type UIKey } from '../i18n/ui';
 import { chartMessage } from './chart';
+import { addLocateControl } from './geolocate';
 
 const MATSUMOTO: [number, number] = [36.238, 137.972];
 const STOP_MIN_ZOOM = 14;
@@ -42,6 +43,104 @@ function stopLabel(stop: BusStop, lang: Lang): string {
   return `${stop.nameEn}（${stop.name}）`;
 }
 
+/* ---- next departures (bus-times.json sidecar, loaded on first stop click) --- */
+
+interface BusService {
+  days: boolean[]; // [sun..sat]
+  start: string; // YYYYMMDD
+  end: string;
+  add: string[]; // extra service dates (holidays etc.)
+  del: string[]; // removed dates
+}
+
+interface BusTimes {
+  routes: string[];
+  services: BusService[];
+  stops: [number, number, number[]][][]; // per stop: [routeIdx, serviceIdx, minutes[]]
+}
+
+let timesPromise: Promise<BusTimes | null> | null = null;
+function loadTimes(): Promise<BusTimes | null> {
+  if (!timesPromise) {
+    const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+    timesPromise = fetch(`${base}/data/bus-times.json`, { cache: 'no-store' })
+      .then((res) => (res.ok ? (res.json() as Promise<BusTimes>) : null))
+      .catch(() => null);
+  }
+  return timesPromise;
+}
+
+function jstNow(): { date: string; day: number; minutes: number } {
+  const d = new Date(Date.now() + 9 * 3600 * 1000);
+  const p = (n: number) => String(n).padStart(2, '0');
+  return {
+    date: `${d.getUTCFullYear()}${p(d.getUTCMonth() + 1)}${p(d.getUTCDate())}`,
+    day: d.getUTCDay(),
+    minutes: d.getUTCHours() * 60 + d.getUTCMinutes(),
+  };
+}
+
+function serviceRunsToday(svc: BusService, now: { date: string; day: number }): boolean {
+  if (svc.del.includes(now.date)) return false;
+  if (svc.add.includes(now.date)) return true;
+  return svc.days[now.day] === true && svc.start <= now.date && now.date <= svc.end;
+}
+
+function nextDepartures(
+  times: BusTimes,
+  stopIdx: number,
+  max = 6,
+): { min: number; route: string }[] {
+  const now = jstNow();
+  const out: { min: number; route: string }[] = [];
+  for (const [r, s, minutes] of times.stops[stopIdx] ?? []) {
+    const svc = times.services[s];
+    if (!svc || !serviceRunsToday(svc, now)) continue;
+    for (const min of minutes) {
+      if (min >= now.minutes && min < 1440) out.push({ min, route: times.routes[r] ?? '' });
+    }
+  }
+  return out.sort((a, b) => a.min - b.min).slice(0, max);
+}
+
+function departuresContent(
+  stop: BusStop,
+  stopIdx: number,
+  lang: Lang,
+  t: (k: UIKey) => string,
+): HTMLElement {
+  const box = make('div');
+  box.appendChild(make('strong', undefined, stopLabel(stop, lang)));
+  const body = make('div', undefined, '…');
+  body.style.marginTop = '4px';
+  box.appendChild(body);
+  void loadTimes().then((times) => {
+    body.textContent = '';
+    if (!times) {
+      body.textContent = t('common.error');
+      return;
+    }
+    const next = nextDepartures(times, stopIdx);
+    if (!next.length) {
+      body.textContent = t('bus.noMoreToday');
+      return;
+    }
+    body.appendChild(make('div', undefined, t('bus.nextDepartures')));
+    for (const d of next) {
+      const row = make('div');
+      const time = make(
+        'strong',
+        undefined,
+        `${Math.floor(d.min / 60)}:${String(d.min % 60).padStart(2, '0')}`,
+      );
+      row.appendChild(time);
+      row.appendChild(document.createTextNode(` ${d.route}`));
+      body.appendChild(row);
+    }
+  });
+  return box;
+}
+
 function renderMap(file: BusFile, lang: Lang, t: (k: UIKey) => string): void {
   const mapHost = document.getElementById('bus-map');
   if (!mapHost) return;
@@ -74,7 +173,7 @@ function renderMap(file: BusFile, lang: Lang, t: (k: UIKey) => string): void {
   }
 
   const stopsGroup = L.layerGroup();
-  for (const stop of file.stops) {
+  file.stops.forEach((stop, stopIdx) => {
     const marker = L.circleMarker([stop.lat, stop.lon], {
       radius: 4.5,
       color: 'var(--ink, #333)',
@@ -83,8 +182,10 @@ function renderMap(file: BusFile, lang: Lang, t: (k: UIKey) => string): void {
       fillOpacity: 1,
     });
     marker.bindTooltip(stopLabel(stop, lang));
+    // content is built at open time so "next departures" reflect the clock
+    marker.bindPopup(() => departuresContent(stop, stopIdx, lang, t));
     stopsGroup.addLayer(marker);
-  }
+  });
 
   const syncStops = () => {
     if (map.getZoom() >= STOP_MIN_ZOOM) {
@@ -106,6 +207,8 @@ function renderMap(file: BusFile, lang: Lang, t: (k: UIKey) => string): void {
       { collapsed: false },
     )
     .addTo(map);
+
+  addLocateControl(map, t);
 }
 
 const CITY_BUS_URL = 'https://www.city.matsumoto.nagano.jp/soshiki/222/3237.html';

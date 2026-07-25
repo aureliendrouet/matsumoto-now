@@ -5,6 +5,7 @@
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { ui, getLang, type Lang, type UIKey } from '../i18n/ui';
+import { addLocateControl } from './geolocate';
 
 const MATSUMOTO: [number, number] = [36.238, 137.972];
 const AED_MIN_ZOOM = 14;
@@ -27,11 +28,35 @@ interface Aed {
   lon: number;
 }
 
+interface StaySite {
+  name: string;
+  address: string;
+  lat: number;
+  lon: number;
+}
+
 interface ShelterFile {
   fetched: string;
   shelters: Shelter[];
+  staySites?: StaySite[];
   aeds: Aed[];
 }
+
+/** Official open hazard-overlay tiles from the national hazard-map portal. */
+const HAZARD_TILE_OPTS = {
+  opacity: 0.55,
+  maxNativeZoom: 17,
+  maxZoom: 18,
+  attribution:
+    '<a href="https://disaportal.gsi.go.jp/" target="_blank" rel="noopener">ハザードマップポータルサイト</a>',
+};
+const FLOOD_TILES =
+  'https://disaportaldata.gsi.go.jp/raster/01_flood_l2_shinsuishin_data/{z}/{x}/{y}.png';
+const LANDSLIDE_TILES = [
+  'https://disaportaldata.gsi.go.jp/raster/05_dosekiryukeikaikuiki/{z}/{x}/{y}.png',
+  'https://disaportaldata.gsi.go.jp/raster/05_kyukeishakeikaikuiki/{z}/{x}/{y}.png',
+  'https://disaportaldata.gsi.go.jp/raster/05_jisuberikeikaikuiki/{z}/{x}/{y}.png',
+];
 
 function make(tag: string, className?: string, text?: string): HTMLElement {
   const node = document.createElement(tag);
@@ -73,8 +98,10 @@ export function initShelterPage(): void {
 
       // evacuation sites, refiltered in place when a hazard chip is pressed
       const shelterGroup = L.layerGroup().addTo(map);
+      let visibleShelters: { s: Shelter; marker: L.CircleMarker }[] = [];
       const renderShelters = (hazard: Hazard | null): void => {
         shelterGroup.clearLayers();
+        visibleShelters = [];
         for (const s of file.shelters) {
           if (hazard && !s.hazards.includes(hazard)) continue;
           const marker = L.circleMarker([s.lat, s.lon], {
@@ -87,9 +114,34 @@ export function initShelterPage(): void {
           marker.bindTooltip(s.name);
           marker.bindPopup(shelterPopup(s, t));
           shelterGroup.addLayer(marker);
+          visibleShelters.push({ s, marker });
         }
       };
       renderShelters(null);
+
+      // designated shelters for longer stays (指定避難所) — separate overlay
+      const stayGroup = L.layerGroup();
+      for (const s of file.staySites ?? []) {
+        const marker = L.circleMarker([s.lat, s.lon], {
+          radius: 6,
+          color: '#0ca30c',
+          weight: 2,
+          fillColor: '#0ca30c',
+          fillOpacity: 0.35,
+        });
+        marker.bindTooltip(s.name);
+        const box = make('div');
+        box.appendChild(make('strong', undefined, s.name));
+        box.appendChild(make('div', undefined, s.address));
+        marker.bindPopup(box);
+        stayGroup.addLayer(marker);
+      }
+
+      // hazard-zone overlays (official raster tiles, semi-transparent)
+      const floodLayer = L.tileLayer(FLOOD_TILES, HAZARD_TILE_OPTS);
+      const landslideLayer = L.layerGroup(
+        LANDSLIDE_TILES.map((url) => L.tileLayer(url, HAZARD_TILE_OPTS)),
+      );
 
       // AED overlay, shown when zoomed in
       const aedGroup = L.layerGroup();
@@ -122,9 +174,28 @@ export function initShelterPage(): void {
       });
 
       L.control
-        .layers(undefined, { [`${t('shelter.aed')}`]: aedGroup }, { collapsed: false })
+        .layers(
+          undefined,
+          {
+            [t('shelter.staySites')]: stayGroup,
+            [t('shelter.aed')]: aedGroup,
+            [t('shelter.floodLayer')]: floodLayer,
+            [t('shelter.landslideLayer')]: landslideLayer,
+          },
+          { collapsed: false },
+        )
         .addTo(map);
       syncAed();
+
+      // locate button: center on the visitor and open the nearest visible site
+      addLocateControl(map, t, (ll) => {
+        let best: { marker: L.CircleMarker; d: number } | null = null;
+        for (const { s, marker } of visibleShelters) {
+          const d = map.distance(ll, [s.lat, s.lon]);
+          if (!best || d < best.d) best = { marker, d };
+        }
+        best?.marker.openPopup();
+      });
 
       // hazard filter chips
       if (filterHost) {

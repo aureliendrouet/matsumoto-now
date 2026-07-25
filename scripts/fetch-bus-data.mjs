@@ -20,6 +20,7 @@ import path from 'node:path';
 import { unzipSync } from 'fflate';
 
 const OUT = path.join(process.cwd(), 'public/data/bus.json');
+const OUT_TIMES = path.join(process.cwd(), 'public/data/bus-times.json');
 const API = 'https://api.gtfs-data.jp/v2/organizations/matsumotocity/feeds';
 const FEEDS = [
   { id: 'guruttomatsumotobus1', key: 'station' }, // lines from Matsumoto Sta. / bus terminal
@@ -131,9 +132,23 @@ function stitch(lines) {
 
 /* ---- main --------------------------------------------------------------- */
 
+/** "HH:MM:SS" → minutes since midnight (GTFS allows hours ≥ 24 for
+ *  after-midnight departures of the previous service day). */
+function toMinutes(hms) {
+  const [h, m] = hms.split(':').map(Number);
+  return Number.isFinite(h) && Number.isFinite(m) ? h * 60 + m : null;
+}
+
 async function main() {
   const routes = [];
   const stopsByKey = new Map();
+
+  // departure-times sidecar (bus-times.json), aligned to the stops order
+  const timeRouteNames = [];
+  const timeRouteIdx = new Map(); // route display name -> index
+  const services = [];
+  const serviceIdx = new Map(); // `${feed}:${service_id}` -> index
+  const stopDepartures = []; // clusterIdx -> Map("r|s" -> minutes[])
 
   for (const feed of FEEDS) {
     const base = `${API}/${feed.id}/files`;
@@ -180,31 +195,112 @@ async function main() {
       });
     }
 
+    const clusterByStopId = new Map(); // this feed's stop_id -> cluster index
     for (const f of stopsGeo.features) {
       const [lon, lat] = f.geometry.coordinates;
       const name = f.properties.stop_name;
       // one marker per named stop cluster (multiple poles share a name nearby)
       const key = `${name}|${lat.toFixed(3)},${lon.toFixed(3)}`;
-      if (stopsByKey.has(key)) continue;
-      stopsByKey.set(key, {
-        name,
-        nameEn: enByStopId.get(f.properties.stop_id) ?? null,
-        lat: round5(lat),
-        lon: round5(lon),
+      if (!stopsByKey.has(key)) {
+        stopsByKey.set(key, {
+          idx: stopsByKey.size,
+          name,
+          nameEn: enByStopId.get(f.properties.stop_id) ?? null,
+          lat: round5(lat),
+          lon: round5(lon),
+        });
+        stopDepartures.push(new Map());
+      }
+      clusterByStopId.set(f.properties.stop_id, stopsByKey.get(key).idx);
+    }
+
+    /* ---- departure times (stop_times + trips + calendar) ---- */
+    const trips = parseCsv(dec.decode(zip['trips.txt']));
+    const calendar = parseCsv(dec.decode(zip['calendar.txt']));
+    const calDates = zip['calendar_dates.txt'] ? parseCsv(dec.decode(zip['calendar_dates.txt'])) : [];
+    const nameByRouteId = new Map(
+      routesTxt.map((r) => [r.route_id, r.route_long_name || r.route_short_name || r.route_id]),
+    );
+
+    for (const c of calendar) {
+      const key = `${feed.id}:${c.service_id}`;
+      if (serviceIdx.has(key)) continue;
+      serviceIdx.set(key, services.length);
+      services.push({
+        days: [c.sunday, c.monday, c.tuesday, c.wednesday, c.thursday, c.friday, c.saturday].map(
+          (v) => v === '1',
+        ),
+        start: c.start_date,
+        end: c.end_date,
+        add: [],
+        del: [],
       });
     }
-    console.log(`${feed.id}: ${routesGeo.features.length} routes, ${stopsGeo.features.length} stop poles`);
+    for (const cd of calDates) {
+      const key = `${feed.id}:${cd.service_id}`;
+      if (!serviceIdx.has(key)) {
+        // service defined only via calendar_dates
+        serviceIdx.set(key, services.length);
+        services.push({ days: [false, false, false, false, false, false, false], start: '19000101', end: '20991231', add: [], del: [] });
+      }
+      const svc = services[serviceIdx.get(key)];
+      (cd.exception_type === '1' ? svc.add : svc.del).push(cd.date);
+    }
+
+    const tripInfo = new Map(
+      trips.map((tr) => [
+        tr.trip_id,
+        {
+          route: nameByRouteId.get(tr.route_id) ?? tr.route_id,
+          service: serviceIdx.get(`${feed.id}:${tr.service_id}`),
+        },
+      ]),
+    );
+    const stopTimes = parseCsv(dec.decode(zip['stop_times.txt']));
+    for (const st of stopTimes) {
+      if (st.pickup_type === '1') continue; // drop-off only, no boarding
+      const info = tripInfo.get(st.trip_id);
+      const cluster = clusterByStopId.get(st.stop_id);
+      const minutes = toMinutes(st.departure_time || st.arrival_time || '');
+      if (!info || info.service === undefined || cluster === undefined || minutes === null) continue;
+      if (!timeRouteIdx.has(info.route)) {
+        timeRouteIdx.set(info.route, timeRouteNames.length);
+        timeRouteNames.push(info.route);
+      }
+      const rs = `${timeRouteIdx.get(info.route)}|${info.service}`;
+      const bucket = stopDepartures[cluster];
+      if (!bucket.has(rs)) bucket.set(rs, []);
+      bucket.get(rs).push(minutes);
+    }
+
+    console.log(`${feed.id}: ${routesGeo.features.length} routes, ${stopsGeo.features.length} stop poles, ${stopTimes.length} stop_times`);
   }
 
   const out = {
     fetched: new Date().toISOString(),
     attribution: '松本市 (Matsumoto City), CC BY 4.0, via GTFSデータリポジトリ (gtfs-data.jp)',
     routes,
-    stops: [...stopsByKey.values()],
+    stops: [...stopsByKey.values()].map(({ idx, ...stop }) => stop),
   };
   await writeFile(OUT, JSON.stringify(out) + '\n');
   const kb = Math.round(Buffer.byteLength(JSON.stringify(out)) / 1024);
   console.log(`wrote ${OUT}: ${routes.length} routes, ${stopsByKey.size} stops, ${kb} KB`);
+
+  // sidecar: departures per stop, aligned to the stops array order above
+  const times = {
+    fetched: out.fetched,
+    routes: timeRouteNames,
+    services,
+    stops: stopDepartures.map((bucket) =>
+      [...bucket.entries()].map(([rs, minutes]) => {
+        const [r, s] = rs.split('|').map(Number);
+        return [r, s, minutes.sort((a, b) => a - b)];
+      }),
+    ),
+  };
+  await writeFile(OUT_TIMES, JSON.stringify(times) + '\n');
+  const tkb = Math.round(Buffer.byteLength(JSON.stringify(times)) / 1024);
+  console.log(`wrote ${OUT_TIMES}: ${services.length} services, ${tkb} KB`);
 }
 
 main().catch((err) => {

@@ -13,10 +13,12 @@ export interface Quake {
   lat: number | null;
   lon: number | null;
   feltNagano: boolean;
+  matsumotoScale: number | null; // max intensity observed in Matsumoto City (×10)
 }
 
 interface P2pPoint {
   pref?: string;
+  addr?: string;
   scale?: number;
 }
 
@@ -65,6 +67,12 @@ export async function fetchQuakes(limit = 20): Promise<Quake[]> {
         lat: coord(hypo.latitude),
         lon: coord(hypo.longitude),
         feltNagano: (item.points ?? []).some((p) => p.pref === '長野県'),
+        matsumotoScale: (item.points ?? [])
+          .filter((p) => p.pref === '長野県' && p.addr?.startsWith('松本市'))
+          .reduce<number | null>((max, p) => {
+            const s = typeof p.scale === 'number' && p.scale > 0 ? p.scale : null;
+            return s !== null && (max === null || s > max) ? s : max;
+          }, null),
       };
     })
     .filter((q): q is Quake => q !== null);

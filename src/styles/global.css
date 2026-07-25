@@ -867,6 +867,12 @@ select.lang-select {
   height: 560px;
 }
 
+.map-frame .locate-btn {
+  font-size: 18px;
+  line-height: 26px;
+  text-decoration: none;
+}
+
 /* Leaflet layer-switcher: follow the site theme */
 .map-frame .leaflet-control-layers {
   background: var(--surface);
