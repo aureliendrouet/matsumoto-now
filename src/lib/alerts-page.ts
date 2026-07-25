@@ -1,0 +1,124 @@
+/** Alerts page: live JMA warnings + city feeds fetched by the scheduled GitHub Action
+ *  into /data/alerts.json (see scripts/fetch-city-data.mjs). */
+
+import { ui, type Lang, type UIKey } from '../i18n/ui';
+import { fmtDateTime } from './format';
+
+export interface AlertItem {
+  source: 'emergency' | 'important' | 'news' | 'anshin';
+  title: string;
+  titleEn?: string;
+  link: string;
+  date: string | null;
+}
+
+interface AlertsFile {
+  fetched: string | null;
+  items: AlertItem[];
+}
+
+function getLang(): Lang {
+  return document.documentElement.lang === 'ja' ? 'ja' : 'en';
+}
+
+function make(tag: string, className?: string, text?: string): HTMLElement {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text !== undefined) node.textContent = text;
+  return node;
+}
+
+function renderFeed(host: HTMLElement, items: AlertItem[], lang: Lang, t: (k: UIKey) => string): void {
+  host.textContent = '';
+  if (!items.length) {
+    host.appendChild(make('p', 'placeholder', t('alerts.empty')));
+    return;
+  }
+  const list = make('ul', 'item-list');
+  for (const item of items.slice(0, 12)) {
+    const li = make('li');
+    const when = make('span', 'when', item.date ? fmtDateTime(new Date(item.date), lang) : '—');
+    li.appendChild(when);
+    const what = make('div', 'what');
+    const title = make('div', 'title');
+    const a = document.createElement('a');
+    a.href = item.link;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.textContent = lang === 'en' && item.titleEn ? item.titleEn : item.title;
+    title.appendChild(a);
+    what.appendChild(title);
+    if (lang === 'en' && item.titleEn) {
+      what.appendChild(make('div', 'meta', item.title));
+    }
+    li.appendChild(what);
+    list.appendChild(li);
+  }
+  host.appendChild(list);
+}
+
+export function initAlertsPage(): void {
+  const lang = getLang();
+  const t = (key: UIKey): string => ui[lang][key] ?? ui.en[key];
+
+  void renderWarningsBanner(lang, t);
+
+  const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+  fetch(`${base}/data/alerts.json`, { cache: 'no-store' })
+    .then((res) => (res.ok ? (res.json() as Promise<AlertsFile>) : Promise.reject(res.status)))
+    .then((file) => {
+      for (const source of ['emergency', 'anshin', 'important', 'news'] as const) {
+        const host = document.querySelector<HTMLElement>(`[data-feed="${source}"]`);
+        if (!host) continue;
+        renderFeed(host, file.items.filter((i) => i.source === source), lang, t);
+      }
+    })
+    .catch(() => {
+      for (const host of document.querySelectorAll<HTMLElement>('[data-feed]')) {
+        host.textContent = '';
+        host.appendChild(make('p', 'placeholder', t('alerts.empty')));
+      }
+    });
+}
+
+async function renderWarningsBanner(lang: Lang, t: (k: UIKey) => string): Promise<void> {
+  const { fetchWarnings } = await import('./jma');
+  const { fmtDateTime: fmt } = await import('./format');
+  const host = document.getElementById('warnings');
+  if (!host) return;
+  try {
+    const { reportTime, active } = await fetchWarnings();
+    host.textContent = '';
+    const body = make('div');
+    if (!active.length) {
+      host.className = 'banner ok col-12';
+      body.appendChild(make('span', undefined, t('warnings.none')));
+    } else {
+      host.className = 'banner severe col-12';
+      body.appendChild(make('strong', undefined, `${t('warnings.title')} — ${t('warnings.for')}`));
+      const list = make('div', 'warn-list');
+      for (const w of active) {
+        const b = make('span', 'badge', lang === 'ja' ? w.ja : w.en);
+        const dot = make('span', 'dot');
+        dot.style.background =
+          w.level === 'emergency'
+            ? 'var(--status-critical)'
+            : w.level === 'warning'
+              ? 'var(--status-serious)'
+              : 'var(--status-warning)';
+        b.prepend(dot);
+        list.appendChild(b);
+      }
+      body.appendChild(list);
+    }
+    const meta = make('div', undefined, `${t('warnings.source')} · ${t('common.updated')} ${fmt(reportTime, lang)}`);
+    meta.style.color = 'var(--muted)';
+    meta.style.fontSize = '12px';
+    meta.style.marginTop = '4px';
+    body.appendChild(meta);
+    host.appendChild(body);
+  } catch {
+    host.textContent = '';
+    host.appendChild(make('p', 'placeholder error', t('common.error')));
+  }
+}

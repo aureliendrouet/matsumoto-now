@@ -1,0 +1,21 @@
+---
+import { useTranslations, localePath } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <p>{t('footer.dataBy')}</p>
+    <p>
+      {t('footer.unofficial')}
+      <a href={localePath(lang, 'about')}>{t('nav.about')}</a>
+    </p>
+  </div>
+</footer>

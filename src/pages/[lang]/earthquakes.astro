@@ -1,0 +1,39 @@
+---
+import Base from '../../layouts/Base.astro';
+import { useTranslations, langParams, asLang } from '../../i18n/utils';
+
+export function getStaticPaths() {
+  return langParams;
+}
+
+const lang = asLang(Astro.params.lang);
+const t = useTranslations(lang);
+---
+
+<Base lang={lang} title={t('nav.earthquakes')} active="earthquakes">
+  <h1 class="page-title">{t('quakes.title')}</h1>
+  <p class="page-sub">{t('quakes.subtitle')}</p>
+
+  <div class="grid">
+    <section class="card col-7">
+      <h2>{t('quakes.viewAll')}</h2>
+      <div data-widget="quake-list">
+        <p class="placeholder">{t('common.loading')}</p>
+      </div>
+      <p class="card-note">{t('quakes.intensityNote')}</p>
+    </section>
+
+    <section class="card col-5">
+      <h2>{t('quakes.mapTitle')}</h2>
+      <p class="card-sub">
+        {lang === 'ja' ? '円の大きさ＝マグニチュード' : 'Circle size = magnitude'}
+      </p>
+      <div class="map-frame" id="quake-map"></div>
+    </section>
+  </div>
+</Base>
+
+<script>
+  import { initQuakePage } from '../../lib/quake-page';
+  initQuakePage();
+</script>

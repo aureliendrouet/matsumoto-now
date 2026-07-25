@@ -1,0 +1,32 @@
+---
+// Root page: redirect to the visitor's preferred language.
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Matsumoto Now · 松本なう</title>
+    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+    <script is:inline define:vars={{ base }}>
+      let lang = null;
+      try {
+        lang = localStorage.getItem('lang');
+      } catch {}
+      if (lang !== 'en' && lang !== 'ja') {
+        lang = (navigator.language || 'en').toLowerCase().startsWith('ja') ? 'ja' : 'en';
+      }
+      location.replace(`${base}/${lang}/`);
+    </script>
+    <noscript>
+      <meta http-equiv="refresh" content={`0; url=${base}/en/`} />
+    </noscript>
+  </head>
+  <body>
+    <p style="font-family: system-ui; padding: 2rem">
+      <a href={`${base}/en/`}>English</a> · <a href={`${base}/ja/`}>日本語</a>
+    </p>
+  </body>
+</html>

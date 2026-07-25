@@ -1,0 +1,104 @@
+---
+import Base from '../../layouts/Base.astro';
+import { useTranslations, langParams, asLang } from '../../i18n/utils';
+
+export function getStaticPaths() {
+  return langParams;
+}
+
+const lang = asLang(Astro.params.lang);
+const t = useTranslations(lang);
+
+const sources = [
+  {
+    name: lang === 'ja' ? '気象庁（JMA）' : 'Japan Meteorological Agency (JMA)',
+    url: 'https://www.jma.go.jp/',
+    what:
+      lang === 'ja'
+        ? 'アメダス実況（松本 48361）、警報・注意報（長野県 200000）'
+        : 'AMeDAS live observations (Matsumoto station 48361), warnings & advisories (Nagano 200000)',
+    license: lang === 'ja' ? '出典記載により利用可（政府標準利用規約）' : 'Free with attribution (Government Standard Terms, CC BY compatible)',
+  },
+  {
+    name: 'Open-Meteo',
+    url: 'https://open-meteo.com/',
+    what:
+      lang === 'ja'
+        ? '天気予報・UV指数・大気質モデル値（CAMS）'
+        : 'Weather forecast, UV index, and modelled air quality (CAMS)',
+    license: lang === 'ja' ? '非商用無料・CC BY 4.0' : 'Free for non-commercial use, data CC BY 4.0',
+  },
+  {
+    name: lang === 'ja' ? 'ウェザーニューズ ポールンロボ' : 'Weathernews “Pollen Robo” open data',
+    url: 'https://wxtech.weathernews.com/',
+    what: lang === 'ja' ? '花粉観測データ（松本市 20202）' : 'Hourly pollen counts (Matsumoto, city code 20202)',
+    license: lang === 'ja' ? '帰属表示が必要' : 'Attribution required',
+  },
+  {
+    name: 'P2P地震情報 (p2pquake.net)',
+    url: 'https://www.p2pquake.net/',
+    what: lang === 'ja' ? '地震情報（気象庁発表の再配信）' : 'Earthquake reports (redistribution of JMA bulletins)',
+    license: lang === 'ja' ? '二次利用可' : 'Secondary use permitted',
+  },
+  {
+    name: lang === 'ja' ? '松本市・松本安心ネット' : 'Matsumoto City & Matsumoto Anshin-net',
+    url: 'https://www.city.matsumoto.nagano.jp/',
+    what: lang === 'ja' ? '市の新着・重要・緊急情報RSS' : 'City news, important-notice and emergency RSS feeds',
+    license: lang === 'ja' ? '出典記載（CC BY 4.0 準拠）' : 'Attribution (city terms, CC BY 4.0-aligned)',
+  },
+  {
+    name: lang === 'ja' ? '国土地理院（GSI）' : 'Geospatial Information Authority of Japan (GSI)',
+    url: 'https://maps.gsi.go.jp/',
+    what: lang === 'ja' ? '地図タイル' : 'Map tiles',
+    license: lang === 'ja' ? '出典記載により利用可' : 'Free with attribution',
+  },
+];
+---
+
+<Base lang={lang} title={t('about.title')} active="about">
+  <h1 class="page-title">{t('about.title')}</h1>
+  <p class="page-sub">{t('site.description')}</p>
+
+  <div class="prose">
+    <section class="card">
+      <p style="margin: 0">{t('about.disclaimer')}</p>
+    </section>
+
+    <h2>{t('about.dataTitle')}</h2>
+    <div class="card table-scroll">
+      <table class="data">
+        <thead>
+          <tr>
+            <th>{t('common.source')}</th>
+            <th>{lang === 'ja' ? '利用データ' : 'Data used'}</th>
+            <th>{lang === 'ja' ? 'ライセンス' : 'License'}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            sources.map((s) => (
+              <tr>
+                <td>
+                  <a href={s.url} target="_blank" rel="noopener">
+                    {s.name}
+                  </a>
+                </td>
+                <td>{s.what}</td>
+                <td>{s.license}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <p class="card-note">{t('about.updatedNote')}</p>
+    <p class="card-note">
+      {
+        lang === 'ja'
+          ? 'このサイトはAstroで構築され、GitHub Pagesで無料配信されています。ソースコードは公開されています。'
+          : 'Built with Astro and served for free on GitHub Pages. The source code is open.'
+      }
+    </p>
+  </div>
+</Base>

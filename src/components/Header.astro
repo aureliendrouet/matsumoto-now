@@ -1,0 +1,86 @@
+---
+import { useTranslations, localePath } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  active?: string;
+}
+
+const { lang, active = 'dashboard' } = Astro.props;
+const t = useTranslations(lang);
+const other: Lang = lang === 'en' ? 'ja' : 'en';
+const otherLabel = other === 'ja' ? '日本語' : 'English';
+
+const items = [
+  { id: 'dashboard', path: '', label: t('nav.dashboard') },
+  { id: 'earthquakes', path: 'earthquakes', label: t('nav.earthquakes') },
+  { id: 'alerts', path: 'alerts', label: t('nav.alerts') },
+  { id: 'resources', path: 'resources', label: t('nav.resources') },
+  { id: 'about', path: 'about', label: t('nav.about') },
+];
+
+const activeItem = items.find((i) => i.id === active);
+const switchHref = localePath(other, activeItem?.path ?? '');
+---
+
+<header class="site-header">
+  <div class="container">
+    <div class="bar">
+      <a class="brand" href={localePath(lang)}>
+        <svg class="logo" viewBox="0 0 32 32" aria-hidden="true">
+          <rect x="1" y="1" width="30" height="30" rx="8" fill="var(--accent)"></rect>
+          <path d="M5 24 L12 10 L16 17 L19 12 L27 24 Z" fill="#fff" opacity="0.92"></path>
+          <circle cx="23" cy="8.5" r="2.6" fill="#fff" opacity="0.85"></circle>
+        </svg>
+        <span>
+          {t('site.name')}
+          <span class="tagline">{t('site.tagline')}</span>
+        </span>
+      </a>
+      <div class="header-actions">
+        <a class="pill-btn" href={switchHref} data-lang-switch={other} rel="alternate" hreflang={other}
+          >{otherLabel}</a
+        >
+        <button class="pill-btn" type="button" data-theme-toggle aria-label={t('common.themeToggle')}>
+          <span aria-hidden="true" data-theme-icon>◐</span>
+        </button>
+      </div>
+    </div>
+    <nav class="site-nav" aria-label={t('nav.menu')}>
+      {
+        items.map((item) => (
+          <a href={localePath(lang, item.path)} aria-current={item.id === active ? 'page' : undefined}>
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</header>
+
+<script>
+  // Theme toggle: stamp data-theme so the choice wins over the OS setting both ways.
+  const toggle = document.querySelector('[data-theme-toggle]');
+  toggle?.addEventListener('click', () => {
+    const root = document.documentElement;
+    const current =
+      root.dataset.theme ??
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const next = current === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    try {
+      localStorage.setItem('theme', next);
+    } catch {}
+  });
+
+  // Remember the language chosen explicitly, for the root redirect.
+  document.querySelector('[data-lang-switch]')?.addEventListener('click', (ev) => {
+    const lang = (ev.currentTarget as HTMLElement).dataset.langSwitch;
+    if (lang) {
+      try {
+        localStorage.setItem('lang', lang);
+      } catch {}
+    }
+  });
+</script>

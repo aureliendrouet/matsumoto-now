@@ -1,0 +1,54 @@
+---
+import Base from '../../layouts/Base.astro';
+import { useTranslations, langParams, asLang } from '../../i18n/utils';
+
+export function getStaticPaths() {
+  return langParams;
+}
+
+const lang = asLang(Astro.params.lang);
+const t = useTranslations(lang);
+---
+
+<Base lang={lang} title={t('alerts.title')} active="alerts">
+  <h1 class="page-title">{t('alerts.title')}</h1>
+  <p class="page-sub">{t('alerts.subtitle')}</p>
+
+  <div class="grid">
+    <section
+      id="warnings"
+      class="banner ok col-12"
+      aria-live="polite"
+      data-widget="warnings"
+    >
+      <p class="placeholder" style="padding: 0">{t('common.loading')}</p>
+    </section>
+
+    <section class="card col-6">
+      <h2>{t('alerts.emergency')}</h2>
+      <div data-feed="emergency"><p class="placeholder">{t('common.loading')}</p></div>
+    </section>
+
+    <section class="card col-6">
+      <h2>{t('alerts.anshin')}</h2>
+      <div data-feed="anshin"><p class="placeholder">{t('common.loading')}</p></div>
+    </section>
+
+    <section class="card col-6">
+      <h2>{t('alerts.important')}</h2>
+      <div data-feed="important"><p class="placeholder">{t('common.loading')}</p></div>
+    </section>
+
+    <section class="card col-6">
+      <h2>{t('alerts.news')}</h2>
+      <div data-feed="news"><p class="placeholder">{t('common.loading')}</p></div>
+    </section>
+
+    {lang === 'en' && <p class="card-note col-12">{t('alerts.mtNote')}</p>}
+  </div>
+</Base>
+
+<script>
+  import { initAlertsPage } from '../../lib/alerts-page';
+  initAlertsPage();
+</script>
