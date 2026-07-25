@@ -1,185 +1,245 @@
 {
-  "fetched": "2026-07-25T03:15:10.899Z",
+  "fetched": "2026-07-25T04:41:25.659Z",
   "items": [
     {
       "source": "emergency",
       "title": "【乗鞍高原】三本滝遊歩道　通行止めのお知らせ",
       "link": "https://www.city.matsumoto.nagano.jp/soshiki/134/3743.html",
-      "date": "2026-07-24T01:00:00.000Z"
+      "date": "2026-07-24T01:00:00.000Z",
+      "titleEn": "[Norikura Highlands] Notice of Closure of the Sanbon-taki Trail",
+      "titleFr": "[Plateau de Norikura] Avis de fermeture du sentier de randonnée de Sanbon-taki"
     },
     {
       "source": "important",
       "title": "クマの目撃情報",
       "link": "https://www.city.matsumoto.nagano.jp/soshiki/74/180997.html",
-      "date": "2026-07-15T02:30:00.000Z"
+      "date": "2026-07-15T02:30:00.000Z",
+      "titleEn": "Bear Sightings",
+      "titleFr": "Signalements d'ours"
     },
     {
       "source": "important",
       "title": "古い扇風機が原因の火災にご注意ください",
       "link": "https://www.gov-online.go.jp/article/201107/entry-9227.html",
-      "date": "2026-07-14T06:00:00.000Z"
+      "date": "2026-07-14T06:00:00.000Z",
+      "titleEn": "Please be careful of fires caused by old electric fans",
+      "titleFr": "Méfiez-vous des incendies causés par de vieux ventilateurs"
     },
     {
       "source": "important",
       "title": "【注意喚起】市長になりすましたメールやLINEに注意してください",
       "link": "https://www.city.matsumoto.nagano.jp/soshiki/0/206956.html",
-      "date": "2026-06-23T15:00:00.000Z"
+      "date": "2026-06-23T15:00:00.000Z",
+      "titleEn": "[Warning] Please be wary of emails and LINE messages impersonating the mayor",
+      "titleFr": "[Avertissement] Méfiez-vous des e-mails et des messages LINE prétendant provenir du maire"
     },
     {
       "source": "important",
       "title": "クマに注意！",
       "link": "https://www.city.matsumoto.nagano.jp/soshiki/74/3168.html",
-      "date": "2026-06-23T15:00:00.000Z"
+      "date": "2026-06-23T15:00:00.000Z",
+      "titleEn": "Watch out for bears!",
+      "titleFr": "Attention aux ours !"
     },
     {
       "source": "news",
       "title": "2026OMF　オープンイベントのご案内",
       "link": "https://www.city.matsumoto.nagano.jp/soshiki/220/208289.html",
-      "date": "2026-07-24T15:00:00.000Z"
+      "date": "2026-07-24T15:00:00.000Z",
+      "titleEn": "Announcement Regarding the 2026 OMF Open Event",
+      "titleFr": "Annonce concernant l'événement ouvert au public « 2026OMF »"
     },
     {
       "source": "news",
       "title": "若者△プロジェクト「つながるキッチン」参加者を募集します",
       "link": "https://www.city.matsumoto.nagano.jp/site/kyoiku/208444.html",
-      "date": "2026-07-23T23:30:00.000Z"
+      "date": "2026-07-23T23:30:00.000Z",
+      "titleEn": "We are recruiting participants for the Youth △ Project “Connecting Kitchens”",
+      "titleFr": "Appel à candidatures pour le projet « Tsunagaru Kitchen » destiné aux jeunes △"
     },
     {
       "source": "news",
       "title": "松本市エアコン設置促進事業補助金の申請を受け付けています(～９月３０日（水）まで）",
       "link": "https://www.city.matsumoto.nagano.jp/soshiki/62/194432.html",
-      "date": "2026-07-23T15:00:00.000Z"
+      "date": "2026-07-23T15:00:00.000Z",
+      "titleEn": "Applications are now being accepted for the Matsumoto City Air Conditioner Installation Promotion Program Grant (until Wednesday, September 30)",
+      "titleFr": "Les demandes de subvention dans le cadre du programme de promotion de l'installation de climatiseurs de la ville de Matsumoto sont désormais acceptées (jusqu'au mercredi 30 septembre)"
     },
     {
       "source": "news",
       "title": "令和8年度「住まいのゼロカーボン推進補助金」の申請を受付しています",
       "link": "https://www.city.matsumoto.nagano.jp/soshiki/85/4406.html",
-      "date": "2026-07-23T15:00:00.000Z"
+      "date": "2026-07-23T15:00:00.000Z",
+      "titleEn": "We are now accepting applications for the Reiwa 8 “Zero-Carbon Housing Promotion Grant.”",
+      "titleFr": "Les demandes de « subvention pour la promotion des logements zéro carbone » pour l'exercice Reiwa 8 sont désormais ouvertes."
     },
     {
       "source": "news",
       "title": "映像でたどるSKF＆OMF 35年のあゆみ",
       "link": "https://www.city.matsumoto.nagano.jp/soshiki/220/209162.html",
-      "date": "2026-07-23T06:00:00.000Z"
+      "date": "2026-07-23T06:00:00.000Z",
+      "titleEn": "A 35-Year Journey Through SKF & OMF, as Seen in Video",
+      "titleFr": "Retour en images sur les 35 ans d'histoire de SKF et OMF"
     },
     {
       "source": "news",
       "title": "【注意喚起】水道局になりすましたメールに注意してください",
       "link": "https://www.city.matsumoto.nagano.jp/soshiki/90/209514.html",
-      "date": "2026-07-23T03:00:00.000Z"
+      "date": "2026-07-23T03:00:00.000Z",
+      "titleEn": "[Warning] Please be wary of emails pretending to be from the Water Department",
+      "titleFr": "[Avertissement] Méfiez-vous des e-mails se faisant passer pour le service des eaux"
     },
     {
       "source": "news",
       "title": "税金の納付についてのよくあるお問い合わせ",
       "link": "https://www.city.matsumoto.nagano.jp/soshiki/16/1050.html",
-      "date": "2026-07-22T15:00:00.000Z"
+      "date": "2026-07-22T15:00:00.000Z",
+      "titleEn": "Frequently Asked Questions About Tax Payments",
+      "titleFr": "Questions fréquentes concernant le paiement des impôts"
     },
     {
       "source": "news",
       "title": "広報まつもと（8月号）",
       "link": "https://www.city.matsumoto.nagano.jp/site/kouhoumatsumoto/",
-      "date": "2026-07-22T15:00:00.000Z"
+      "date": "2026-07-22T15:00:00.000Z",
+      "titleEn": "Matsumoto Public Relations (August Issue)",
+      "titleFr": "Matsumoto Information (numéro d'août)"
     },
     {
       "source": "news",
       "title": "第27回ピアノカーニバル出演者募集",
       "link": "https://www.city.matsumoto.nagano.jp/koho/206633.html",
-      "date": "2026-07-22T15:00:00.000Z"
+      "date": "2026-07-22T15:00:00.000Z",
+      "titleEn": "Call for Performers for the 27th Piano Carnival",
+      "titleFr": "Appel à candidatures pour la 27e édition du Carnaval du piano"
     },
     {
       "source": "news",
       "title": "多重債務者無料弁護士相談会（予約制）を開催します",
       "link": "https://www.city.matsumoto.nagano.jp/soshiki/17/50150.html",
-      "date": "2026-07-22T15:00:00.000Z"
+      "date": "2026-07-22T15:00:00.000Z",
+      "titleEn": "We are holding a free legal consultation session for individuals with multiple debts (by appointment only)",
+      "titleFr": "Nous organisons une séance de consultation juridique gratuite pour les personnes surendettées (sur rendez-vous)"
     },
     {
       "source": "news",
       "title": "結婚新生活支援事業補助金の申請受付中です",
       "link": "https://www.city.matsumoto.nagano.jp/koho/kekkon-shien/206365.html",
-      "date": "2026-07-22T15:00:00.000Z"
+      "date": "2026-07-22T15:00:00.000Z",
+      "titleEn": "Applications are now being accepted for the Newlywed Support Program Grant",
+      "titleFr": "Les demandes de subvention au titre du programme d'aide à la nouvelle vie conjugale sont actuellement acceptées."
     },
     {
       "source": "news",
       "title": "2026まつもと広域ものづくり産業フェアを開催します",
       "link": "https://www.city.matsumoto.nagano.jp/koho/205726.html",
-      "date": "2026-07-22T15:00:00.000Z"
+      "date": "2026-07-22T15:00:00.000Z",
+      "titleEn": "The 2026 Matsumoto Regional Manufacturing Industry Fair Will Be Held",
+      "titleFr": "Le Salon régional de l'industrie manufacturière de Matsumoto 2026 aura lieu"
     },
     {
       "source": "news",
       "title": "司法書士による借金・債務整理無料電話相談会を開催します",
       "link": "https://www.city.matsumoto.nagano.jp/soshiki/17/205643.html",
-      "date": "2026-07-22T15:00:00.000Z"
+      "date": "2026-07-22T15:00:00.000Z",
+      "titleEn": "We are hosting a free telephone consultation session on debt and debt settlement with a judicial scrivener.",
+      "titleFr": "Nous organisons une séance de consultation téléphonique gratuite sur les dettes et le règlement des dettes, animée par un notaire spécialisé en droit des affaires."
     },
     {
       "source": "news",
       "title": "【国保】医療費が高額になったとき（高額療養費および自己負担限度額）",
       "link": "https://www.city.matsumoto.nagano.jp/site/kokuho/1845.html",
-      "date": "2026-07-22T15:00:00.000Z"
+      "date": "2026-07-22T15:00:00.000Z",
+      "titleEn": "[National Health Insurance] When Medical Expenses Are High (High-Cost Medical Expense Reimbursement and Out-of-Pocket Maximum)",
+      "titleFr": "[Assurance maladie publique] En cas de frais médicaux élevés (remboursement des frais médicaux élevés et plafond de participation aux frais)"
     },
     {
       "source": "news",
       "title": "令和８年度松本市文化芸術表彰の推薦を受け付けます",
       "link": "https://www.city.matsumoto.nagano.jp/soshiki/217/3683.html",
-      "date": "2026-07-22T15:00:00.000Z"
+      "date": "2026-07-22T15:00:00.000Z",
+      "titleEn": "We are now accepting nominations for the Reiwa 8 Matsumoto City Culture and Arts Awards",
+      "titleFr": "Nous acceptons désormais les candidatures pour les Prix de la culture et des arts de la ville de Matsumoto pour l'année Reiwa 8."
     },
     {
       "source": "anshin",
       "title": "国民保護関連情報　即時音声書換情報",
       "link": "https://matsumoto-city.site2.ktaiwork.jp/?p=145",
-      "date": "2026-07-01T02:02:34.000Z"
+      "date": "2026-07-01T02:02:34.000Z",
+      "titleEn": "Civil Protection-Related Information: Immediate Voice-to-Text Information",
+      "titleFr": "Informations relatives à la protection civile – Informations audio mises à jour en temps réel"
     },
     {
       "source": "anshin",
       "title": "地震情報　震度速報　震度４",
       "link": "https://matsumoto-city.site2.ktaiwork.jp/?p=143",
-      "date": "2026-06-26T13:31:32.000Z"
+      "date": "2026-06-26T13:31:32.000Z",
+      "titleEn": "Earthquake Information: Preliminary Seismic Intensity Report—Intensity 4",
+      "titleFr": "Informations sur le séisme - Alerte rapide sur l'intensité sismique - Intensité 4"
     },
     {
       "source": "anshin",
       "title": "【道路通行止めのお知らせ】",
       "link": "https://matsumoto-city.site2.ktaiwork.jp/?p=141",
-      "date": "2026-06-26T07:19:34.000Z"
+      "date": "2026-06-26T07:19:34.000Z",
+      "titleEn": "[Notice of Road Closure]",
+      "titleFr": "[Avis de fermeture de route]"
     },
     {
       "source": "anshin",
       "title": "台風7号に警戒してください",
       "link": "https://matsumoto-city.site2.ktaiwork.jp/?p=139",
-      "date": "2026-06-25T08:23:03.000Z"
+      "date": "2026-06-25T08:23:03.000Z",
+      "titleEn": "Please be on alert for Typhoon No. 7",
+      "titleFr": "Soyez vigilants face au typhon n° 7"
     },
     {
       "source": "anshin",
       "title": "台風6号に警戒してください",
       "link": "https://matsumoto-city.site2.ktaiwork.jp/?p=137",
-      "date": "2026-06-01T08:21:34.000Z"
+      "date": "2026-06-01T08:21:34.000Z",
+      "titleEn": "Please be on alert for Typhoon No. 6",
+      "titleFr": "Soyez vigilants face au typhon n° 6"
     },
     {
       "source": "anshin",
       "title": "クマの目撃情報について",
       "link": "https://matsumoto-city.site2.ktaiwork.jp/?p=135",
-      "date": "2026-05-21T23:14:34.000Z"
+      "date": "2026-05-21T23:14:34.000Z",
+      "titleEn": "Regarding Bear Sightings",
+      "titleFr": "À propos des signalements d'ours"
     },
     {
       "source": "anshin",
       "title": "４月１８日の長野県北部の地震について【地震の備えの確認を】",
       "link": "https://matsumoto-city.site2.ktaiwork.jp/?p=133",
-      "date": "2026-04-18T07:57:02.000Z"
+      "date": "2026-04-18T07:57:02.000Z",
+      "titleEn": "Regarding the April 18 Earthquake in Northern Nagano Prefecture [Please Review Your Earthquake Preparedness]",
+      "titleFr": "À propos du séisme survenu le 18 avril dans le nord de la préfecture de Nagano [Vérifiez vos mesures de prévention en cas de séisme]"
     },
     {
       "source": "anshin",
       "title": "地震情報　震度速報　震度４",
       "link": "https://matsumoto-city.site2.ktaiwork.jp/?p=131",
-      "date": "2026-04-18T05:56:33.000Z"
+      "date": "2026-04-18T05:56:33.000Z",
+      "titleEn": "Earthquake Information: Preliminary Seismic Intensity Report—Intensity 4",
+      "titleFr": "Informations sur le séisme - Alerte rapide sur l'intensité sismique - Intensité 4"
     },
     {
       "source": "anshin",
       "title": "給水活動終了のお知らせ",
       "link": "https://matsumoto-city.site2.ktaiwork.jp/?p=129",
-      "date": "2026-03-16T07:32:03.000Z"
+      "date": "2026-03-16T07:32:03.000Z",
+      "titleEn": "Notice of the Conclusion of Water Distribution Activities",
+      "titleFr": "Avis de fin des opérations d'approvisionnement en eau"
     },
     {
       "source": "anshin",
       "title": "焼岳の噴火警戒レベルが１に引き下げられました",
       "link": "https://matsumoto-city.site2.ktaiwork.jp/?p=127",
-      "date": "2026-03-04T05:06:04.000Z"
+      "date": "2026-03-04T05:06:04.000Z",
+      "titleEn": "The volcanic alert level for Mt. Yakedake has been lowered to Level 1.",
+      "titleFr": "Le niveau d'alerte volcanique du Yakedake a été abaissé à 1."
     }
   ]
 }
