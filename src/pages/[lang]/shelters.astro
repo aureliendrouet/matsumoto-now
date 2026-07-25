@@ -23,6 +23,19 @@ const t = useTranslations(lang);
       <div class="map-frame map-tall" id="shelter-map"></div>
       <p class="card-note">{t('shelter.evacNote')}</p>
       <p class="card-note">
+        <a href="https://www.city.matsumoto.nagano.jp/site/bousai/" target="_blank" rel="noopener">
+          {t('res.bousai.name')} ↗
+        </a>
+        {' · '}
+        <a
+          href="https://disaportal.gsi.go.jp/maps/index.html?ll=36.238,137.972&z=13&base=pale&vs=c1j0l0u0t0h0z0"
+          target="_blank"
+          rel="noopener"
+        >
+          {t('shelter.hazardPortal')} ↗
+        </a>
+      </p>
+      <p class="card-note">
         {t('shelter.zoomNote')}
         {' · '}
         {t('shelter.attribution')}

@@ -672,6 +672,15 @@ table.data th.num {
   font-variant-numeric: tabular-nums;
 }
 
+/* badges used as links (bus route chips) */
+a.badge {
+  color: var(--ink);
+  text-decoration: none;
+}
+a.badge:hover {
+  border-color: var(--accent);
+}
+
 /* ---- language dropdown ------------------------------------------------------ */
 
 select.lang-select {

@@ -108,6 +108,9 @@ function renderMap(file: BusFile, lang: Lang, t: (k: UIKey) => string): void {
     .addTo(map);
 }
 
+const CITY_BUS_URL = 'https://www.city.matsumoto.nagano.jp/soshiki/222/3237.html';
+const BUS_LOCATION_URL = 'https://www.city.matsumoto.nagano.jp/soshiki/224/121490.html';
+
 function renderRouteList(file: BusFile, t: (k: UIKey) => string): void {
   const host = document.querySelector<HTMLElement>('[data-widget="bus-routes"]');
   if (!host) return;
@@ -120,7 +123,14 @@ function renderRouteList(file: BusFile, t: (k: UIKey) => string): void {
     host.appendChild(sub);
     const list = make('div', 'warn-list');
     for (const route of routes) {
-      const chip = make('span', 'badge', route.name);
+      // timetables are per-line PDFs on one city page — every chip goes there
+      const chip = document.createElement('a');
+      chip.className = 'badge';
+      chip.href = CITY_BUS_URL;
+      chip.target = '_blank';
+      chip.rel = 'noopener';
+      chip.title = t('bus.chipNote');
+      chip.textContent = route.name;
       const dot = make('span', 'dot');
       dot.style.background = route.color ?? 'var(--series-1)';
       chip.prepend(dot);
@@ -128,6 +138,21 @@ function renderRouteList(file: BusFile, t: (k: UIKey) => string): void {
     }
     host.appendChild(list);
   }
+
+  const links = make('p', 'card-note');
+  const mk = (href: string, label: string) => {
+    const a = document.createElement('a');
+    a.href = href;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.textContent = `${label} ↗`;
+    return a;
+  };
+  links.appendChild(document.createTextNode(`${t('bus.chipNote')} `));
+  links.appendChild(mk(CITY_BUS_URL, t('bus.timetables')));
+  links.appendChild(document.createTextNode(' · '));
+  links.appendChild(mk(BUS_LOCATION_URL, t('bus.location')));
+  host.appendChild(links);
 }
 
 export function initBusPage(): void {

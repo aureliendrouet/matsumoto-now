@@ -71,6 +71,34 @@ export async function fetchQuakes(limit = 20): Promise<Quake[]> {
 }
 
 /** JMA seismic intensity label from maxScale (×10). */
+/** JMA event IDs from the bosai quake list, keyed by origin-minute + epicenter
+ *  name — both fields also appear in the p2pquake records (same JMA source),
+ *  so recent quakes can link to their official JMA detail view. */
+export async function fetchJmaEventIds(): Promise<Map<string, string>> {
+  const res = await fetch('https://www.jma.go.jp/bosai/quake/data/list.json', { cache: 'no-store' });
+  if (!res.ok) throw new Error(`quake list ${res.status}`);
+  const list: { eid?: string; at?: string; anm?: string }[] = await res.json();
+  const map = new Map<string, string>();
+  for (const entry of list) {
+    if (!entry.eid || !entry.at || !entry.anm) continue;
+    map.set(`${entry.anm}|${entry.at.slice(0, 16)}`, entry.eid);
+  }
+  return map;
+}
+
+/** Key for fetchJmaEventIds lookup; time must be the quake's origin time. */
+export function jmaEventKey(q: Quake): string {
+  // origin time back to "YYYY-MM-DDTHH:MM" in JST
+  const jst = new Date(q.time.getTime() + 9 * 3600 * 1000).toISOString().slice(0, 16);
+  return `${q.epicenterJa}|${jst}`;
+}
+
+export function jmaQuakeUrl(eid: string | undefined, lang: Lang): string {
+  const base = 'https://www.jma.go.jp/bosai/map.html#contents=earthquake_map';
+  const l = lang === 'ja' ? '' : '&lang=en';
+  return eid ? `${base}&eid=${eid}${l}` : `${base}${l}`;
+}
+
 export function intensityLabel(maxScale: number, lang: Lang): string {
   const map: Record<number, [string, string]> = {
     10: ['1', '1'],

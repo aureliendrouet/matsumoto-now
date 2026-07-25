@@ -3,7 +3,14 @@
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { ui, getLang, type Lang, type UIKey } from '../i18n/ui';
-import { fetchQuakes, intensityLabel, type Quake } from './quakes';
+import {
+  fetchQuakes,
+  fetchJmaEventIds,
+  jmaEventKey,
+  jmaQuakeUrl,
+  intensityLabel,
+  type Quake,
+} from './quakes';
 import { fmtDateTime, fmtNum } from './format';
 import { chartMessage } from './chart';
 
@@ -16,7 +23,13 @@ function make(tag: string, className?: string, text?: string): HTMLElement {
   return node;
 }
 
-function renderList(host: HTMLElement, quakes: Quake[], lang: Lang, t: (k: UIKey) => string): void {
+function renderList(
+  host: HTMLElement,
+  quakes: Quake[],
+  eids: Map<string, string>,
+  lang: Lang,
+  t: (k: UIKey) => string,
+): void {
   host.textContent = '';
   if (!quakes.length) {
     host.appendChild(make('p', 'placeholder', t('quakes.none')));
@@ -45,7 +58,14 @@ function renderList(host: HTMLElement, quakes: Quake[], lang: Lang, t: (k: UIKey
     const meta: string[] = [];
     if (q.magnitude !== null) meta.push(`M${fmtNum(q.magnitude, lang, 1)}`);
     if (q.depthKm !== null) meta.push(`${t('quakes.depth')} ${fmtNum(q.depthKm, lang)} km`);
-    what.appendChild(make('div', 'meta', meta.join(' · ')));
+    const metaLine = make('div', 'meta', meta.length ? `${meta.join(' · ')} · ` : '');
+    const jma = document.createElement('a');
+    jma.href = jmaQuakeUrl(eids.get(jmaEventKey(q)), lang);
+    jma.target = '_blank';
+    jma.rel = 'noopener';
+    jma.textContent = `${t('quakes.jmaDetail')} ↗`;
+    metaLine.appendChild(jma);
+    what.appendChild(metaLine);
     li.appendChild(what);
     list.appendChild(li);
   }
@@ -107,9 +127,12 @@ export function initQuakePage(): void {
   const t = (key: UIKey): string => ui[lang][key] ?? ui.en[key];
   const listHost = document.querySelector<HTMLElement>('[data-widget="quake-list"]');
 
+  // event-ID lookup is decoration — quakes still render if it fails
+  const eidsP = fetchJmaEventIds().catch(() => new Map<string, string>());
   fetchQuakes(20)
-    .then((quakes) => {
-      if (listHost) renderList(listHost, quakes, lang, t);
+    .then(async (quakes) => {
+      const eids = await eidsP;
+      if (listHost) renderList(listHost, quakes, eids, lang, t);
       renderMap(quakes, lang, t);
     })
     .catch(() => {
