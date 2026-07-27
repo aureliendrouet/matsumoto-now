@@ -13,6 +13,7 @@ import {
 } from './quakes';
 import { fmtDateTime, fmtNum } from './format';
 import { chartMessage } from './chart';
+import { addLocateControl } from './geolocate';
 
 const MATSUMOTO: [number, number] = [36.238, 137.972];
 
@@ -124,6 +125,8 @@ function renderMap(quakes: Quake[], lang: Lang, t: (k: UIKey) => string): void {
   if (bounds.length > 1) {
     map.fitBounds(bounds, { padding: [24, 24], maxZoom: 7 });
   }
+
+  addLocateControl(map, t);
 }
 
 export function initQuakePage(): void {
