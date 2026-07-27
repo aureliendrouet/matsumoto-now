@@ -1,5 +1,5 @@
 {
-  "fetched": "2026-07-26T22:31:21.493Z",
+  "fetched": "2026-07-27T00:00:06.134Z",
   "items": [
     {
       "source": "emergency",
@@ -40,6 +40,14 @@
       "date": "2026-06-23T15:00:00.000Z",
       "titleEn": "Watch out for bears!",
       "titleFr": "Attention aux ours !"
+    },
+    {
+      "source": "news",
+      "title": "若者△プロジェクトの企画・運営者を募集します",
+      "link": "https://www.city.matsumoto.nagano.jp/site/kyoiku/189999.html",
+      "date": "2026-07-26T23:30:00.000Z",
+      "titleEn": "We are seeking planners and organizers for the Youth △ Project",
+      "titleFr": "Nous recherchons des responsables pour la conception et la gestion du projet « Jeunes △ »"
     },
     {
       "source": "news",
@@ -152,14 +160,6 @@
       "date": "2026-07-22T15:00:00.000Z",
       "titleEn": "[National Health Insurance] When Medical Expenses Are High (High-Cost Medical Expense Reimbursement and Out-of-Pocket Maximum)",
       "titleFr": "[Assurance maladie publique] En cas de frais médicaux élevés (remboursement des frais médicaux élevés et plafond de participation aux frais)"
-    },
-    {
-      "source": "news",
-      "title": "令和８年度松本市文化芸術表彰の推薦を受け付けます",
-      "link": "https://www.city.matsumoto.nagano.jp/soshiki/217/3683.html",
-      "date": "2026-07-22T15:00:00.000Z",
-      "titleEn": "We are now accepting nominations for the Reiwa 8 Matsumoto City Culture and Arts Awards",
-      "titleFr": "Nous acceptons désormais les candidatures pour les Prix de la culture et des arts de la ville de Matsumoto pour l'année Reiwa 8."
     },
     {
       "source": "anshin",
