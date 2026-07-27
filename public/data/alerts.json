@@ -1,5 +1,5 @@
 {
-  "fetched": "2026-07-27T03:56:03.949Z",
+  "fetched": "2026-07-27T07:35:44.012Z",
   "items": [
     {
       "source": "emergency",
@@ -51,6 +51,14 @@
     },
     {
       "source": "news",
+      "title": "令和8年度「住まいのゼロカーボン推進補助金」の申請を受付しています",
+      "link": "https://www.city.matsumoto.nagano.jp/soshiki/85/4406.html",
+      "date": "2026-07-26T15:00:00.000Z",
+      "titleEn": "We are now accepting applications for the Reiwa 8 “Zero-Carbon Housing Promotion Grant.”",
+      "titleFr": "Les demandes de « subvention pour la promotion des logements zéro carbone » pour l'exercice Reiwa 8 sont désormais ouvertes."
+    },
+    {
+      "source": "news",
       "title": "2026OMF　オープンイベントのご案内",
       "link": "https://www.city.matsumoto.nagano.jp/soshiki/220/208289.html",
       "date": "2026-07-24T15:00:00.000Z",
@@ -72,14 +80,6 @@
       "date": "2026-07-23T15:00:00.000Z",
       "titleEn": "Applications are now being accepted for the Matsumoto City Air Conditioner Installation Promotion Program Grant (until Wednesday, September 30)",
       "titleFr": "Les demandes de subvention dans le cadre du programme de promotion de l'installation de climatiseurs de la ville de Matsumoto sont désormais acceptées (jusqu'au mercredi 30 septembre)"
-    },
-    {
-      "source": "news",
-      "title": "令和8年度「住まいのゼロカーボン推進補助金」の申請を受付しています",
-      "link": "https://www.city.matsumoto.nagano.jp/soshiki/85/4406.html",
-      "date": "2026-07-23T15:00:00.000Z",
-      "titleEn": "We are now accepting applications for the Reiwa 8 “Zero-Carbon Housing Promotion Grant.”",
-      "titleFr": "Les demandes de « subvention pour la promotion des logements zéro carbone » pour l'exercice Reiwa 8 sont désormais ouvertes."
     },
     {
       "source": "news",
