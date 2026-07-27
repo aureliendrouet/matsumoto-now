@@ -27,12 +27,27 @@ jobs:
 
       - run: npm ci
 
+      - name: Determine base path
+        id: pages
+        env:
+          REPO_NAME: ${{ github.event.repository.name }}
+          OWNER_PAGES_REPO: ${{ github.repository_owner }}.github.io
+        run: |
+          # A repo named "<owner>.github.io" is GitHub's special user/org
+          # Pages site and always deploys to the domain root, never to a
+          # "/<repo-name>" subpath.
+          if [ "$REPO_NAME" = "$OWNER_PAGES_REPO" ]; then
+            echo "base_path=/" >> "$GITHUB_OUTPUT"
+          else
+            echo "base_path=/$REPO_NAME" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Build
         env:
           # Site and base path are derived from the repository, so this works
           # on any fork without editing astro.config.mjs.
           SITE_URL: https://${{ github.repository_owner }}.github.io
-          BASE_PATH: /${{ github.event.repository.name }}
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
         run: npm run build
 
       - uses: actions/upload-pages-artifact@v5
