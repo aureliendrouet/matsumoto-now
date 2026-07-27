@@ -11,7 +11,7 @@ const lang = asLang(Astro.params.lang);
 const t = useTranslations(lang);
 ---
 
-<Base lang={lang} title={t('nav.dashboard')} active="dashboard">
+<Base lang={lang} title={t('nav.dashboard')} description={t('site.tagline')} active="dashboard">
   <div class="grid">
     {
       features.warnings && (

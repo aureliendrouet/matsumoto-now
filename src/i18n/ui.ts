@@ -47,6 +47,42 @@ export type Lang = keyof typeof languages;
 export const defaultLang: Lang = 'en';
 export type UIKey = keyof typeof en.dict;
 
+// BCP 47 tags for <link rel="alternate" hreflang>. Differs from the `Lang`
+// slug only for Filipino: the site's internal slug is `tl` (Tagalog), but the
+// language actually served is Filipino, whose correct tag is `fil`.
+export const hreflangTags: Record<Lang, string> = {
+  zh: 'zh',
+  en: 'en',
+  tl: 'fil',
+  fr: 'fr',
+  de: 'de',
+  it: 'it',
+  ja: 'ja',
+  ko: 'ko',
+  no: 'no',
+  pt: 'pt',
+  es: 'es',
+  th: 'th',
+  vi: 'vi',
+};
+
+// og:locale expects an underscored language_TERRITORY tag.
+export const ogLocales: Record<Lang, string> = {
+  zh: 'zh_CN',
+  en: 'en_US',
+  tl: 'tl_PH',
+  fr: 'fr_FR',
+  de: 'de_DE',
+  it: 'it_IT',
+  ja: 'ja_JP',
+  ko: 'ko_KR',
+  no: 'nb_NO',
+  pt: 'pt_PT',
+  es: 'es_ES',
+  th: 'th_TH',
+  vi: 'vi_VN',
+};
+
 interface LocaleData {
   dict: Record<UIKey, string>;
   wmo: Record<number, string>;

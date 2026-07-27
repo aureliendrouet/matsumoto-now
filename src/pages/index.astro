@@ -9,6 +9,9 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Matsumoto Now · 松本なう</title>
+    {/* This page only redirects to the visitor's language; /en/ is the real, indexable homepage. */}
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={new URL(`${base}/en/`, Astro.site)} />
     <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
     <script is:inline define:vars={{ base }}>
       const supported = ['en', 'ja', 'fr', 'es', 'pt', 'it', 'de', 'no', 'zh', 'ko', 'tl', 'vi', 'th'];

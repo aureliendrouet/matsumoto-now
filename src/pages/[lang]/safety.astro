@@ -11,7 +11,7 @@ const lang = asLang(Astro.params.lang);
 const t = useTranslations(lang);
 ---
 
-<Base lang={lang} title={t('safety.title')} active="safety">
+<Base lang={lang} title={t('safety.title')} description={t('safety.subtitle')} active="safety">
   <h1 class="page-title">{t('safety.title')}</h1>
   <p class="page-sub">{t('safety.subtitle')}</p>
 

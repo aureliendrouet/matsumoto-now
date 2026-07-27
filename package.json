@@ -12,6 +12,7 @@
     "fetch-air": "node scripts/fetch-air-data.mjs"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.3",
     "astro": "^5.12.0",
     "leaflet": "^1.9.4"
   },

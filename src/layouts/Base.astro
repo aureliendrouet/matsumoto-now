@@ -2,8 +2,8 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { useTranslations } from '../i18n/utils';
-import type { Lang } from '../i18n/ui';
+import { useTranslations, localePath } from '../i18n/utils';
+import { languages, hreflangTags, ogLocales, defaultLang, type Lang } from '../i18n/ui';
 
 interface Props {
   lang: Lang;
@@ -16,6 +16,13 @@ const { lang, title, description, active } = Astro.props;
 const t = useTranslations(lang);
 const desc = description ?? t('site.description');
 const base = import.meta.env.BASE_URL;
+
+// Matches the routing convention in Header.astro: each nav item's `id` is
+// also its language-relative path, except "dashboard" which is the root.
+const path = !active || active === 'dashboard' ? '' : active;
+const allLangs = Object.keys(languages) as Lang[];
+const canonicalUrl = new URL(localePath(lang, path), Astro.site);
+const pageTitle = `${title} · ${t('site.name')}`;
 ---
 
 <!doctype html>
@@ -23,9 +30,32 @@ const base = import.meta.env.BASE_URL;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title} · {t('site.name')}</title>
+    <title>{pageTitle}</title>
     <meta name="description" content={desc} />
+    <link rel="canonical" href={canonicalUrl} />
+    {
+      allLangs.map((l) => (
+        <link rel="alternate" hreflang={hreflangTags[l]} href={new URL(localePath(l, path), Astro.site)} />
+      ))
+    }
+    <link rel="alternate" hreflang="x-default" href={new URL(localePath(defaultLang, path), Astro.site)} />
     <link rel="icon" type="image/svg+xml" href={`${base.replace(/\/$/, '')}/favicon.svg`} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={t('site.name')} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:locale" content={ogLocales[lang]} />
+    {
+      allLangs
+        .filter((l) => l !== lang)
+        .map((l) => <meta property="og:locale:alternate" content={ogLocales[l]} />)
+    }
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={desc} />
+
     <script is:inline>
       // Apply the saved theme before first paint to avoid a flash.
       try {
