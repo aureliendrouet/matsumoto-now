@@ -1,5 +1,5 @@
 {
-  "fetched": "2026-07-28T04:12:05.534Z",
+  "fetched": "2026-07-28T07:14:05.255Z",
   "items": [
     {
       "source": "important",
@@ -51,6 +51,14 @@
     },
     {
       "source": "news",
+      "title": "１日消防団体験参加者を募集します",
+      "link": "https://www.city.matsumoto.nagano.jp/soshiki/228/209570.html",
+      "date": "2026-07-27T15:00:00.000Z",
+      "titleEn": "We are recruiting participants for the \"One-Day Volunteer Firefighter Experience\"",
+      "titleFr": "Nous recrutons des participants pour une journée d'initiation aux pompiers volontaires"
+    },
+    {
+      "source": "news",
       "title": "若者△プロジェクトの企画・運営者を募集します",
       "link": "https://www.city.matsumoto.nagano.jp/site/kyoiku/189999.html",
       "date": "2026-07-26T23:30:00.000Z",
@@ -64,6 +72,14 @@
       "date": "2026-07-26T15:00:00.000Z",
       "titleEn": "We are now accepting applications for the Reiwa 8 “Zero-Carbon Housing Promotion Grant.”",
       "titleFr": "Les demandes de « subvention pour la promotion des logements zéro carbone » pour l'exercice Reiwa 8 sont désormais ouvertes."
+    },
+    {
+      "source": "news",
+      "title": "まつもとリジェネLab.　‐環境人材育成プログラム第1期メンバー募集‐",
+      "link": "https://www.city.matsumoto.nagano.jp/soshiki/51/209726.html",
+      "date": "2026-07-26T15:00:00.000Z",
+      "titleEn": "Matsumoto Regene Lab. – Call for Applications: First Cohort of the Environmental Human Resources Development Program –",
+      "titleFr": "Matsumoto Regene Lab. – Recrutement des participants à la première promotion du programme de formation aux métiers de l'environnement –"
     },
     {
       "source": "news",
@@ -88,14 +104,6 @@
       "date": "2026-07-23T15:00:00.000Z",
       "titleEn": "Applications are now being accepted for the Matsumoto City Air Conditioner Installation Promotion Program Grant (until Wednesday, September 30)",
       "titleFr": "Les demandes de subvention dans le cadre du programme de promotion de l'installation de climatiseurs de la ville de Matsumoto sont désormais acceptées (jusqu'au mercredi 30 septembre)"
-    },
-    {
-      "source": "news",
-      "title": "映像でたどるSKF＆OMF 35年のあゆみ",
-      "link": "https://www.city.matsumoto.nagano.jp/soshiki/220/209162.html",
-      "date": "2026-07-23T06:00:00.000Z",
-      "titleEn": "A 35-Year Journey Through SKF & OMF, as Seen in Video",
-      "titleFr": "Retour en images sur les 35 ans d'histoire de SKF et OMF"
     },
     {
       "source": "news",
@@ -152,14 +160,6 @@
       "date": "2026-07-22T15:00:00.000Z",
       "titleEn": "The 2026 Matsumoto Regional Manufacturing Industry Fair Will Be Held",
       "titleFr": "Le Salon régional de l'industrie manufacturière de Matsumoto 2026 aura lieu"
-    },
-    {
-      "source": "news",
-      "title": "司法書士による借金・債務整理無料電話相談会を開催します",
-      "link": "https://www.city.matsumoto.nagano.jp/soshiki/17/205643.html",
-      "date": "2026-07-22T15:00:00.000Z",
-      "titleEn": "We are hosting a free telephone consultation session on debt and debt settlement with a judicial scrivener.",
-      "titleFr": "Nous organisons une séance de consultation téléphonique gratuite sur les dettes et le règlement des dettes, animée par un notaire spécialisé en droit des affaires."
     },
     {
       "source": "anshin",
