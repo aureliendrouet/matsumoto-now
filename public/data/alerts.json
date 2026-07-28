@@ -1,13 +1,13 @@
 {
-  "fetched": "2026-07-28T00:55:47.085Z",
+  "fetched": "2026-07-28T04:12:05.534Z",
   "items": [
     {
-      "source": "emergency",
-      "title": "【乗鞍高原】三本滝遊歩道　通行止めのお知らせ",
-      "link": "https://www.city.matsumoto.nagano.jp/soshiki/134/3743.html",
-      "date": "2026-07-24T01:00:00.000Z",
-      "titleEn": "[Norikura Highlands] Notice of Closure of the Sanbon-taki Trail",
-      "titleFr": "[Plateau de Norikura] Avis de fermeture du sentier de randonnée de Sanbon-taki"
+      "source": "important",
+      "title": "【今井出張所】停電のため市役所業務を停止しています",
+      "link": "https://www.city.matsumoto.nagano.jp/soshiki/32/209870.html",
+      "date": "2026-07-28T03:00:00.000Z",
+      "titleEn": "[Imai Branch Office] City Hall operations are suspended due to a power outage.",
+      "titleFr": "[Agence d'Imai] Les services de la mairie sont suspendus en raison d'une coupure de courant"
     },
     {
       "source": "important",
@@ -40,6 +40,14 @@
       "date": "2026-06-23T15:00:00.000Z",
       "titleEn": "Watch out for bears!",
       "titleFr": "Attention aux ours !"
+    },
+    {
+      "source": "news",
+      "title": "【今井出張所】停電のため市役所業務を停止しています",
+      "link": "https://www.city.matsumoto.nagano.jp/soshiki/32/209870.html",
+      "date": "2026-07-28T03:00:00.000Z",
+      "titleEn": "[Imai Branch Office] City Hall operations are suspended due to a power outage.",
+      "titleFr": "[Agence d'Imai] Les services de la mairie sont suspendus en raison d'une coupure de courant"
     },
     {
       "source": "news",
@@ -152,14 +160,6 @@
       "date": "2026-07-22T15:00:00.000Z",
       "titleEn": "We are hosting a free telephone consultation session on debt and debt settlement with a judicial scrivener.",
       "titleFr": "Nous organisons une séance de consultation téléphonique gratuite sur les dettes et le règlement des dettes, animée par un notaire spécialisé en droit des affaires."
-    },
-    {
-      "source": "news",
-      "title": "【国保】医療費が高額になったとき（高額療養費および自己負担限度額）",
-      "link": "https://www.city.matsumoto.nagano.jp/site/kokuho/1845.html",
-      "date": "2026-07-22T15:00:00.000Z",
-      "titleEn": "[National Health Insurance] When Medical Expenses Are High (High-Cost Medical Expense Reimbursement and Out-of-Pocket Maximum)",
-      "titleFr": "[Assurance maladie publique] En cas de frais médicaux élevés (remboursement des frais médicaux élevés et plafond de participation aux frais)"
     },
     {
       "source": "anshin",
