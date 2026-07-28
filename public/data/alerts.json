@@ -1,13 +1,21 @@
 {
-  "fetched": "2026-07-28T07:14:05.255Z",
+  "fetched": "2026-07-28T10:06:46.546Z",
   "items": [
     {
       "source": "important",
-      "title": "【今井出張所】停電のため市役所業務を停止しています",
+      "title": "LINE公式アカウントで通信障害が発生しています",
+      "link": "https://www.city.matsumoto.nagano.jp/soshiki/216/209919.html",
+      "date": "2026-07-28T07:00:00.000Z",
+      "titleEn": "There is a service disruption affecting the LINE Official Account.",
+      "titleFr": "Une panne de communication affecte actuellement le compte officiel LINE."
+    },
+    {
+      "source": "important",
+      "title": "【今井出張所】停電は復旧しました",
       "link": "https://www.city.matsumoto.nagano.jp/soshiki/32/209870.html",
-      "date": "2026-07-28T03:00:00.000Z",
-      "titleEn": "[Imai Branch Office] City Hall operations are suspended due to a power outage.",
-      "titleFr": "[Agence d'Imai] Les services de la mairie sont suspendus en raison d'une coupure de courant"
+      "date": "2026-07-28T07:00:00.000Z",
+      "titleEn": "[Imai Branch Office] Power has been restored",
+      "titleFr": "[Agence d'Imai] Le courant a été rétabli"
     },
     {
       "source": "important",
@@ -43,11 +51,27 @@
     },
     {
       "source": "news",
-      "title": "【今井出張所】停電のため市役所業務を停止しています",
+      "title": "市民の皆さんと市長が語り合う「多事争論会」開催します",
+      "link": "https://www.city.matsumoto.nagano.jp/site/yokosomayorsoffice/204453.html",
+      "date": "2026-07-28T08:00:00.000Z",
+      "titleEn": "We will be holding a “Public Forum” where citizens can engage in discussion with the mayor.",
+      "titleFr": "Nous organisons une « réunion-débat » au cours de laquelle les citoyens pourront échanger avec le maire"
+    },
+    {
+      "source": "news",
+      "title": "LINE公式アカウントで通信障害が発生しています",
+      "link": "https://www.city.matsumoto.nagano.jp/soshiki/216/209919.html",
+      "date": "2026-07-28T07:00:00.000Z",
+      "titleEn": "There is a service disruption affecting the LINE Official Account.",
+      "titleFr": "Une panne de communication affecte actuellement le compte officiel LINE."
+    },
+    {
+      "source": "news",
+      "title": "【今井出張所】停電は復旧しました",
       "link": "https://www.city.matsumoto.nagano.jp/soshiki/32/209870.html",
-      "date": "2026-07-28T03:00:00.000Z",
-      "titleEn": "[Imai Branch Office] City Hall operations are suspended due to a power outage.",
-      "titleFr": "[Agence d'Imai] Les services de la mairie sont suspendus en raison d'une coupure de courant"
+      "date": "2026-07-28T07:00:00.000Z",
+      "titleEn": "[Imai Branch Office] Power has been restored",
+      "titleFr": "[Agence d'Imai] Le courant a été rétabli"
     },
     {
       "source": "news",
@@ -144,22 +168,6 @@
       "date": "2026-07-22T15:00:00.000Z",
       "titleEn": "We are holding a free legal consultation session for individuals with multiple debts (by appointment only)",
       "titleFr": "Nous organisons une séance de consultation juridique gratuite pour les personnes surendettées (sur rendez-vous)"
-    },
-    {
-      "source": "news",
-      "title": "結婚新生活支援事業補助金の申請受付中です",
-      "link": "https://www.city.matsumoto.nagano.jp/koho/kekkon-shien/206365.html",
-      "date": "2026-07-22T15:00:00.000Z",
-      "titleEn": "Applications are now being accepted for the Newlywed Support Program Grant",
-      "titleFr": "Les demandes de subvention au titre du programme d'aide à la nouvelle vie conjugale sont actuellement acceptées."
-    },
-    {
-      "source": "news",
-      "title": "2026まつもと広域ものづくり産業フェアを開催します",
-      "link": "https://www.city.matsumoto.nagano.jp/koho/205726.html",
-      "date": "2026-07-22T15:00:00.000Z",
-      "titleEn": "The 2026 Matsumoto Regional Manufacturing Industry Fair Will Be Held",
-      "titleFr": "Le Salon régional de l'industrie manufacturière de Matsumoto 2026 aura lieu"
     },
     {
       "source": "anshin",
