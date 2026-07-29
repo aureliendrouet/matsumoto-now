@@ -1,5 +1,5 @@
 {
-  "fetched": "2026-07-29T21:30:02.761Z",
+  "fetched": "2026-07-29T22:32:38.197Z",
   "items": [
     {
       "source": "important",
@@ -40,6 +40,14 @@
       "date": "2026-06-23T15:00:00.000Z",
       "titleEn": "Watch out for bears!",
       "titleFr": "Attention aux ours !"
+    },
+    {
+      "source": "news",
+      "title": "令和９年度からの松本市市街地駐車場の指定管理者を募集します",
+      "link": "https://www.city.matsumoto.nagano.jp/soshiki/75/207035.html",
+      "date": "2026-07-29T22:00:00.000Z",
+      "titleEn": "We are accepting applications for the designated operator of Matsumoto City’s downtown parking lots starting in Reiwa 9.",
+      "titleFr": "Appel à candidatures pour le poste de gestionnaire désigné des parkings du centre-ville de Matsumoto à compter de l'exercice Reiwa 9"
     },
     {
       "source": "news",
