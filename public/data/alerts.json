@@ -1,13 +1,13 @@
 {
-  "fetched": "2026-07-28T22:59:30.500Z",
+  "fetched": "2026-07-29T00:05:41.901Z",
   "items": [
     {
       "source": "important",
-      "title": "LINE公式アカウントで通信障害が発生しています",
-      "link": "https://www.city.matsumoto.nagano.jp/soshiki/216/209919.html",
-      "date": "2026-07-28T07:00:00.000Z",
-      "titleEn": "There is a service disruption affecting the LINE Official Account.",
-      "titleFr": "Une panne de communication affecte actuellement le compte officiel LINE."
+      "title": "松本市公式LINEの通信障害は復旧しました",
+      "link": "https://www.city.matsumoto.nagano.jp/soshiki/216/174727.html",
+      "date": "2026-07-28T23:15:00.000Z",
+      "titleEn": "Service has been restored for the Matsumoto City Official LINE account",
+      "titleFr": "Le problème de connexion sur le compte LINE officiel de la ville de Matsumoto a été résolu"
     },
     {
       "source": "important",
@@ -51,19 +51,19 @@
     },
     {
       "source": "news",
+      "title": "松本市公式LINEの通信障害は復旧しました",
+      "link": "https://www.city.matsumoto.nagano.jp/soshiki/216/174727.html",
+      "date": "2026-07-28T23:15:00.000Z",
+      "titleEn": "Service has been restored for the Matsumoto City Official LINE account",
+      "titleFr": "Le problème de connexion sur le compte LINE officiel de la ville de Matsumoto a été résolu"
+    },
+    {
+      "source": "news",
       "title": "市民の皆さんと市長が語り合う「多事争論会」開催します",
       "link": "https://www.city.matsumoto.nagano.jp/site/yokosomayorsoffice/204453.html",
       "date": "2026-07-28T08:00:00.000Z",
       "titleEn": "We will be holding a “Public Forum” where citizens can engage in discussion with the mayor.",
       "titleFr": "Nous organisons une « réunion-débat » au cours de laquelle les citoyens pourront échanger avec le maire"
-    },
-    {
-      "source": "news",
-      "title": "LINE公式アカウントで通信障害が発生しています",
-      "link": "https://www.city.matsumoto.nagano.jp/soshiki/216/209919.html",
-      "date": "2026-07-28T07:00:00.000Z",
-      "titleEn": "There is a service disruption affecting the LINE Official Account.",
-      "titleFr": "Une panne de communication affecte actuellement le compte officiel LINE."
     },
     {
       "source": "news",
