@@ -1,5 +1,5 @@
 {
-  "fetched": "2026-07-29T06:31:21.318Z",
+  "fetched": "2026-07-29T09:37:44.543Z",
   "items": [
     {
       "source": "important",
@@ -8,14 +8,6 @@
       "date": "2026-07-28T23:15:00.000Z",
       "titleEn": "Service has been restored for the Matsumoto City Official LINE account",
       "titleFr": "Le problème de connexion sur le compte LINE officiel de la ville de Matsumoto a été résolu"
-    },
-    {
-      "source": "important",
-      "title": "【今井出張所】停電は復旧しました",
-      "link": "https://www.city.matsumoto.nagano.jp/soshiki/32/209870.html",
-      "date": "2026-07-28T07:00:00.000Z",
-      "titleEn": "[Imai Branch Office] Power has been restored",
-      "titleFr": "[Agence d'Imai] Le courant a été rétabli"
     },
     {
       "source": "important",
@@ -51,6 +43,22 @@
     },
     {
       "source": "news",
+      "title": "市長記者会見　令和8年（2026）7月29日",
+      "link": "https://www.city.matsumoto.nagano.jp/site/yokosomayorsoffice/209981.html",
+      "date": "2026-07-29T07:00:00.000Z",
+      "titleEn": "Mayor's Press Conference, July 29, Reiwa 8 (2026)",
+      "titleFr": "Conférence de presse du maire, le 29 juillet de l'année Reiwa 8 (2026)"
+    },
+    {
+      "source": "news",
+      "title": "食中毒注意報が発出されました！！",
+      "link": "https://www.city.matsumoto.nagano.jp/soshiki/231/85917.html",
+      "date": "2026-07-29T07:00:00.000Z",
+      "titleEn": "A food poisoning advisory has been issued!!",
+      "titleFr": "Une alerte à l'intoxication alimentaire a été émise !!"
+    },
+    {
+      "source": "news",
       "title": "松本市公式LINEの通信障害は復旧しました",
       "link": "https://www.city.matsumoto.nagano.jp/soshiki/216/174727.html",
       "date": "2026-07-28T23:15:00.000Z",
@@ -59,19 +67,27 @@
     },
     {
       "source": "news",
+      "title": "食中毒に注意しましょう",
+      "link": "https://www.city.matsumoto.nagano.jp/soshiki/231/87918.html",
+      "date": "2026-07-28T15:00:00.000Z",
+      "titleEn": "Be careful of food poisoning.",
+      "titleFr": "Faites attention aux intoxications alimentaires"
+    },
+    {
+      "source": "news",
+      "title": "【国保】医療費が高額になったとき（高額療養費および自己負担限度額）",
+      "link": "https://www.city.matsumoto.nagano.jp/site/kokuho/1845.html",
+      "date": "2026-07-28T15:00:00.000Z",
+      "titleEn": "[National Health Insurance] When Medical Expenses Are High (High-Cost Medical Expense Reimbursement and Out-of-Pocket Maximum)",
+      "titleFr": "[Assurance maladie publique] En cas de frais médicaux élevés (remboursement des frais médicaux élevés et plafond de participation aux frais)"
+    },
+    {
+      "source": "news",
       "title": "市民の皆さんと市長が語り合う「多事争論会」開催します",
       "link": "https://www.city.matsumoto.nagano.jp/site/yokosomayorsoffice/204453.html",
       "date": "2026-07-28T08:00:00.000Z",
       "titleEn": "We will be holding a “Public Forum” where citizens can engage in discussion with the mayor.",
       "titleFr": "Nous organisons une « réunion-débat » au cours de laquelle les citoyens pourront échanger avec le maire"
-    },
-    {
-      "source": "news",
-      "title": "【今井出張所】停電は復旧しました",
-      "link": "https://www.city.matsumoto.nagano.jp/soshiki/32/209870.html",
-      "date": "2026-07-28T07:00:00.000Z",
-      "titleEn": "[Imai Branch Office] Power has been restored",
-      "titleFr": "[Agence d'Imai] Le courant a été rétabli"
     },
     {
       "source": "news",
@@ -144,30 +160,6 @@
       "date": "2026-07-22T15:00:00.000Z",
       "titleEn": "Frequently Asked Questions About Tax Payments",
       "titleFr": "Questions fréquentes concernant le paiement des impôts"
-    },
-    {
-      "source": "news",
-      "title": "広報まつもと（8月号）",
-      "link": "https://www.city.matsumoto.nagano.jp/site/kouhoumatsumoto/",
-      "date": "2026-07-22T15:00:00.000Z",
-      "titleEn": "Matsumoto Public Relations (August Issue)",
-      "titleFr": "Matsumoto Information (numéro d'août)"
-    },
-    {
-      "source": "news",
-      "title": "第27回ピアノカーニバル出演者募集",
-      "link": "https://www.city.matsumoto.nagano.jp/koho/206633.html",
-      "date": "2026-07-22T15:00:00.000Z",
-      "titleEn": "Call for Performers for the 27th Piano Carnival",
-      "titleFr": "Appel à candidatures pour la 27e édition du Carnaval du piano"
-    },
-    {
-      "source": "news",
-      "title": "多重債務者無料弁護士相談会（予約制）を開催します",
-      "link": "https://www.city.matsumoto.nagano.jp/soshiki/17/50150.html",
-      "date": "2026-07-22T15:00:00.000Z",
-      "titleEn": "We are holding a free legal consultation session for individuals with multiple debts (by appointment only)",
-      "titleFr": "Nous organisons une séance de consultation juridique gratuite pour les personnes surendettées (sur rendez-vous)"
     },
     {
       "source": "anshin",
