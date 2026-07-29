@@ -1,5 +1,5 @@
 {
-  "fetched": "2026-07-29T14:41:51.012Z",
+  "fetched": "2026-07-29T16:22:09.176Z",
   "items": [
     {
       "source": "important",
@@ -144,22 +144,6 @@
       "date": "2026-07-23T03:00:00.000Z",
       "titleEn": "[Warning] Please be wary of emails pretending to be from the Water Department",
       "titleFr": "[Avertissement] Méfiez-vous des e-mails se faisant passer pour le service des eaux"
-    },
-    {
-      "source": "news",
-      "title": "税金の納付についてのよくあるお問い合わせ",
-      "link": "https://www.city.matsumoto.nagano.jp/soshiki/16/1050.html",
-      "date": "2026-07-22T15:00:00.000Z",
-      "titleEn": "Frequently Asked Questions About Tax Payments",
-      "titleFr": "Questions fréquentes concernant le paiement des impôts"
-    },
-    {
-      "source": "news",
-      "title": "広報まつもと（8月号）",
-      "link": "https://www.city.matsumoto.nagano.jp/site/kouhoumatsumoto/",
-      "date": "2026-07-22T15:00:00.000Z",
-      "titleEn": "Matsumoto Public Relations (August Issue)",
-      "titleFr": "Matsumoto Information (numéro d'août)"
     },
     {
       "source": "anshin",
