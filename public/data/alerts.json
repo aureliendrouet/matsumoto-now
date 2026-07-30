@@ -1,5 +1,5 @@
 {
-  "fetched": "2026-07-30T09:14:04.989Z",
+  "fetched": "2026-07-30T11:29:15.483Z",
   "items": [
     {
       "source": "important",
@@ -48,6 +48,14 @@
       "date": "2026-07-29T22:00:00.000Z",
       "titleEn": "We are accepting applications for the designated operator of Matsumoto City’s downtown parking lots starting in Reiwa 9.",
       "titleFr": "Appel à candidatures pour le poste de gestionnaire désigné des parkings du centre-ville de Matsumoto à compter de l'exercice Reiwa 9"
+    },
+    {
+      "source": "news",
+      "title": "令和8年度普通交付税の算定結果をお知らせします",
+      "link": "https://www.city.matsumoto.nagano.jp/site/matsumoto-zaisei/209895.html",
+      "date": "2026-07-29T15:00:00.000Z",
+      "titleEn": "We are pleased to announce the results of the calculation for the Reiwa 8 fiscal year General Allocation Tax.",
+      "titleFr": "Nous vous informons des résultats du calcul de la taxe d'allocation générale pour l'exercice Reiwa 8."
     },
     {
       "source": "news",
@@ -144,6 +152,14 @@
       "date": "2026-07-23T15:00:00.000Z",
       "titleEn": "Applications are now being accepted for the Matsumoto City Air Conditioner Installation Promotion Program Grant (until Wednesday, September 30)",
       "titleFr": "Les demandes de subvention dans le cadre du programme de promotion de l'installation de climatiseurs de la ville de Matsumoto sont désormais acceptées (jusqu'au mercredi 30 septembre)"
+    },
+    {
+      "source": "news",
+      "title": "【松本市アルプスエリア】地域おこし協力隊　募集（令和8年10月採用予定）",
+      "link": "https://www.city.matsumoto.nagano.jp/soshiki/78/209232.html",
+      "date": "2026-07-23T15:00:00.000Z",
+      "titleEn": "[Matsumoto City Alps Area] Recruitment for the Regional Revitalization Corps (Scheduled to Start in October Reiwa 8)",
+      "titleFr": "[Région des Alpes de Matsumoto] Recrutement de membres pour la brigade de coopération au développement local (embauche prévue en octobre de l'année Reiwa 8)"
     },
     {
       "source": "anshin",
