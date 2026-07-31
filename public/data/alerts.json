@@ -1,5 +1,5 @@
 {
-  "fetched": "2026-07-31T08:05:05.442Z",
+  "fetched": "2026-07-31T11:06:09.054Z",
   "items": [
     {
       "source": "important",
@@ -59,6 +59,14 @@
     },
     {
       "source": "news",
+      "title": "令和8年度文書館子ども講座&親子平和教室を開催します​",
+      "link": "https://www.city.matsumoto.nagano.jp/soshiki/3/84739.html",
+      "date": "2026-07-31T06:00:00.000Z",
+      "titleEn": "We Will Be Holding the Reiwa 8 Archives Children’s Workshop & Parent-Child Peace Class​",
+      "titleFr": "Organisation des ateliers pour enfants et des cours sur la paix pour les parents et les enfants de l'année Reiwa 8​"
+    },
+    {
+      "source": "news",
       "title": "令和8年度松本市職員採用資格試験【6月】　第2次試験結果（保育士区分以外）",
       "link": "https://www.city.matsumoto.nagano.jp/soshiki/4/210173.html",
       "date": "2026-07-31T03:00:00.000Z",
@@ -115,6 +123,14 @@
     },
     {
       "source": "news",
+      "title": "都市計画基本図更新のため地形測量を行います",
+      "link": "https://www.city.matsumoto.nagano.jp/soshiki/81/117300.html",
+      "date": "2026-07-29T15:00:00.000Z",
+      "titleEn": "We will conduct a topographic survey to update the Basic Urban Planning Map.",
+      "titleFr": "Nous allons procéder à un levé topographique en vue de la mise à jour du plan d'urbanisme de base."
+    },
+    {
+      "source": "news",
       "title": "市長記者会見　令和8年（2026）7月29日",
       "link": "https://www.city.matsumoto.nagano.jp/site/yokosomayorsoffice/209981.html",
       "date": "2026-07-29T07:00:00.000Z",
@@ -144,22 +160,6 @@
       "date": "2026-07-28T15:00:00.000Z",
       "titleEn": "Be careful of food poisoning.",
       "titleFr": "Faites attention aux intoxications alimentaires"
-    },
-    {
-      "source": "news",
-      "title": "【国保】医療費が高額になったとき（高額療養費および自己負担限度額）",
-      "link": "https://www.city.matsumoto.nagano.jp/site/kokuho/1845.html",
-      "date": "2026-07-28T15:00:00.000Z",
-      "titleEn": "[National Health Insurance] When Medical Expenses Are High (High-Cost Medical Expense Reimbursement and Out-of-Pocket Maximum)",
-      "titleFr": "[Assurance maladie publique] En cas de frais médicaux élevés (remboursement des frais médicaux élevés et plafond de participation aux frais)"
-    },
-    {
-      "source": "news",
-      "title": "１日消防団体験参加者を募集します",
-      "link": "https://www.city.matsumoto.nagano.jp/soshiki/228/209570.html",
-      "date": "2026-07-27T15:00:00.000Z",
-      "titleEn": "We are recruiting participants for the \"One-Day Volunteer Firefighter Experience\"",
-      "titleFr": "Nous recrutons des participants pour une journée d'initiation aux pompiers volontaires"
     },
     {
       "source": "anshin",
