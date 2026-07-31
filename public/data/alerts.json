@@ -1,5 +1,5 @@
 {
-  "fetched": "2026-07-31T01:04:42.484Z",
+  "fetched": "2026-07-31T04:59:49.213Z",
   "items": [
     {
       "source": "important",
@@ -40,6 +40,30 @@
       "date": "2026-06-23T15:00:00.000Z",
       "titleEn": "Watch out for bears!",
       "titleFr": "Attention aux ours !"
+    },
+    {
+      "source": "news",
+      "title": "令和8年度松本市職員採用資格試験【6月】　第2次試験結果（保育士区分以外）",
+      "link": "https://www.city.matsumoto.nagano.jp/soshiki/4/210173.html",
+      "date": "2026-07-31T03:00:00.000Z",
+      "titleEn": "Reiwa 8 Matsumoto City Civil Service Qualification Examination [June]—Second-Round Examination Results (Excluding the Childcare Worker Category)",
+      "titleFr": "Examens de recrutement des agents de la ville de Matsumoto pour l'année Reiwa 8 [juin] : résultats de la deuxième épreuve (hors catégorie « éducateurs de maternelle »)"
+    },
+    {
+      "source": "news",
+      "title": "【追加募集】令和８年度松本市会計年度任用職員を募集します。",
+      "link": "https://www.city.matsumoto.nagano.jp/soshiki/4/198161.html",
+      "date": "2026-07-31T00:00:00.000Z",
+      "titleEn": "[Additional Recruitment] We are recruiting staff for fiscal year Reiwa 8 in Matsumoto City.",
+      "titleFr": "[Recrutement supplémentaire] Nous recrutons des agents contractuels pour l'exercice budgétaire de l'année Reiwa 8 de la ville de Matsumoto."
+    },
+    {
+      "source": "news",
+      "title": "【奈川地区】昆虫観察会モニターツアー開催！",
+      "link": "https://www.city.matsumoto.nagano.jp/site/chiku-info/209985.html",
+      "date": "2026-07-31T00:00:00.000Z",
+      "titleEn": "[Nagawa District] Insect Observation Monitor Tour to Be Held!",
+      "titleFr": "[Quartier de Nagawa] Organisation d'une visite guidée d'observation des insectes !"
     },
     {
       "source": "news",
