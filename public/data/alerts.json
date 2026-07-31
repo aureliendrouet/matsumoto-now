@@ -1,5 +1,5 @@
 {
-  "fetched": "2026-07-31T04:59:49.213Z",
+  "fetched": "2026-07-31T08:05:05.442Z",
   "items": [
     {
       "source": "important",
@@ -43,6 +43,22 @@
     },
     {
       "source": "news",
+      "title": "司法書士オンライン相談のご案内",
+      "link": "https://www.city.matsumoto.nagano.jp/soshiki/17/123829.html",
+      "date": "2026-07-31T08:00:00.000Z",
+      "titleEn": "Information on Online Consultations with Judicial Scriveners",
+      "titleFr": "Informations sur les consultations en ligne avec un notaire"
+    },
+    {
+      "source": "news",
+      "title": "多事争論会を開催しました",
+      "link": "https://www.city.matsumoto.nagano.jp/site/yokosomayorsoffice/183708.html",
+      "date": "2026-07-31T06:45:00.000Z",
+      "titleEn": "We Held a Discussion Forum on Various Issues",
+      "titleFr": "Nous avons organisé une réunion de débat sur divers sujets"
+    },
+    {
+      "source": "news",
       "title": "令和8年度松本市職員採用資格試験【6月】　第2次試験結果（保育士区分以外）",
       "link": "https://www.city.matsumoto.nagano.jp/soshiki/4/210173.html",
       "date": "2026-07-31T03:00:00.000Z",
@@ -64,6 +80,22 @@
       "date": "2026-07-31T00:00:00.000Z",
       "titleEn": "[Nagawa District] Insect Observation Monitor Tour to Be Held!",
       "titleFr": "[Quartier de Nagawa] Organisation d'une visite guidée d'observation des insectes !"
+    },
+    {
+      "source": "news",
+      "title": "第24回あがたの森夏まつりを開催します",
+      "link": "https://www.city.matsumoto.nagano.jp/site/chiku-info/142706.html",
+      "date": "2026-07-30T15:00:00.000Z",
+      "titleEn": "The 24th Agata Forest Summer Festival Will Be Held",
+      "titleFr": "La 24e édition du festival d'été de la forêt d'Agata aura lieu"
+    },
+    {
+      "source": "news",
+      "title": "信州やまなみ国スポ・全障スポ松本市協賛企業を募集します",
+      "link": "https://www.city.matsumoto.nagano.jp/site/kokuspo2028/209738.html",
+      "date": "2026-07-30T15:00:00.000Z",
+      "titleEn": "We are seeking corporate sponsors for the Shinshu Yamanami National Sports Festival and the All-Japan Para Sports Festival in Matsumoto City",
+      "titleFr": "Nous recherchons des entreprises partenaires pour les Jeux nationaux de Shinshu Yamanami et les Jeux nationaux pour personnes handicapées à Matsumoto"
     },
     {
       "source": "news",
@@ -128,38 +160,6 @@
       "date": "2026-07-27T15:00:00.000Z",
       "titleEn": "We are recruiting participants for the \"One-Day Volunteer Firefighter Experience\"",
       "titleFr": "Nous recrutons des participants pour une journée d'initiation aux pompiers volontaires"
-    },
-    {
-      "source": "news",
-      "title": "若者△プロジェクトの企画・運営者を募集します",
-      "link": "https://www.city.matsumoto.nagano.jp/site/kyoiku/189999.html",
-      "date": "2026-07-26T23:30:00.000Z",
-      "titleEn": "We are seeking planners and organizers for the Youth △ Project",
-      "titleFr": "Nous recherchons des responsables pour la conception et la gestion du projet « Jeunes △ »"
-    },
-    {
-      "source": "news",
-      "title": "令和8年度「住まいのゼロカーボン推進補助金」の申請を受付しています",
-      "link": "https://www.city.matsumoto.nagano.jp/soshiki/85/4406.html",
-      "date": "2026-07-26T15:00:00.000Z",
-      "titleEn": "We are now accepting applications for the Reiwa 8 “Zero-Carbon Housing Promotion Grant.”",
-      "titleFr": "Les demandes de « subvention pour la promotion des logements zéro carbone » pour l'exercice Reiwa 8 sont désormais ouvertes."
-    },
-    {
-      "source": "news",
-      "title": "まつもとリジェネLab.　‐環境人材育成プログラム第1期メンバー募集‐",
-      "link": "https://www.city.matsumoto.nagano.jp/soshiki/51/209726.html",
-      "date": "2026-07-26T15:00:00.000Z",
-      "titleEn": "Matsumoto Regene Lab. – Call for Applications: First Cohort of the Environmental Human Resources Development Program –",
-      "titleFr": "Matsumoto Regene Lab. – Recrutement des participants à la première promotion du programme de formation aux métiers de l'environnement –"
-    },
-    {
-      "source": "news",
-      "title": "2026OMF　オープンイベントのご案内",
-      "link": "https://www.city.matsumoto.nagano.jp/soshiki/220/208289.html",
-      "date": "2026-07-24T15:00:00.000Z",
-      "titleEn": "Announcement Regarding the 2026 OMF Open Event",
-      "titleFr": "Annonce concernant l'événement ouvert au public « 2026OMF »"
     },
     {
       "source": "anshin",
