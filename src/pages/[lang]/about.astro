@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import { useTranslations, langParams, asLang } from '../../i18n/utils';
 import type { UIKey } from '../../i18n/ui';
+import { features } from '../../features';
 
 export function getStaticPaths() {
   return langParams;
@@ -14,10 +15,13 @@ const t = useTranslations(lang);
 const sources: { slug: string; url: string }[] = [
   { slug: 'jma', url: 'https://www.jma.go.jp/' },
   { slug: 'om', url: 'https://open-meteo.com/' },
-  { slug: 'pollen', url: 'https://wxtech.weathernews.com/' },
+  ...(features.pollen ? [{ slug: 'pollen', url: 'https://wxtech.weathernews.com/' }] : []),
   { slug: 'p2p', url: 'https://www.p2pquake.net/' },
   { slug: 'city', url: 'https://www.city.matsumoto.nagano.jp/' },
   { slug: 'crime', url: 'https://www.pref.nagano.lg.jp/police/toukei/hanzai/opendata.html' },
+  // Gated on fireLiveData, not firePage: with the scraped feeds off we only link
+  // to the bureau, so crediting them as a data source would be inaccurate.
+  ...(features.fireLiveData ? [{ slug: 'fire', url: 'https://www.m-kouiki119.jp/' }] : []),
   { slug: 'gtfs', url: 'https://gtfs-data.jp/' },
   { slug: 'shelter', url: 'https://www.gsi.go.jp/bousaichiri/hinanbasho.html' },
   { slug: 'aed', url: 'https://www.city.matsumoto.nagano.jp/soshiki/5/4172.html' },

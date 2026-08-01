@@ -201,6 +201,13 @@ main.container {
   .col-8, .col-7, .col-6, .col-5, .col-4 { grid-column: span 12; }
 }
 
+/* Cards that size to their own content instead of stretching to the tallest in
+   the row. Used by the emergency-contact row, where one card holds three
+   numbers and another holds one — stretching left a card of empty white. */
+.card.fit {
+  align-self: start;
+}
+
 /* ---- header / footer --------------------------------------------------- */
 
 .site-header {
@@ -248,15 +255,16 @@ main.container {
   gap: 8px;
 }
 
+/* Wraps rather than scrolls: with 11 destinations and longer labels in German
+   and French the strip overflows even on desktop, and a horizontally scrolling
+   nav with a hidden scrollbar gives no hint that anything is off-screen. Every
+   destination stays reachable in one tap at every width — this is the header of
+   an emergency dashboard, so nothing in it may be hidden. */
 .site-nav {
   display: flex;
-  gap: 2px;
-  overflow-x: auto;
+  flex-wrap: wrap;
+  gap: 2px 4px;
   padding-bottom: 10px;
-  scrollbar-width: none;
-}
-.site-nav::-webkit-scrollbar {
-  display: none;
 }
 .site-nav a {
   color: var(--ink-2);
@@ -409,6 +417,48 @@ main.container {
   height: 9px;
   border-radius: 50%;
   flex: none;
+}
+
+/* ---- line picker (bus page) --------------------------------------------- */
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+button.badge {
+  font-family: inherit;
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+}
+button.badge:hover {
+  border-color: var(--baseline);
+}
+button.badge[aria-pressed='true'] {
+  background: var(--ink);
+  color: var(--plane);
+  border-color: var(--ink);
+}
+.line-detail {
+  margin: 12px 0 2px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-s);
+  background: var(--wash);
+}
+.line-detail .card-note {
+  margin: 4px 0 6px;
+}
+.link-button {
+  font: inherit;
+  font-size: 13.5px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .banner {
@@ -889,6 +939,18 @@ select.lang-select {
   }
   .hero-figure {
     font-size: 48px;
+  }
+  /* Tighter chips so 11 destinations wrap to fewer rows on a phone, while
+     staying above the 44px minimum touch target (13.5px line + 2×9px). */
+  .site-nav {
+    gap: 4px;
+  }
+  .site-nav a {
+    padding: 9px 11px;
+    font-size: 13.5px;
+  }
+  .brand .tagline {
+    display: none;
   }
 }
 

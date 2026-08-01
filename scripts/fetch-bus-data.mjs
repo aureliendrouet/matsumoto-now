@@ -130,6 +130,55 @@ function stitch(lines) {
   return out;
 }
 
+/* ---- per-line timetable PDFs (city page) --------------------------------- */
+
+const CITY_BUS_PAGE = 'https://www.city.matsumoto.nagano.jp/soshiki/222/3237.html';
+
+/** The city publishes one timetable PDF and one fare PDF per line, but every
+ *  link is labelled the same ("時刻表（R8.3.14～）") — the line name is in the
+ *  <h5> above the list. The attachment IDs change at each timetable revision,
+ *  so the mapping is scraped here rather than hardcoded.
+ *
+ *  Returns Map(routeName -> { timetable, fare }); empty on any failure, in
+ *  which case the page falls back to linking the city page as a whole. */
+async function fetchLinePdfs() {
+  const strip = (s) =>
+    s
+      .replace(/<[^>]+>/g, '')
+      .replace(/&nbsp;|​|　/g, ' ')
+      .replace(/&amp;/g, '&')
+      .trim();
+  const out = new Map();
+  try {
+    const res = await fetch(CITY_BUS_PAGE, { headers: UA, signal: AbortSignal.timeout(60000) });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const html = await res.text();
+    // sections: <h5>line name</h5> … up to the next heading of any level
+    const parts = html.split(/<h([1-6])[^>]*>([\s\S]*?)<\/h\1>/);
+    for (let i = 1; i < parts.length; i += 3) {
+      if (parts[i] !== '5') continue;
+      const body = parts[i + 2];
+      const pick = (label) => {
+        const links = [...body.matchAll(/<a[^>]+href="([^"]+\.pdf)"[^>]*>([\s\S]*?)<\/a>/g)];
+        const hit = links.find((m) => strip(m[2]).includes(label));
+        return hit ? new URL(hit[1], CITY_BUS_PAGE).href : null;
+      };
+      const timetable = pick('時刻表');
+      if (!timetable) continue;
+      const fare = pick('運賃表');
+      // one heading can cover several lines ("空港今井線、大久保工場団地・神林線")
+      for (const name of strip(parts[i + 1]).split(/[、,]/)) {
+        const key = name.trim();
+        if (key) out.set(key, { timetable, fare });
+      }
+    }
+  } catch (err) {
+    console.warn(`per-line timetables unavailable (${err.message}) — linking the city page only`);
+    return new Map();
+  }
+  return out;
+}
+
 /* ---- main --------------------------------------------------------------- */
 
 /** "HH:MM:SS" → minutes since midnight (GTFS allows hours ≥ 24 for
@@ -140,6 +189,7 @@ function toMinutes(hms) {
 }
 
 async function main() {
+  const linePdfs = await fetchLinePdfs();
   const routes = [];
   const stopsByKey = new Map();
 
@@ -187,10 +237,14 @@ async function main() {
         .map((line) => simplify(line, 5e-5).map(([lon, lat]) => [round5(lat), round5(lon)]))
         .filter((line) => line.length >= 2);
       if (!paths.length) continue;
+      const name = f.properties.route_name;
+      const pdfs = linePdfs.get(name);
       routes.push({
-        name: f.properties.route_name,
+        name,
         color: colorById.get(f.properties.id) ?? null,
         feed: feed.key,
+        timetable: pdfs?.timetable ?? null,
+        fare: pdfs?.fare ?? null,
         paths,
       });
     }
@@ -285,6 +339,11 @@ async function main() {
   await writeFile(OUT, JSON.stringify(out) + '\n');
   const kb = Math.round(Buffer.byteLength(JSON.stringify(out)) / 1024);
   console.log(`wrote ${OUT}: ${routes.length} routes, ${stopsByKey.size} stops, ${kb} KB`);
+  const noPdf = routes.filter((r) => !r.timetable).map((r) => r.name);
+  console.log(
+    `per-line timetables: ${routes.length - noPdf.length}/${routes.length}` +
+      (noPdf.length ? ` (no match: ${noPdf.join(', ')})` : ''),
+  );
 
   // sidecar: departures per stop, aligned to the stops array order above
   const times = {

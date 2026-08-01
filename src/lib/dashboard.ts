@@ -447,10 +447,19 @@ async function initQuakes(lang: Lang, t: (k: UIKey) => string): Promise<void> {
   const host = widget('quakes');
   if (!host) return;
   try {
-    const quakes = (await fetchQuakes(8)).slice(0, 6);
+    // Only quakes actually felt here. Nationwide, the overwhelming majority are
+    // hundreds of km away and mean nothing to a Matsumoto resident — listing
+    // them would fill the dashboard's second-largest block with noise. The full
+    // nationwide list stays on the earthquakes page. A wider window is fetched
+    // than shown because local quakes are rare: ~100 reports span two days.
+    const quakes = (await fetchQuakes(100))
+      .filter((q) => q.matsumotoScale !== null || q.feltNagano)
+      .slice(0, 5);
     host.textContent = '';
     if (!quakes.length) {
-      host.appendChild(make('p', 'placeholder', t('quakes.none')));
+      const none = make('p', 'card-sub', t('quakes.noneLocal'));
+      none.style.margin = '0';
+      host.appendChild(none);
       return;
     }
     const list = make('ul', 'item-list');
@@ -497,7 +506,11 @@ async function initQuakes(lang: Lang, t: (k: UIKey) => string): Promise<void> {
 
 /* ---- entry -------------------------------------------------------------- */
 
-export function initDashboard(): void {
+/** Renders whichever of the shared widgets are present on the current page.
+ *  Used by both the dashboard (warnings, earthquakes) and the weather page
+ *  (conditions, forecast, air, pollen, UV) — each init below no-ops when its
+ *  host element is absent, so a page only pays for the widgets it includes. */
+export function initWidgets(): void {
   const lang = getLang();
   const t = (key: UIKey): string => ui[lang][key] ?? ui.en[key];
 

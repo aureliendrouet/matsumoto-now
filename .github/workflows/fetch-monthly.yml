@@ -35,6 +35,15 @@ jobs:
           node scripts/fetch-bus-data.mjs
           node scripts/fetch-shelter-data.mjs
 
+      # Yearly fire statistics — gated like the 30-minute fire fetch.
+      - name: Fetch fire statistics
+        run: |
+          if grep -q 'fireLiveData: true' src/features.ts; then
+            node scripts/fetch-fire-stats.mjs
+          else
+            echo "fireLiveData is off — skipping."
+          fi
+
       - name: Commit if changed
         id: commit
         run: |

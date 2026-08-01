@@ -14,6 +14,10 @@ interface BusRoute {
   name: string;
   color: string | null;
   feed: 'station' | 'regional';
+  /** the city's own timetable / fare PDF for this line (Japanese), when the
+   *  monthly scrape matched it; null falls back to the city page as a whole */
+  timetable: string | null;
+  fare: string | null;
   paths: [number, number][][];
 }
 
@@ -141,9 +145,29 @@ function departuresContent(
   return box;
 }
 
-function renderMap(file: BusFile, lang: Lang, t: (k: UIKey) => string): void {
+/** Stop indices served by a line, from the departures sidecar (bus.json has no
+ *  stop↔route link). Empty when the sidecar is missing — the caller then leaves
+ *  the zoom-based stop layer alone rather than showing a wrong subset. */
+async function stopsOnRoute(routeName: string): Promise<number[]> {
+  const times = await loadTimes();
+  if (!times) return [];
+  const routeIdx = times.routes.indexOf(routeName);
+  if (routeIdx < 0) return [];
+  const out: number[] = [];
+  times.stops.forEach((entries, stopIdx) => {
+    if (entries.some(([r]) => r === routeIdx)) out.push(stopIdx);
+  });
+  return out;
+}
+
+/** What the route list drives on the map. */
+export interface MapControl {
+  select(routeName: string | null): void;
+}
+
+function renderMap(file: BusFile, lang: Lang, t: (k: UIKey) => string): MapControl | null {
   const mapHost = document.getElementById('bus-map');
-  if (!mapHost) return;
+  if (!mapHost) return null;
 
   const map = L.map(mapHost, { scrollWheelZoom: false }).setView(MATSUMOTO, 12);
   L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png', {
@@ -157,8 +181,11 @@ function renderMap(file: BusFile, lang: Lang, t: (k: UIKey) => string): void {
     regional: L.layerGroup().addTo(map),
   };
 
+  let selected: string | null = null;
+  const linesByRoute = new Map<string, L.Polyline[]>();
   for (const route of file.routes) {
     const color = route.color ?? 'var(--series-1)';
+    const lines: L.Polyline[] = [];
     for (const path of route.paths) {
       const line = L.polyline(path as L.LatLngExpression[], {
         color,
@@ -166,14 +193,18 @@ function renderMap(file: BusFile, lang: Lang, t: (k: UIKey) => string): void {
         opacity: 0.8,
       });
       line.bindTooltip(route.name, { sticky: true });
-      line.on('mouseover', () => line.setStyle({ weight: 5, opacity: 1 }));
-      line.on('mouseout', () => line.setStyle({ weight: 3, opacity: 0.8 }));
+      // hover emphasis is suppressed while a line is selected, so the dimmed
+      // lines stay dimmed and the selection reads unambiguously
+      line.on('mouseover', () => !selected && line.setStyle({ weight: 5, opacity: 1 }));
+      line.on('mouseout', () => !selected && line.setStyle({ weight: 3, opacity: 0.8 }));
       groups[route.feed].addLayer(line);
+      lines.push(line);
     }
+    linesByRoute.set(route.name, lines);
   }
 
-  const stopsGroup = L.layerGroup();
-  file.stops.forEach((stop, stopIdx) => {
+  const stopMarker = (stopIdx: number): L.CircleMarker => {
+    const stop = file.stops[stopIdx];
     const marker = L.circleMarker([stop.lat, stop.lon], {
       radius: 4.5,
       color: 'var(--ink, #333)',
@@ -184,18 +215,66 @@ function renderMap(file: BusFile, lang: Lang, t: (k: UIKey) => string): void {
     marker.bindTooltip(stopLabel(stop, lang));
     // content is built at open time so "next departures" reflect the clock
     marker.bindPopup(() => departuresContent(stop, stopIdx, lang, t));
-    stopsGroup.addLayer(marker);
-  });
+    return marker;
+  };
+
+  const stopsGroup = L.layerGroup();
+  file.stops.forEach((_, stopIdx) => stopsGroup.addLayer(stopMarker(stopIdx)));
+
+  // stops of the selected line only, shown at every zoom level
+  const routeStops = L.layerGroup();
 
   const syncStops = () => {
-    if (map.getZoom() >= STOP_MIN_ZOOM) {
-      if (!map.hasLayer(stopsGroup)) stopsGroup.addTo(map);
-    } else if (map.hasLayer(stopsGroup)) {
-      map.removeLayer(stopsGroup);
-    }
+    // while a line is selected its own stops replace the zoom-based layer
+    const wantAll = !selected && map.getZoom() >= STOP_MIN_ZOOM;
+    if (wantAll && !map.hasLayer(stopsGroup)) stopsGroup.addTo(map);
+    if (!wantAll && map.hasLayer(stopsGroup)) map.removeLayer(stopsGroup);
   };
   map.on('zoomend', syncStops);
   syncStops();
+
+  /** Guards against a slow stop lookup landing after the user picked another
+   *  line: only the newest selection may draw. */
+  let selectionToken = 0;
+
+  const select = (routeName: string | null): void => {
+    selected = routeName;
+    const token = ++selectionToken;
+    routeStops.clearLayers();
+    if (map.hasLayer(routeStops)) map.removeLayer(routeStops);
+
+    for (const [name, lines] of linesByRoute) {
+      const on = routeName === null || name === routeName;
+      for (const line of lines) {
+        line.setStyle(
+          routeName === null
+            ? { weight: 3, opacity: 0.8 }
+            : on
+              ? { weight: 5, opacity: 1 }
+              : { weight: 2, opacity: 0.15 },
+        );
+        if (on && routeName !== null) line.bringToFront();
+      }
+    }
+    syncStops();
+    if (routeName === null) return;
+
+    const lines = linesByRoute.get(routeName) ?? [];
+    const bounds = lines.reduce<L.LatLngBounds | null>(
+      (acc, line) => (acc ? acc.extend(line.getBounds()) : line.getBounds()),
+      null,
+    );
+    if (bounds) map.fitBounds(bounds, { padding: [30, 30] });
+    // the chips sit below the map: on a phone the highlight would otherwise
+    // happen off-screen
+    mapHost.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    void stopsOnRoute(routeName).then((indices) => {
+      if (token !== selectionToken) return;
+      for (const stopIdx of indices) routeStops.addLayer(stopMarker(stopIdx));
+      if (indices.length) routeStops.addTo(map);
+    });
+  };
 
   L.control
     .layers(
@@ -209,52 +288,93 @@ function renderMap(file: BusFile, lang: Lang, t: (k: UIKey) => string): void {
     .addTo(map);
 
   addLocateControl(map, t);
+  return { select };
 }
 
 const CITY_BUS_URL = 'https://www.city.matsumoto.nagano.jp/soshiki/222/3237.html';
 const BUS_LOCATION_URL = 'https://www.city.matsumoto.nagano.jp/soshiki/224/121490.html';
 
-function renderRouteList(file: BusFile, t: (k: UIKey) => string): void {
+function externalLink(href: string, label: string): HTMLAnchorElement {
+  const a = document.createElement('a');
+  a.href = href;
+  a.target = '_blank';
+  a.rel = 'noopener';
+  a.textContent = `${label} ↗`;
+  return a;
+}
+
+function renderRouteList(file: BusFile, t: (k: UIKey) => string, map: MapControl | null): void {
   const host = document.querySelector<HTMLElement>('[data-widget="bus-routes"]');
   if (!host) return;
   host.textContent = '';
+  host.appendChild(make('p', 'card-sub', t('bus.chipNote')));
+
+  // details of the selected line: its own timetable and fare PDFs
+  const detail = make('div', 'line-detail');
+  detail.hidden = true;
+  host.appendChild(detail);
+
+  const chips = new Map<string, HTMLButtonElement>();
+  let current: string | null = null;
+
+  const select = (route: BusRoute | null): void => {
+    current = route ? route.name : null;
+    for (const [name, chip] of chips) chip.setAttribute('aria-pressed', String(name === current));
+    map?.select(current);
+
+    detail.textContent = '';
+    detail.hidden = route === null;
+    if (!route) return;
+
+    detail.appendChild(make('strong', undefined, route.name));
+    const links = make('p', 'card-note');
+    // the city publishes these per line as Japanese-language PDFs; without a
+    // match (a new line, or a reworded heading) we can only offer the index page
+    links.appendChild(
+      externalLink(route.timetable ?? CITY_BUS_URL, t(route.timetable ? 'bus.lineTimetable' : 'bus.timetables')),
+    );
+    if (route.fare) {
+      links.appendChild(document.createTextNode(' · '));
+      links.appendChild(externalLink(route.fare, t('bus.lineFares')));
+    }
+    detail.appendChild(links);
+
+    const clear = document.createElement('button');
+    clear.type = 'button';
+    clear.className = 'link-button';
+    clear.textContent = t('bus.clearSelection');
+    clear.addEventListener('click', () => select(null));
+    detail.appendChild(clear);
+  };
+
   for (const feed of ['station', 'regional'] as const) {
     const routes = file.routes.filter((r) => r.feed === feed);
     if (!routes.length) continue;
     const sub = make('p', 'card-sub', t(feed === 'station' ? 'bus.layerStation' : 'bus.layerRegional'));
     sub.style.margin = '14px 0 6px';
     host.appendChild(sub);
-    const list = make('div', 'warn-list');
+    const list = make('div', 'chip-row');
     for (const route of routes) {
-      // timetables are per-line PDFs on one city page — every chip goes there
-      const chip = document.createElement('a');
+      const chip = document.createElement('button');
+      chip.type = 'button';
       chip.className = 'badge';
-      chip.href = CITY_BUS_URL;
-      chip.target = '_blank';
-      chip.rel = 'noopener';
-      chip.title = t('bus.chipNote');
+      chip.setAttribute('aria-pressed', 'false');
       chip.textContent = route.name;
       const dot = make('span', 'dot');
       dot.style.background = route.color ?? 'var(--series-1)';
       chip.prepend(dot);
+      // clicking the active chip clears the selection
+      chip.addEventListener('click', () => select(current === route.name ? null : route));
+      chips.set(route.name, chip);
       list.appendChild(chip);
     }
     host.appendChild(list);
   }
 
   const links = make('p', 'card-note');
-  const mk = (href: string, label: string) => {
-    const a = document.createElement('a');
-    a.href = href;
-    a.target = '_blank';
-    a.rel = 'noopener';
-    a.textContent = `${label} ↗`;
-    return a;
-  };
-  links.appendChild(document.createTextNode(`${t('bus.chipNote')} `));
-  links.appendChild(mk(CITY_BUS_URL, t('bus.timetables')));
+  links.appendChild(externalLink(CITY_BUS_URL, t('bus.timetables')));
   links.appendChild(document.createTextNode(' · '));
-  links.appendChild(mk(BUS_LOCATION_URL, t('bus.location')));
+  links.appendChild(externalLink(BUS_LOCATION_URL, t('bus.location')));
   host.appendChild(links);
 }
 
@@ -266,8 +386,8 @@ export function initBusPage(): void {
   fetch(`${base}/data/bus.json`, { cache: 'no-store' })
     .then((res) => (res.ok ? (res.json() as Promise<BusFile>) : Promise.reject(res.status)))
     .then((file) => {
-      renderMap(file, lang, t);
-      renderRouteList(file, t);
+      const map = renderMap(file, lang, t);
+      renderRouteList(file, t, map);
     })
     .catch(() => {
       const host = document.querySelector<HTMLElement>('[data-widget="bus-routes"]');

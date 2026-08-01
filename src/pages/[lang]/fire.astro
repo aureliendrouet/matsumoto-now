@@ -1,0 +1,219 @@
+---
+import Base from '../../layouts/Base.astro';
+import { useTranslations, langParams, asLang } from '../../i18n/utils';
+import { features } from '../../features';
+
+export function getStaticPaths() {
+  return features.firePage ? langParams : [];
+}
+
+const lang = asLang(Astro.params.lang);
+const t = useTranslations(lang);
+
+// Everything below is published by 松本広域消防局 without an open-data licence, so
+// it only appears once they have confirmed republication. The rest of the page —
+// 119, their own published contacts and links, and the wildfire rules (city open
+// data) — needs no permission and is always shown.
+const live = features.fireLiveData;
+---
+
+<Base lang={lang} title={t('fire.title')} description={t('fire.subtitle')} active="fire">
+  <h1 class="page-title">{t('fire.title')}</h1>
+  <p class="page-sub">{t('fire.subtitle')}</p>
+
+  <div class="grid">
+    {
+      live && (
+        <section class="card col-12" data-widget="fire-advisory">
+          <p class="placeholder">{t('common.loading')}</p>
+        </section>
+      )
+    }
+
+    <section class="card col-12">
+      <ul class="contact-list">
+        <li>
+          <a class="tel" href="tel:119">119</a>
+          <div class="what">
+            <div class="title">{t('fire.emergency119')}</div>
+            <div class="meta">{t('fire.emergency119Desc')}</div>
+          </div>
+        </li>
+        <li>
+          <a class="tel" href="tel:0263250119">0263-25-0119</a>
+          <div class="what">
+            <div class="title">
+              <a href="https://www.m-kouiki119.jp/" target="_blank" rel="noopener">
+                {t('fire.bureau')}
+              </a>
+            </div>
+            <div class="meta">{t('fire.bureauDesc')}</div>
+          </div>
+        </li>
+      </ul>
+      <p class="card-note">
+        {t('fire.callGuide')}{' '}
+        <a href="https://www.m-kouiki119.jp/tsuho/dial119/" target="_blank" rel="noopener">
+          {t('fire.callGuideLink')} ↗
+        </a>
+      </p>
+      <p class="card-note">
+        {t('fire.web119')}{' '}
+        <a href="https://www.m-kouiki119.jp/shinsei/web119/" target="_blank" rel="noopener">
+          Web119 ↗
+        </a>
+      </p>
+    </section>
+
+    {
+      live && (
+        <section class="card col-5">
+          <h2>{t('fire.activeTitle')}</h2>
+          <p class="card-sub">{t('fire.activeSub')}</p>
+          <div data-widget="fire-active">
+            <p class="placeholder">{t('common.loading')}</p>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      live && (
+        <section class="card col-7">
+          <h2>{t('fire.recentTitle')}</h2>
+          <p class="card-sub">{t('fire.recentSub')}</p>
+          <div data-widget="fire-recent">
+            <p class="placeholder">{t('common.loading')}</p>
+          </div>
+        </section>
+      )
+    }
+
+    <section class={live ? 'card col-7' : 'card col-12'}>
+      <h2>{t('fire.advisoryAbout')}</h2>
+      <p class="card-sub">{t('fire.advisoryAboutDesc')}</p>
+      <p>{t('fire.rules')}</p>
+      <p class="card-note">{t('fire.advisoryHowToKnow')}</p>
+      <p class="card-note">
+        <a
+          href="https://www.city.matsumoto.nagano.jp/soshiki/228/189755.html"
+          target="_blank"
+          rel="noopener"
+        >
+          {t('fire.advisoryCityPage')} ↗
+        </a>
+        {' · '}
+        <a href="https://www.m-kouiki119.jp/news/8002/" target="_blank" rel="noopener">
+          {t('fire.advisoryDetail')} ↗
+        </a>
+      </p>
+    </section>
+
+    <section class={live ? 'card col-5' : 'card col-12'}>
+      <h2>{t('fire.preventTitle')}</h2>
+      <p class="card-sub">{t('fire.preventDesc')}</p>
+      <p style="margin: 0">
+        <a
+          href="https://www.m-kouiki119.jp/saigai-joho/joho-teikyo/"
+          target="_blank"
+          rel="noopener"
+        >
+          {t('fire.mailService')} ↗
+        </a>
+        <br />
+        <span class="card-note" style="display: inline-block; margin: 4px 0 10px">
+          {t('fire.mailServiceDesc')}
+        </span>
+        <br />
+        <a
+          href="https://www.m-kouiki119.jp/pickup/kyukyusha-tekiseiriyo/"
+          target="_blank"
+          rel="noopener"
+        >
+          {t('fire.ambulanceUse')} ↗
+        </a>
+        <br />
+        <span class="card-note" style="display: inline-block; margin-top: 4px">
+          {t('fire.ambulanceUseDesc')}
+        </span>
+      </p>
+    </section>
+
+    {
+      live && (
+        <section class="card col-12">
+          <div class="card-head">
+            <h2>{t('fire.callsTitle')}</h2>
+          </div>
+          <p class="card-sub">{t('fire.callsSub')}</p>
+          <div data-widget="fire-calls">
+            <p class="placeholder">{t('common.loading')}</p>
+          </div>
+          <p class="card-note">{t('fire.callsNote')}</p>
+        </section>
+      )
+    }
+
+    {
+      live && (
+        <section class="card col-7">
+          <div class="card-head">
+            <h2>{t('fire.byYearTitle')}</h2>
+          </div>
+          <p class="card-sub">{t('fire.byYearSub')}</p>
+          <div data-widget="fire-year" aria-busy="true">
+            <p class="placeholder">{t('common.loading')}</p>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      live && (
+        <section class="card col-5">
+          <div class="card-head">
+            <h2>{t('fire.causesTitle')}</h2>
+            <span class="updated" data-fire-year />
+          </div>
+          <p class="card-sub">{t('fire.causesSub')}</p>
+          <div data-widget="fire-causes">
+            <p class="placeholder">{t('common.loading')}</p>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      live && (
+        <section class="card col-6">
+          <div class="card-head">
+            <h2>{t('fire.breakdownTitle')}</h2>
+            <span class="updated" data-fire-year />
+          </div>
+          <p class="card-sub">{t('fire.breakdownSub')}</p>
+          <div data-widget="fire-breakdown">
+            <p class="placeholder">{t('common.loading')}</p>
+          </div>
+        </section>
+      )
+    }
+
+    <section class="card col-12">
+      <p class="card-note" style="margin: 0">
+        {live ? t('fire.note') : t('fire.staticNote')}{' '}
+        <a
+          href={live ? 'https://www.m-kouiki119.jp/saigai-joho/' : 'https://www.m-kouiki119.jp/'}
+          target="_blank"
+          rel="noopener"
+        >
+          {t('fire.source')} ↗
+        </a>
+      </p>
+    </section>
+  </div>
+</Base>
+
+<script>
+  import { initFirePage } from '../../lib/fire-page';
+  initFirePage();
+</script>

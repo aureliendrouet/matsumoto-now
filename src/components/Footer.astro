@@ -1,6 +1,7 @@
 ---
 import { useTranslations, localePath } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
+import { features } from '../features';
 
 interface Props {
   lang: Lang;
@@ -8,11 +9,54 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
+
+// Providers whose licence requires attribution wherever their data is shown
+// (CC BY 4.0, or the Government Standard Terms' 出典 requirement). Derived from
+// the feature flags so it can never credit a source the site isn't displaying —
+// the previous hardcoded line had drifted exactly that way. Deliberately not a
+// complete source list: P2P地震情報 permits secondary use without attribution, so
+// it appears only in the About table, which the trailing link points to.
+const usesOpenMeteo =
+  features.currentConditions ||
+  features.hourlyTemperature ||
+  features.weekOutlook ||
+  features.precipitationChart ||
+  features.airQuality ||
+  features.uv;
+
+// Map tiles are GSI's, and every map page uses them.
+const usesGsiTiles = features.sheltersPage || features.busesPage || features.earthquakesPage;
+
+// City open data: the alert feeds, the GTFS bus feed and the AED locations.
+const usesCityData = features.alertsPage || features.busesPage || features.sheltersPage;
+
+const credits = [
+  features.warnings || features.currentConditions ? t('attr.jma') : null,
+  usesOpenMeteo ? 'Open-Meteo (CC BY 4.0)' : null,
+  features.pollen ? 'Weathernews' : null,
+  usesCityData ? `${t('attr.city')} (CC BY 4.0)` : null,
+  features.safetyPage ? t('attr.police') : null,
+  usesGsiTiles ? t('attr.gsi') : null,
+  features.fireLiveData ? t('attr.fire') : null,
+].filter((c): c is string => c !== null);
+
+// A full-width colon (出典：, 출처:) already carries its own visual space; adding
+// an ASCII one after it looks like a typo in Japanese, Chinese and Korean.
+const prefix = t('footer.dataPrefix');
+const gap = /[\uff1a\u3001\u3002]$/.test(prefix) ? '' : ' ';
 ---
 
 <footer class="site-footer">
   <div class="container">
-    <p>{t('footer.dataBy')}</p>
+    {
+      credits.length > 0 && (
+        <p>
+          {`${prefix}${gap}${credits.join(' · ')}`}
+          {' — '}
+          <a href={localePath(lang, 'about')}>{t('footer.allSources')}</a>
+        </p>
+      )
+    }
     <p>
       {t('footer.unofficial')}
       <a href={localePath(lang, 'about')}>{t('nav.about')}</a>

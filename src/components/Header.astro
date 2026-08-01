@@ -14,6 +14,7 @@ const allLangs = Object.keys(languages) as Lang[];
 
 const items = [
   { id: 'dashboard', path: '', label: t('nav.dashboard') },
+  ...(features.weatherPage ? [{ id: 'weather', path: 'weather', label: t('nav.weather') }] : []),
   ...(features.earthquakesPage
     ? [{ id: 'earthquakes', path: 'earthquakes', label: t('nav.earthquakes') }]
     : []),
@@ -26,6 +27,7 @@ const items = [
     ? [{ id: 'medical', path: 'medical', label: t('nav.medical') }]
     : []),
   ...(features.safetyPage ? [{ id: 'safety', path: 'safety', label: t('nav.safety') }] : []),
+  ...(features.firePage ? [{ id: 'fire', path: 'fire', label: t('nav.fire') }] : []),
   ...(features.resourcesPage
     ? [{ id: 'resources', path: 'resources', label: t('nav.resources') }]
     : []),

@@ -42,6 +42,17 @@ jobs:
             echo "measuredAir is off — skipping."
           fi
 
+      # Fire incidents, 119 dispatch counters and the wildfire advisory — only
+      # while the feature is enabled, since 松本広域消防局 has not yet confirmed
+      # republication (see the note in scripts/fetch-fire-data.mjs).
+      - name: Fetch fire information
+        run: |
+          if grep -q 'fireLiveData: true' src/features.ts; then
+            node scripts/fetch-fire-data.mjs
+          else
+            echo "fireLiveData is off — skipping."
+          fi
+
       - name: Commit if changed
         id: commit
         run: |

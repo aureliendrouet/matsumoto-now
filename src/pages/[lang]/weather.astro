@@ -1,0 +1,144 @@
+---
+import Base from '../../layouts/Base.astro';
+import { useTranslations, langParams, asLang } from '../../i18n/utils';
+import { features } from '../../features';
+
+export function getStaticPaths() {
+  return features.weatherPage ? langParams : [];
+}
+
+const lang = asLang(Astro.params.lang);
+const t = useTranslations(lang);
+---
+
+<Base lang={lang} title={t('weather.title')} description={t('weather.subtitle')} active="weather">
+  <h1 class="page-title">{t('weather.title')}</h1>
+  <p class="page-sub">{t('weather.subtitle')}</p>
+
+  <div class="grid">
+    {
+      features.currentConditions && (
+        <section class="card col-5">
+          <div class="card-head">
+            <h2>{t('now.title')}</h2>
+            <span class="updated" data-now-updated />
+          </div>
+          <p class="card-sub">{t('now.station')}</p>
+          <div data-widget="now">
+            <p class="placeholder">{t('common.loading')}</p>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      features.hourlyTemperature && (
+        <section class="card col-7">
+          <div class="card-head">
+            <h2>{t('forecast.hourly')}</h2>
+            <span class="updated" data-forecast-updated />
+          </div>
+          <p class="card-sub">{t('forecast.attribution')}</p>
+          <div data-widget="hourly-temp">
+            <p class="placeholder">{t('common.loading')}</p>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      features.weekOutlook && (
+        <section class="card col-12">
+          <h2>{t('forecast.week')}</h2>
+          <p class="card-sub">{t('forecast.attribution')}</p>
+          <div data-widget="week">
+            <p class="placeholder">{t('common.loading')}</p>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      features.precipitationChart && (
+        <section class="card col-6">
+          <h2>{t('forecast.precip')}</h2>
+          <p class="card-sub">{t('forecast.attribution')}</p>
+          <div data-widget="precip">
+            <p class="placeholder">{t('common.loading')}</p>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      features.airQuality && (
+        <section class="card col-6">
+          <div class="card-head">
+            <h2>{t('air.title')}</h2>
+            <span class="updated" data-air-updated />
+          </div>
+          <p class="card-sub">{t('air.subtitle')}</p>
+          <div data-widget="air">
+            <p class="placeholder">{t('common.loading')}</p>
+          </div>
+          <p class="card-note">
+            {t('air.stationNote')}
+            <a href="https://soramame.env.go.jp/" target="_blank" rel="noopener">
+              soramame.env.go.jp
+            </a>
+          </p>
+        </section>
+      )
+    }
+
+    {
+      features.measuredAir && (
+        <section class="card col-6">
+          <div class="card-head">
+            <h2>{t('airStation.title')}</h2>
+            <span class="updated" data-air-station-updated />
+          </div>
+          <p class="card-sub">{t('airStation.subtitle')}</p>
+          <div data-widget="air-station">
+            <p class="placeholder">{t('common.loading')}</p>
+          </div>
+          <p class="card-note">
+            {t('airStation.note')}
+            <a href="https://soramame.env.go.jp/" target="_blank" rel="noopener">
+              soramame.env.go.jp
+            </a>
+          </p>
+        </section>
+      )
+    }
+
+    {
+      features.pollen && (
+        <section class="card col-8">
+          <h2>{t('pollen.title')}</h2>
+          <p class="card-sub">{t('pollen.subtitle')}</p>
+          <div data-widget="pollen">
+            <p class="placeholder">{t('common.loading')}</p>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      features.uv && (
+        <section class="card col-4">
+          <h2>{t('forecast.uv')}</h2>
+          <p class="card-sub">{t('forecast.attribution')}</p>
+          <div data-widget="uv">
+            <p class="placeholder">{t('common.loading')}</p>
+          </div>
+        </section>
+      )
+    }
+  </div>
+</Base>
+
+<script>
+  import { initWidgets } from '../../lib/dashboard';
+  initWidgets();
+</script>

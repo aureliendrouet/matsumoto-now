@@ -24,150 +24,64 @@ const t = useTranslations(lang);
     }
 
     {
-      features.currentConditions && (
-        <section class="card col-5">
-          <div class="card-head">
-            <h2>{t('now.title')}</h2>
-            <span class="updated" data-now-updated />
-          </div>
-          <p class="card-sub">{t('now.station')}</p>
-          <div data-widget="now">
-            <p class="placeholder">{t('common.loading')}</p>
-          </div>
-        </section>
-      )
-    }
-
-    {
-      features.hourlyTemperature && (
-        <section class="card col-7">
-          <div class="card-head">
-            <h2>{t('forecast.hourly')}</h2>
-            <span class="updated" data-forecast-updated />
-          </div>
-          <p class="card-sub">{t('forecast.attribution')}</p>
-          <div data-widget="hourly-temp">
-            <p class="placeholder">{t('common.loading')}</p>
-          </div>
-        </section>
-      )
-    }
-
-    {
-      features.weekOutlook && (
-        <section class="card col-12">
-          <h2>{t('forecast.week')}</h2>
-          <p class="card-sub">{t('forecast.attribution')}</p>
-          <div data-widget="week">
-            <p class="placeholder">{t('common.loading')}</p>
-          </div>
-        </section>
-      )
-    }
-
-    {
-      features.precipitationChart && (
-        <section class="card col-6">
-          <h2>{t('forecast.precip')}</h2>
-          <p class="card-sub">{t('forecast.attribution')}</p>
-          <div data-widget="precip">
-            <p class="placeholder">{t('common.loading')}</p>
-          </div>
-        </section>
-      )
-    }
-
-    {
-      features.airQuality && (
-        <section class="card col-6">
-          <div class="card-head">
-            <h2>{t('air.title')}</h2>
-            <span class="updated" data-air-updated />
-          </div>
-          <p class="card-sub">{t('air.subtitle')}</p>
-          <div data-widget="air">
-            <p class="placeholder">{t('common.loading')}</p>
-          </div>
-          <p class="card-note">
-            {t('air.stationNote')}
-            <a href="https://soramame.env.go.jp/" target="_blank" rel="noopener">
-              soramame.env.go.jp
-            </a>
-          </p>
-        </section>
-      )
-    }
-
-    {
-      features.measuredAir && (
-        <section class="card col-6">
-          <div class="card-head">
-            <h2>{t('airStation.title')}</h2>
-            <span class="updated" data-air-station-updated />
-          </div>
-          <p class="card-sub">{t('airStation.subtitle')}</p>
-          <div data-widget="air-station">
-            <p class="placeholder">{t('common.loading')}</p>
-          </div>
-          <p class="card-note">
-            {t('airStation.note')}
-            <a href="https://soramame.env.go.jp/" target="_blank" rel="noopener">
-              soramame.env.go.jp
-            </a>
-          </p>
-        </section>
-      )
-    }
-
-    {
-      features.pollen && (
-        <section class="card col-8">
-          <h2>{t('pollen.title')}</h2>
-          <p class="card-sub">{t('pollen.subtitle')}</p>
-          <div data-widget="pollen">
-            <p class="placeholder">{t('common.loading')}</p>
-          </div>
-        </section>
-      )
-    }
-
-    {
-      features.uv && (
-        <section class="card col-4">
-          <h2>{t('forecast.uv')}</h2>
-          <p class="card-sub">{t('forecast.attribution')}</p>
-          <div data-widget="uv">
-            <p class="placeholder">{t('common.loading')}</p>
-          </div>
+      /* Who to call, in the order you would need them. Weather, air quality and
+         forecasts live on the weather page — the dashboard is for the things
+         that matter when something is wrong. */
+      features.emergencyContacts && (
+        <section class="card fit col-4">
+          <h2>{t('dash.fireTitle')}</h2>
+          <ul class="contact-list">
+            <li>
+              <a class="tel" href="tel:119">119</a>
+              <div class="what">
+                <div class="title">{t('fire.emergency119')}</div>
+                <div class="meta">{t('fire.emergency119Desc')}</div>
+              </div>
+            </li>
+          </ul>
+          {features.firePage && (
+            <p class="card-note">
+              <a href={localePath(lang, 'fire')}>{t('dash.viewPage')} →</a>
+            </p>
+          )}
         </section>
       )
     }
 
     {
       features.emergencyContacts && (
-        <section class="card col-12">
-          <div class="card-head">
-            <h2>{t('med.title')}</h2>
-            {features.medicalPage && (
-              <a href={localePath(lang, 'medical')}>{t('med.viewPage')} →</a>
-            )}
-          </div>
-          <p class="card-sub">{t('med.subtitle')}</p>
+        <section class="card fit col-4">
+          <h2>{t('dash.policeTitle')}</h2>
           <ul class="contact-list">
             <li>
-              <a class="tel" href="tel:119">119</a>
+              <a class="tel" href="tel:110">110</a>
               <div class="what">
-                <div class="title">{t('med.emergency')}</div>
-                <div class="meta">{t('med.emergencyDesc')}</div>
+                <div class="title">{t('safety.police110')}</div>
+                <div class="meta">{t('safety.police110Desc')}</div>
               </div>
             </li>
             <li>
-              <a class="tel" href="tel:0263380622">0263-38-0622</a>
+              <a class="tel" href="tel:%239110">#9110</a>
               <div class="what">
-                <div class="title">{t('med.night')}</div>
-                <div class="meta">{t('med.nightDesc')}</div>
+                <div class="title">{t('safety.consult')}</div>
+                <div class="meta">{t('safety.consultDesc')}</div>
               </div>
             </li>
+          </ul>
+          {features.safetyPage && (
+            <p class="card-note">
+              <a href={localePath(lang, 'safety')}>{t('dash.viewPage')} →</a>
+            </p>
+          )}
+        </section>
+      )
+    }
+
+    {
+      features.emergencyContacts && (
+        <section class="card fit col-4">
+          <h2>{t('dash.medicalTitle')}</h2>
+          <ul class="contact-list">
             <li>
               <a class="tel" href="tel:%237119">#7119</a>
               <div class="what">
@@ -182,13 +96,19 @@ const t = useTranslations(lang);
                 <div class="meta">{t('med.childDesc')}</div>
               </div>
             </li>
+            <li>
+              <a class="tel" href="tel:0263380622">0263-38-0622</a>
+              <div class="what">
+                <div class="title">{t('med.night')}</div>
+                <div class="meta">{t('med.nightDesc')}</div>
+              </div>
+            </li>
           </ul>
-          <p class="card-note">
-            {t('med.dutyNote')}
-            <a href="https://www.matsu-med.or.jp/" target="_blank" rel="noopener">
-              matsu-med.or.jp
-            </a>
-          </p>
+          {features.medicalPage && (
+            <p class="card-note">
+              <a href={localePath(lang, 'medical')}>{t('dash.viewPage')} →</a>
+            </p>
+          )}
         </section>
       )
     }
@@ -202,7 +122,7 @@ const t = useTranslations(lang);
               <a href={localePath(lang, 'earthquakes')}>{t('quakes.viewAll')} →</a>
             )}
           </div>
-          <p class="card-sub">{t('quakes.subtitle')}</p>
+          <p class="card-sub">{t('quakes.localSub')}</p>
           <div data-widget="quakes">
             <p class="placeholder">{t('common.loading')}</p>
           </div>
@@ -213,6 +133,6 @@ const t = useTranslations(lang);
 </Base>
 
 <script>
-  import { initDashboard } from '../../lib/dashboard';
-  initDashboard();
+  import { initWidgets } from '../../lib/dashboard';
+  initWidgets();
 </script>
