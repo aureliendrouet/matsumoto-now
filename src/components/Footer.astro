@@ -38,6 +38,7 @@ const credits = [
   features.safetyPage ? t('attr.police') : null,
   usesGsiTiles ? t('attr.gsi') : null,
   features.fireLiveData ? t('attr.fire') : null,
+  features.heatIndex ? t('attr.moe') : null,
 ].filter((c): c is string => c !== null);
 
 // A full-width colon (出典：, 출처:) already carries its own visual space; adding

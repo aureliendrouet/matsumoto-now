@@ -3,11 +3,28 @@
 import { ui, getLang, type Lang, type UIKey } from '../i18n/ui';
 import { fmtTime, fmtDateShort, fmtWeekday, fmtDateTime, fmtNum } from './format';
 import { fetchAmedasNow, fetchWarnings, windDirLabel, warningLabel } from './jma';
-import { fetchForecast, fetchAirQuality, pm25Level, uvLevel, type Forecast } from './openmeteo';
+import { fetchForecast, fetchAirQuality, pm25Level, type Forecast } from './openmeteo';
+import {
+  BAND_COLOR,
+  aqiBand,
+  pollutantBand,
+  uvBand,
+  uvLevelOf,
+  rainColor,
+  popColor,
+  heatLevel,
+  heatBand,
+  HEAT_BAND,
+  type HeatLevel,
+  type BandKey,
+  type Pollutant,
+  type UvLevel,
+} from './scales';
 import { fetchPollenToday, pollenLevel } from './pollen';
 import { fetchQuakes, intensityLabel } from './quakes';
 import { lineChart, barChart, chartMessage } from './chart';
 import { wmoIcon, wmoLabel } from './wmo';
+import { moonInfo, moonDiscPath } from './moon';
 
 function widget(name: string): HTMLElement | null {
   return document.querySelector<HTMLElement>(`[data-widget="${name}"]`);
@@ -41,6 +58,45 @@ function badge(text: string, levelKey: string): HTMLElement {
   b.appendChild(dot);
   b.appendChild(document.createTextNode(text));
   return b;
+}
+
+/** Badge coloured from the six-step band ramp shared by the AQI, pollutant and
+ *  UV charts, rather than from the four-step status palette. */
+function bandBadge(text: string, band: BandKey): HTMLElement {
+  const b = make('span', 'badge');
+  const dot = make('span', 'dot');
+  dot.style.background = BAND_COLOR[band];
+  b.appendChild(dot);
+  b.appendChild(document.createTextNode(text));
+  return b;
+}
+
+/** Collapsed "what does this mean?" panel. Collapsed by default so the numbers
+ *  stay the point of the card, but present on every card that shows a scale a
+ *  resident has no reason to already know. */
+function explainer(summary: string, build: (body: HTMLElement) => void): HTMLElement {
+  const details = make('details', 'guide') as HTMLDetailsElement;
+  const head = make('summary', undefined, summary);
+  details.appendChild(head);
+  const body = make('div', 'guide-body');
+  build(body);
+  details.appendChild(body);
+  return details;
+}
+
+/** One "▇ Name — advice" row of a colour-band legend. */
+function legendRow(band: BandKey, range: string, name: string, advice: string): HTMLElement {
+  const row = make('div', 'legend-row');
+  const swatch = make('span', 'legend-swatch');
+  swatch.style.background = BAND_COLOR[band];
+  row.appendChild(swatch);
+  const text = make('div');
+  const title = make('span', 'legend-name', name);
+  text.appendChild(title);
+  text.appendChild(make('span', 'legend-range', ` ${range}`));
+  text.appendChild(make('div', 'legend-advice', advice));
+  row.appendChild(text);
+  return row;
 }
 
 function setUpdated(selector: string, d: Date, lang: Lang, t: (k: UIKey) => string): void {
@@ -205,18 +261,68 @@ async function initForecast(
     }
 
     if (hostPrecip) {
+      hostPrecip.textContent = '';
+      const mm = (v: number) => `${fmtNum(v, lang, 1)} mm`;
+      const total = next24.reduce((sum, h) => sum + h.precip, 0);
+
+      const totalStat = make('div', 'stat-row');
+      const s = make('div', 'stat');
+      s.appendChild(make('div', 'label', t('forecast.precipTotal')));
+      const v = make('div', 'value', fmtNum(total, lang, 1));
+      v.appendChild(make('span', 'unit', ' mm'));
+      s.appendChild(v);
+      totalStat.appendChild(s);
+      hostPrecip.appendChild(totalStat);
+
+      // two charts, because they answer different questions: whether to take an
+      // umbrella, and whether the umbrella will be enough
+      const chanceTitle = make('p', 'card-sub', t('forecast.precipChance'));
+      chanceTitle.style.margin = '14px 0 2px';
+      hostPrecip.appendChild(chanceTitle);
+      const chance = make('div');
+      hostPrecip.appendChild(chance);
       barChart(
-        hostPrecip,
+        chance,
         next24.map((h) => ({ label: fmtTime(h.time, lang), value: h.pop })),
         {
           seriesName: t('forecast.pop'),
           unit: '%',
-          height: 200,
+          height: 170,
           yDomain: [0, 100],
           xEvery: 4,
+          colorFor: (val) => popColor(val),
+          tipExtra: (i) => mm(next24[i]!.precip),
           tableLabel: t('common.viewTable'),
           tableHead: [t('common.time'), `${t('forecast.pop')} (%)`],
         },
+      );
+
+      const amountTitle = make('p', 'card-sub', t('forecast.precipAmount'));
+      amountTitle.style.margin = '14px 0 2px';
+      hostPrecip.appendChild(amountTitle);
+      const amount = make('div');
+      hostPrecip.appendChild(amount);
+      barChart(
+        amount,
+        next24.map((h) => ({ label: fmtTime(h.time, lang), value: h.precip })),
+        {
+          seriesName: t('forecast.precipAmount'),
+          unit: ' mm',
+          height: 170,
+          yDomain: [0, Math.max(2, ...next24.map((h) => h.precip)) * 1.2],
+          xEvery: 4,
+          valueFmt: decimal(lang),
+          colorFor: (val) => rainColor(val),
+          tipExtra: (i) => `${fmtNum(next24[i]!.pop, lang)} %`,
+          tableLabel: t('common.viewTable'),
+          tableHead: [t('common.time'), `${t('forecast.precipAmount')} (mm)`],
+        },
+      );
+
+      hostPrecip.appendChild(
+        explainer(t('forecast.precipGuide'), (body) => {
+          body.appendChild(make('p', undefined, t('forecast.precipGuideIntro')));
+        }),
       );
     }
 
@@ -248,23 +354,80 @@ async function initForecast(
     if (hostUv) {
       hostUv.textContent = '';
       const today = fc.daily[0];
+      // today's own hours, not the next 24, so "the peak" is the peak of a day
+      const todayKey = (fc.daily[0]?.date ?? new Date()).toDateString();
+      const uvHours = fc.hourly.filter((h) => h.time.toDateString() === todayKey);
+      const peak = uvHours.reduce<(typeof uvHours)[number] | null>(
+        (best, h) => (best === null || h.uv > best.uv ? h : best),
+        null,
+      );
       if (today) {
-        const uv = today.uvMax;
-        const level = uvLevel(uv);
+        const uv = peak ? peak.uv : today.uvMax;
+        const band = uvBand(uv);
+        const level = uvLevelOf(uv);
+        const head = make('div', 'aqi-head');
         const hero = make('div', 'hero-figure', fmtNum(uv, lang, 1));
         hero.style.fontSize = '44px';
-        hostUv.appendChild(hero);
-        hostUv.appendChild(badge(t(`forecast.uv.${level}` as UIKey), level));
-        const meter = make('div', 'meter');
-        const color = LEVEL_COLORS[level]!;
-        // unfilled track = a light step of the fill's own color, not a foreign hue
-        meter.style.background = `color-mix(in srgb, ${color} 18%, var(--surface))`;
-        const fill = make('div', 'fill');
-        fill.style.width = `${Math.min(100, (uv / 11) * 100)}%`;
-        fill.style.background = color;
-        meter.appendChild(fill);
-        hostUv.appendChild(meter);
+        hero.style.color = BAND_COLOR[band];
+        head.appendChild(hero);
+        const side = make('div');
+        side.appendChild(bandBadge(t(`forecast.uv.${level}` as UIKey), band));
+        if (peak) {
+          side.appendChild(
+            make('div', 'aqi-scale', `${t('forecast.uvPeak')} ${fmtTime(peak.time, lang)}`),
+          );
+        }
+        head.appendChild(side);
+        hostUv.appendChild(head);
+        hostUv.appendChild(make('p', 'aqi-advice', t(`forecast.uv.advice.${level}` as UIKey)));
       }
+
+      if (uvHours.length) {
+        const chartTitle = make('p', 'card-sub', t('forecast.uvHourly'));
+        chartTitle.style.margin = '14px 0 2px';
+        hostUv.appendChild(chartTitle);
+        const chart = make('div');
+        hostUv.appendChild(chart);
+        barChart(
+          chart,
+          uvHours.map((h) => ({ label: fmtTime(h.time, lang), value: h.uv })),
+          {
+            seriesName: t('forecast.uv'),
+            height: 170,
+            yDomain: [0, Math.max(4, ...uvHours.map((h) => h.uv)) * 1.2],
+            xEvery: 3,
+            valueFmt: decimal(lang),
+            colorFor: (val) => BAND_COLOR[uvBand(val)],
+            tableLabel: t('common.viewTable'),
+            tableHead: [t('common.time'), t('forecast.uv')],
+          },
+        );
+      }
+
+      hostUv.appendChild(
+        explainer(t('forecast.uvGuide'), (body) => {
+          body.appendChild(make('p', undefined, t('forecast.uvGuideIntro')));
+          const legend = make('div', 'legend');
+          const rows: [BandKey, string, UvLevel][] = [
+            ['b1', '0–2', 'low'],
+            ['b2', '3–5', 'moderate'],
+            ['b3', '6–7', 'high'],
+            ['b4', '8–10', 'veryHigh'],
+            ['b5', '11+', 'extreme'],
+          ];
+          for (const [band, range, level] of rows) {
+            legend.appendChild(
+              legendRow(
+                band,
+                range,
+                t(`forecast.uv.${level}` as UIKey),
+                t(`forecast.uv.advice.${level}` as UIKey),
+              ),
+            );
+          }
+          body.appendChild(legend);
+        }),
+      );
     }
   } catch {
     for (const host of [hostTemp, hostWeek, hostPrecip, hostUv]) {
@@ -273,6 +436,14 @@ async function initForecast(
   }
 }
 
+const AQI_RANGES = ['0–50', '51–100', '101–150', '151–200', '201–300', '300+'];
+const POLLUTANTS: { id: Pollutant; key: UIKey; def: UIKey }[] = [
+  { id: 'pm25', key: 'air.pm25', def: 'air.def.pm25' },
+  { id: 'pm10', key: 'air.pm10', def: 'air.def.pm10' },
+  { id: 'o3', key: 'air.o3', def: 'air.def.o3' },
+  { id: 'no2', key: 'air.no2', def: 'air.def.no2' },
+];
+
 async function initAir(lang: Lang, t: (k: UIKey) => string): Promise<void> {
   const host = widget('air');
   if (!host) return;
@@ -280,16 +451,39 @@ async function initAir(lang: Lang, t: (k: UIKey) => string): Promise<void> {
     const air = await fetchAirQuality();
     host.textContent = '';
 
+    // headline: the index itself, because a resident who does not already know
+    // what 8 µg/m³ of PM2.5 means still knows what "Good" means
+    const { aqi } = air.current;
+    if (aqi !== null) {
+      const band = aqiBand(aqi);
+      const head = make('div', 'aqi-head');
+      const hero = make('div', 'hero-figure', fmtNum(Math.round(aqi), lang));
+      hero.style.color = BAND_COLOR[band];
+      head.appendChild(hero);
+      const side = make('div');
+      side.appendChild(make('div', 'aqi-scale', t('air.aqiTitle')));
+      side.appendChild(bandBadge(t(`air.band.${band}` as UIKey), band));
+      head.appendChild(side);
+      host.appendChild(head);
+      host.appendChild(make('p', 'aqi-advice', t(`air.advice.${band}` as UIKey)));
+    } else {
+      host.appendChild(make('p', 'card-note', t('air.aqiUnavailable')));
+    }
+
+    // the raw concentrations stay, each dotted with its own band so the row
+    // shows at a glance which pollutant is driving the index
     const stats = make('div', 'stat-row');
-    const rows: [UIKey, number | null][] = [
-      ['air.pm25', air.current.pm25],
-      ['air.pm10', air.current.pm10],
-      ['air.o3', air.current.o3],
-      ['air.no2', air.current.no2],
-    ];
-    for (const [key, value] of rows) {
+    for (const p of POLLUTANTS) {
+      const value = air.current[p.id];
       const s = make('div', 'stat');
-      s.appendChild(make('div', 'label', t(key)));
+      const label = make('div', 'label');
+      if (value !== null) {
+        const dot = make('span', 'inline-dot');
+        dot.style.background = BAND_COLOR[pollutantBand(p.id, value)];
+        label.appendChild(dot);
+      }
+      label.appendChild(document.createTextNode(t(p.key)));
+      s.appendChild(label);
       const v = make('div', 'value', value === null ? '—' : fmtNum(value, lang));
       v.appendChild(make('span', 'unit', ' µg/m³'));
       s.appendChild(v);
@@ -297,31 +491,87 @@ async function initAir(lang: Lang, t: (k: UIKey) => string): Promise<void> {
     }
     host.appendChild(stats);
 
-    if (air.current.pm25 !== null) {
-      const level = pm25Level(air.current.pm25);
-      const b = badge(`${t('air.pm25')}: ${t(`air.level.${level}` as UIKey)}`, level);
-      b.style.marginTop = '12px';
-      host.appendChild(b);
-    }
+    /* ---- 48-hour history, one series at a time ---- */
+    const histTitle = make('p', 'card-sub');
+    histTitle.style.margin = '18px 0 6px';
+    host.appendChild(histTitle);
 
-    const sparkTitle = make('p', 'card-sub', t('air.sparkTitle'));
-    sparkTitle.style.margin = '16px 0 4px';
-    host.appendChild(sparkTitle);
-    const spark = make('div');
-    host.appendChild(spark);
-    const hist = air.pm25History.filter((_, i) => i % 2 === 0); // every 2 h
-    lineChart(
-      spark,
-      hist.map((h) => ({ label: fmtDateTime(h.time, lang), value: h.value })),
-      {
-        seriesName: 'PM2.5',
-        unit: ' µg/m³',
-        height: 150,
-        xEvery: 6,
+    const chips = make('div', 'chip-row');
+    host.appendChild(chips);
+    const chart = make('div');
+    chart.style.marginTop = '10px';
+    host.appendChild(chart);
+
+    type Series = { id: 'aqi' | Pollutant; label: string };
+    const series: Series[] = [
+      { id: 'aqi', label: t('air.aqiShort') },
+      ...POLLUTANTS.map((p) => ({ id: p.id, label: t(p.key) })),
+    ];
+
+    const draw = (s: Series): void => {
+      const unit = s.id === 'aqi' ? '' : ' µg/m³';
+      // name the series and its unit above the chart: the index is a 0–500
+      // score and the pollutants are µg/m³, and an unlabelled index chart under
+      // a row of µg/m³ figures reads as if the two were the same quantity
+      histTitle.textContent = `${s.label}${unit ? ` (${unit.trim()})` : ''} · ${t('air.hist')}`;
+      const points = air.history.map((h) => ({
+        label: fmtDateTime(h.time, lang),
+        value: h[s.id],
+      }));
+      barChart(chart, points, {
+        seriesName: s.label,
+        unit,
+        height: 190,
+        // 48 points with full date-time labels: any denser and they collide on
+        // a phone, so one label per 12 hours
+        xEvery: 12,
         valueFmt: decimal(lang),
+        colorFor: (v) =>
+          BAND_COLOR[s.id === 'aqi' ? aqiBand(v) : pollutantBand(s.id, v)],
         tableLabel: t('common.viewTable'),
-        tableHead: [t('common.time'), 'PM2.5 (µg/m³)'],
-      },
+        tableHead: [t('common.time'), `${s.label}${unit}`],
+      });
+    };
+
+    let current: Series = series[0]!;
+    for (const s of series) {
+      const chip = make('button', 'badge', s.label) as HTMLButtonElement;
+      chip.type = 'button';
+      chip.setAttribute('aria-pressed', String(s.id === current.id));
+      chip.addEventListener('click', () => {
+        current = s;
+        for (const other of chips.children) {
+          other.setAttribute('aria-pressed', String(other === chip));
+        }
+        draw(s);
+      });
+      chips.appendChild(chip);
+    }
+    draw(current);
+
+    /* ---- the guide ---- */
+    host.appendChild(
+      explainer(t('air.guide'), (body) => {
+        body.appendChild(make('p', undefined, t('air.guideIntro')));
+        const legend = make('div', 'legend');
+        (['b1', 'b2', 'b3', 'b4', 'b5', 'b6'] as BandKey[]).forEach((band, i) => {
+          legend.appendChild(
+            legendRow(
+              band,
+              AQI_RANGES[i]!,
+              t(`air.band.${band}` as UIKey),
+              t(`air.advice.${band}` as UIKey),
+            ),
+          );
+        });
+        body.appendChild(legend);
+        const defs = make('dl', 'defs');
+        for (const p of POLLUTANTS) {
+          defs.appendChild(make('dt', undefined, t(p.key)));
+          defs.appendChild(make('dd', undefined, t(p.def)));
+        }
+        body.appendChild(defs);
+      }),
     );
 
     setUpdated('[data-air-updated]', air.current.time, lang, t);
@@ -443,6 +693,183 @@ async function initPollen(lang: Lang, t: (k: UIKey) => string): Promise<void> {
   }
 }
 
+/* ---- heat index (WBGT) --------------------------------------------------- */
+
+interface HeatFile {
+  season: boolean;
+  current: { time: string; wbgt: number } | null;
+  observed: { time: string; wbgt: number }[];
+  forecast: { time: string; wbgt: number }[];
+  alert: {
+    today: number;
+    tomorrow: number;
+    peakToday: number | null;
+    reportDate: string | null;
+    reportTime: string | null;
+  } | null;
+}
+
+async function initHeat(lang: Lang, t: (k: UIKey) => string): Promise<void> {
+  const host = widget('heat');
+  if (!host) return;
+  try {
+    const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+    const res = await fetch(`${base}/data/heat.json`, { cache: 'no-store' });
+    if (!res.ok) throw new Error(String(res.status));
+    const file = (await res.json()) as HeatFile;
+    host.textContent = '';
+
+    if (!file.season) {
+      host.appendChild(make('p', 'card-sub', t('heat.offSeason')));
+      return;
+    }
+
+    // The official alert leads when there is one: it is an instruction, not a
+    // measurement, and it outranks any number on the card.
+    if (file.alert && file.alert.today > 0) {
+      const level = file.alert.today >= 2 ? 'special' : 'alert';
+      const banner = make('div', `heat-alert ${level}`);
+      banner.appendChild(make('strong', undefined, t(`heat.alert.${level}` as UIKey)));
+      banner.appendChild(make('p', undefined, t(`heat.alert.${level}Advice` as UIKey)));
+      host.appendChild(banner);
+    }
+
+    const current = file.current;
+    if (current) {
+      const level = heatLevel(current.wbgt);
+      const band = heatBand(current.wbgt);
+      const head = make('div', 'aqi-head');
+      const hero = make('div', 'hero-figure', fmtNum(current.wbgt, lang, 1));
+      hero.appendChild(make('span', 'unit', '°C'));
+      hero.style.color = BAND_COLOR[band];
+      head.appendChild(hero);
+      const side = make('div');
+      side.appendChild(make('div', 'aqi-scale', t('heat.wbgt')));
+      side.appendChild(bandBadge(t(`heat.level.${level}` as UIKey), band));
+      head.appendChild(side);
+      host.appendChild(head);
+      host.appendChild(make('p', 'aqi-advice', t(`heat.advice.${level}` as UIKey)));
+      setUpdated('[data-heat-updated]', new Date(current.time), lang, t);
+    }
+
+    if (file.forecast.length) {
+      const title = make('p', 'card-sub', t('heat.forecast'));
+      title.style.margin = '16px 0 2px';
+      host.appendChild(title);
+      const chart = make('div');
+      host.appendChild(chart);
+      const points = file.forecast.map((h) => ({
+        label: fmtDateTime(new Date(h.time), lang),
+        value: h.wbgt,
+      }));
+      barChart(chart, points, {
+        seriesName: t('heat.wbgt'),
+        unit: ' °C',
+        height: 180,
+        xEvery: 4,
+        valueFmt: decimal(lang),
+        colorFor: (v) => BAND_COLOR[heatBand(v)],
+        tableLabel: t('common.viewTable'),
+        tableHead: [t('common.time'), `${t('heat.wbgt')} (°C)`],
+      });
+    }
+
+    host.appendChild(
+      explainer(t('heat.guide'), (body) => {
+        body.appendChild(make('p', undefined, t('heat.guideIntro')));
+        const legend = make('div', 'legend');
+        const rows: [HeatLevel, string][] = [
+          ['safe', '< 21'],
+          ['caution', '21–25'],
+          ['warning', '25–28'],
+          ['severe', '28–31'],
+          ['danger', '31+'],
+        ];
+        for (const [level, range] of rows) {
+          legend.appendChild(
+            legendRow(
+              HEAT_BAND[level],
+              range,
+              t(`heat.level.${level}` as UIKey),
+              t(`heat.advice.${level}` as UIKey),
+            ),
+          );
+        }
+        body.appendChild(legend);
+        body.appendChild(make('p', undefined, t('heat.alertExplain')));
+      }),
+    );
+  } catch {
+    chartMessage(host, t('common.error'), true);
+  }
+}
+
+/* ---- station map --------------------------------------------------------- */
+
+async function initStations(lang: Lang, t: (k: UIKey) => string): Promise<void> {
+  const host = widget('stations');
+  if (!host) return;
+  try {
+    const { renderStationMap } = await import('./station-map');
+    const at = await renderStationMap(host, lang, t);
+    host.appendChild(make('p', 'card-note', t('stations.note')));
+    if (at) setUpdated('[data-stations-updated]', at, lang, t);
+  } catch {
+    chartMessage(host, t('common.error'), true);
+  }
+}
+
+/* ---- moon ---------------------------------------------------------------- */
+
+function initMoon(lang: Lang, t: (k: UIKey) => string): void {
+  const host = widget('moon');
+  if (!host) return;
+  const m = moonInfo();
+  host.textContent = '';
+
+  const head = make('div', 'moon-head');
+
+  // Drawn rather than an emoji: the emoji set has eight fixed phases and its
+  // shapes are mirrored for the southern hemisphere in some fonts.
+  const R = 30;
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('viewBox', `${-R - 2} ${-R - 2} ${(R + 2) * 2} ${(R + 2) * 2}`);
+  svg.setAttribute('class', 'moon-disc');
+  svg.setAttribute('role', 'img');
+  svg.setAttribute('aria-label', t(`moon.phase.${m.name}` as UIKey));
+  const dark = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  dark.setAttribute('r', String(R));
+  dark.setAttribute('class', 'moon-dark');
+  const lit = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  lit.setAttribute('d', moonDiscPath(m.phase, R));
+  lit.setAttribute('class', 'moon-lit');
+  svg.append(dark, lit);
+  head.appendChild(svg);
+
+  const side = make('div');
+  side.appendChild(make('div', 'moon-name', t(`moon.phase.${m.name}` as UIKey)));
+  side.appendChild(
+    make('div', 'aqi-scale', `${t('moon.illumination')} ${fmtNum(m.illumination * 100, lang)} %`),
+  );
+  head.appendChild(side);
+  host.appendChild(head);
+
+  const stats = make('div', 'stat-row');
+  const stat = (label: string, value: string) => {
+    const s = make('div', 'stat');
+    s.appendChild(make('div', 'label', label));
+    s.appendChild(make('div', 'value', value));
+    stats.appendChild(s);
+  };
+  stat(t('moon.rise'), m.rise ? fmtTime(m.rise, lang) : '—');
+  stat(t('moon.set'), m.set ? fmtTime(m.set, lang) : '—');
+  stat(t('moon.nextFull'), fmtDateShort(m.nextFull, lang));
+  stat(t('moon.nextNew'), fmtDateShort(m.nextNew, lang));
+  host.appendChild(stats);
+
+  host.appendChild(make('p', 'card-note', t('moon.note')));
+}
+
 async function initQuakes(lang: Lang, t: (k: UIKey) => string): Promise<void> {
   const host = widget('quakes');
   if (!host) return;
@@ -522,6 +949,9 @@ export function initWidgets(): void {
   void initNow(lang, t, forecastP);
   void initForecast(lang, t, forecastP);
   void initAir(lang, t);
+  void initHeat(lang, t);
+  void initStations(lang, t);
+  initMoon(lang, t);
   void initAirStation(lang, t);
   void initPollen(lang, t);
   void initQuakes(lang, t);

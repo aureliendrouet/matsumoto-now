@@ -15,6 +15,11 @@ export interface ChartOptions {
   seriesName: string;
   unit?: string;
   color?: string;
+  /** per-point colour — lets one chart carry a "good → dangerous" ramp instead
+   *  of a single hue. Falls back to `color` when absent. */
+  colorFor?: (value: number, index: number) => string;
+  /** second tooltip line, e.g. the rain amount behind a probability bar */
+  tipExtra?: (index: number) => string | null;
   height?: number;
   yDomain?: [number, number];
   /** show an x tick label every n points */
@@ -158,7 +163,7 @@ function buildTableTwin(host: HTMLElement, opts: ChartOptions, points: Point[]):
 }
 
 interface Tip {
-  show: (svgX: number, title: string, value: string, color: string) => void;
+  show: (svgX: number, title: string, value: string, color: string, extra?: string | null) => void;
   hide: () => void;
 }
 
@@ -177,14 +182,18 @@ function buildTip(viz: HTMLElement, seriesName: string): Tip {
   label.className = 'tip-label';
   label.textContent = seriesName;
   row.append(key, value, label);
-  tip.append(title, row);
+  const extraRow = document.createElement('div');
+  extraRow.className = 'tip-extra';
+  tip.append(title, row, extraRow);
   viz.appendChild(tip);
 
   return {
-    show(svgX, t, v, color) {
+    show(svgX, t, v, color, extra) {
       title.textContent = t;
       value.textContent = v;
       key.style.color = color;
+      extraRow.textContent = extra ?? '';
+      extraRow.style.display = extra ? 'block' : 'none';
       tip.classList.add('show');
       const vizRect = viz.getBoundingClientRect();
       const svg = viz.querySelector('svg')!;
@@ -376,13 +385,14 @@ export function barChart(host: HTMLElement, points: Point[], opts: ChartOptions)
 
   svg.appendChild(el('line', { x1: s.padL, x2: s.w - s.padR, y1: baseY, y2: baseY, class: 'baseline' }));
 
+  const barColor = (v: number, i: number): string => opts.colorFor?.(v, i) ?? color;
   const bars: (SVGPathElement | null)[] = points.map((p, i) => {
     if (p.value === null || p.value <= dom[0]) return null;
     const cx = s.padL + band * i + band / 2;
     const y = s.y(Math.min(p.value, dom[1]));
     const h = baseY - y;
     if (h <= 0) return null;
-    const path = el('path', { d: columnPath(cx - barW / 2, y, barW, h), fill: color });
+    const path = el('path', { d: columnPath(cx - barW / 2, y, barW, h), fill: barColor(p.value, i) });
     svg.appendChild(path);
     return path;
   });
@@ -399,7 +409,13 @@ export function barChart(host: HTMLElement, points: Point[], opts: ChartOptions)
     lifted = bars[i] ?? null;
     lifted?.setAttribute('opacity', '0.8');
     const cx = s.padL + band * i + band / 2;
-    tip.show(cx, p.label, p.value === null ? '—' : `${fmt(p.value)}${opts.unit ?? ''}`, color);
+    tip.show(
+      cx,
+      p.label,
+      p.value === null ? '—' : `${fmt(p.value)}${opts.unit ?? ''}`,
+      p.value === null ? color : barColor(p.value, i),
+      opts.tipExtra?.(i),
+    );
   };
   const hide = () => {
     if (lifted) lifted.setAttribute('opacity', '1');

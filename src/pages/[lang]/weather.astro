@@ -60,7 +60,7 @@ const t = useTranslations(lang);
 
     {
       features.precipitationChart && (
-        <section class="card col-6">
+        <section class="card col-12">
           <h2>{t('forecast.precip')}</h2>
           <p class="card-sub">{t('forecast.attribution')}</p>
           <div data-widget="precip">
@@ -71,8 +71,35 @@ const t = useTranslations(lang);
     }
 
     {
-      features.airQuality && (
+      features.uv && (
         <section class="card col-6">
+          <h2>{t('forecast.uv')}</h2>
+          <p class="card-sub">{t('forecast.attribution')}</p>
+          <div data-widget="uv">
+            <p class="placeholder">{t('common.loading')}</p>
+          </div>
+        </section>
+      )
+    }
+    {
+      features.heatIndex && (
+        <section class="card col-6">
+          <div class="card-head">
+            <h2>{t('heat.title')}</h2>
+            <span class="updated" data-heat-updated />
+          </div>
+          <p class="card-sub">{t('heat.subtitle')}</p>
+          <div data-widget="heat">
+            <p class="placeholder">{t('common.loading')}</p>
+          </div>
+          <p class="card-note">{t('heat.source')}</p>
+        </section>
+      )
+    }
+
+    {
+      features.airQuality && (
+        <section class="card col-12">
           <div class="card-head">
             <h2>{t('air.title')}</h2>
             <span class="updated" data-air-updated />
@@ -87,6 +114,33 @@ const t = useTranslations(lang);
               soramame.env.go.jp
             </a>
           </p>
+        </section>
+      )
+    }
+
+    {
+      features.stationMap && (
+        <section class="card col-8">
+          <div class="card-head">
+            <h2>{t('stations.title')}</h2>
+            <span class="updated" data-stations-updated />
+          </div>
+          <p class="card-sub">{t('stations.subtitle')}</p>
+          <div data-widget="stations">
+            <p class="placeholder">{t('common.loading')}</p>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      features.moon && (
+        <section class="card col-4">
+          <h2>{t('moon.title')}</h2>
+          <p class="card-sub">{t('moon.subtitle')}</p>
+          <div data-widget="moon">
+            <p class="placeholder">{t('common.loading')}</p>
+          </div>
         </section>
       )
     }
@@ -124,17 +178,6 @@ const t = useTranslations(lang);
       )
     }
 
-    {
-      features.uv && (
-        <section class="card col-4">
-          <h2>{t('forecast.uv')}</h2>
-          <p class="card-sub">{t('forecast.attribution')}</p>
-          <div data-widget="uv">
-            <p class="placeholder">{t('common.loading')}</p>
-          </div>
-        </section>
-      )
-    }
   </div>
 </Base>
 

@@ -14,6 +14,7 @@ import {
 import { fmtDateTime, fmtNum } from './format';
 import { chartMessage } from './chart';
 import { addLocateControl } from './geolocate';
+import { addExpandControl } from './map-expand';
 
 const MATSUMOTO: [number, number] = [36.238, 137.972];
 
@@ -127,6 +128,7 @@ function renderMap(quakes: Quake[], lang: Lang, t: (k: UIKey) => string): void {
   }
 
   addLocateControl(map, t);
+  addExpandControl(map, t);
 }
 
 export function initQuakePage(): void {

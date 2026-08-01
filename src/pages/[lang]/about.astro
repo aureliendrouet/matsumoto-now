@@ -11,6 +11,27 @@ export function getStaticPaths() {
 const lang = asLang(Astro.params.lang);
 const t = useTranslations(lang);
 
+// Bump this when the terms text itself changes — it is the date shown to
+// readers, not the build date, which would otherwise move on every deploy and
+// imply the terms had been revised when they had not.
+const TERMS_REVISED = new Date('2026-08-01T00:00:00+09:00');
+const termsDate = TERMS_REVISED.toLocaleDateString(lang, {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  timeZone: 'Asia/Tokyo',
+});
+
+const termsSections = [
+  'warranty',
+  'emergency',
+  'responsibility',
+  'unofficial',
+  'data',
+  'privacy',
+  'changes',
+] as const;
+
 // The table content lives in the locale dictionaries (src.<slug>.name/what/license).
 const sources: { slug: string; url: string }[] = [
   { slug: 'jma', url: 'https://www.jma.go.jp/' },
@@ -22,6 +43,7 @@ const sources: { slug: string; url: string }[] = [
   // Gated on fireLiveData, not firePage: with the scraped feeds off we only link
   // to the bureau, so crediting them as a data source would be inaccurate.
   ...(features.fireLiveData ? [{ slug: 'fire', url: 'https://www.m-kouiki119.jp/' }] : []),
+  ...(features.heatIndex ? [{ slug: 'heat', url: 'https://www.wbgt.env.go.jp/' }] : []),
   { slug: 'gtfs', url: 'https://gtfs-data.jp/' },
   { slug: 'shelter', url: 'https://www.gsi.go.jp/bousaichiri/hinanbasho.html' },
   { slug: 'aed', url: 'https://www.city.matsumoto.nagano.jp/soshiki/5/4172.html' },
@@ -31,13 +53,12 @@ const sources: { slug: string; url: string }[] = [
 
 <Base lang={lang} title={t('about.title')} active="about">
   <h1 class="page-title">{t('about.title')}</h1>
-  <p class="page-sub">{t('site.description')}</p>
+  <p class="page-sub">{t('about.sub')}</p>
 
   <div class="prose">
-    <section class="card">
-      <p style="margin: 0">{t('about.disclaimer')}</p>
-    </section>
-
+    {/* No disclaimer card above the table: it repeated, less precisely, what
+        the Terms of use section below now says, and the footer already carries
+        the emergency numbers on every page. */}
     <h2>{t('about.dataTitle')}</h2>
     <div class="card table-scroll">
       <table class="data">
@@ -68,5 +89,19 @@ const sources: { slug: string; url: string }[] = [
 
     <p class="card-note">{t('about.updatedNote')}</p>
     <p class="card-note">{t('about.builtWith')}</p>
+
+    <h2 id="terms">{t('terms.title')}</h2>
+    <div class="card terms">
+      <p class="card-note terms-date">{`${t('terms.updated')}: ${termsDate}`}</p>
+      <p>{t('terms.intro')}</p>
+      {
+        termsSections.map((s) => (
+          <>
+            <h3>{t(`terms.${s}.h` as UIKey)}</h3>
+            <p>{t(`terms.${s}.p` as UIKey)}</p>
+          </>
+        ))
+      }
+    </div>
   </div>
 </Base>

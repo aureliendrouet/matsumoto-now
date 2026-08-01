@@ -53,6 +53,17 @@ jobs:
             echo "fireLiveData is off — skipping."
           fi
 
+      # Heat index & 熱中症警戒アラート (環境省). Seasonal: outside 22 Apr - 21 Oct
+      # the endpoints 404 and the script writes season:false, which the card
+      # renders as an off-season note rather than an error.
+      - name: Fetch heat index
+        run: |
+          if grep -q 'heatIndex: true' src/features.ts; then
+            node scripts/fetch-heat-data.mjs
+          else
+            echo "heatIndex is off - skipping."
+          fi
+
       - name: Commit if changed
         id: commit
         run: |

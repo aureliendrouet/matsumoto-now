@@ -31,14 +31,31 @@ function pick(field: unknown): number | null {
   return null;
 }
 
+/** The observation timestamp is shared by every station, so it is fetched once
+ *  and reused when the station map asks for four points at the same moment. */
+let latestTimeP: Promise<Date> | null = null;
+function latestObservationTime(): Promise<Date> {
+  latestTimeP ??= (async () => {
+    const res = await fetch(`${BOSAI}/amedas/data/latest_time.txt`, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`latest_time ${res.status}`);
+    return new Date((await res.text()).trim());
+  })();
+  return latestTimeP;
+}
+
 export async function fetchAmedasNow(): Promise<AmedasNow> {
-  const latestRes = await fetch(`${BOSAI}/amedas/data/latest_time.txt`, { cache: 'no-store' });
-  if (!latestRes.ok) throw new Error(`latest_time ${latestRes.status}`);
-  const latest = new Date((await latestRes.text()).trim());
+  return fetchStation(STATION);
+}
+
+/** Latest reading from any AMeDAS point. Stations report different elements —
+ *  Kamikochi, for instance, has a rain gauge but no thermometer — so every
+ *  field can legitimately be null. */
+export async function fetchStation(station: string): Promise<AmedasNow> {
+  const latest = await latestObservationTime();
 
   const { y, m, d, h } = jstParts(latest);
   const block = Math.floor(h / 3) * 3;
-  const url = `${BOSAI}/amedas/data/point/${STATION}/${y}${pad2(m)}${pad2(d)}_${pad2(block)}.json`;
+  const url = `${BOSAI}/amedas/data/point/${station}/${y}${pad2(m)}${pad2(d)}_${pad2(block)}.json`;
   const res = await fetch(url, { cache: 'no-store' });
   if (!res.ok) throw new Error(`amedas ${res.status}`);
   const data: Record<string, Record<string, unknown>> = await res.json();

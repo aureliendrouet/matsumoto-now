@@ -11,7 +11,14 @@ export interface Forecast {
     weatherCode: number;
     windSpeed: number;
   };
-  hourly: { time: Date; temp: number; pop: number; precip: number; weatherCode: number }[];
+  hourly: {
+    time: Date;
+    temp: number;
+    pop: number;
+    precip: number;
+    uv: number;
+    weatherCode: number;
+  }[];
   daily: {
     date: Date;
     weatherCode: number;
@@ -29,7 +36,7 @@ export async function fetchForecast(): Promise<Forecast> {
     longitude: String(LON),
     timezone: 'Asia/Tokyo',
     current: 'temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m',
-    hourly: 'temperature_2m,precipitation_probability,precipitation,weather_code',
+    hourly: 'temperature_2m,precipitation_probability,precipitation,uv_index,weather_code',
     daily: 'weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,uv_index_max',
     forecast_days: '7',
     wind_speed_unit: 'ms',
@@ -44,6 +51,7 @@ export async function fetchForecast(): Promise<Forecast> {
     temp: j.hourly.temperature_2m[i] as number,
     pop: (j.hourly.precipitation_probability?.[i] ?? 0) as number,
     precip: (j.hourly.precipitation?.[i] ?? 0) as number,
+    uv: (j.hourly.uv_index?.[i] ?? 0) as number,
     weatherCode: j.hourly.weather_code[i] as number,
   }));
 
@@ -70,8 +78,24 @@ export async function fetchForecast(): Promise<Forecast> {
 }
 
 export interface AirQuality {
-  current: { time: Date; pm25: number | null; pm10: number | null; o3: number | null; no2: number | null };
-  pm25History: { time: Date; value: number | null }[];
+  current: {
+    time: Date;
+    /** US EPA air quality index, computed by Open-Meteo from all pollutants */
+    aqi: number | null;
+    pm25: number | null;
+    pm10: number | null;
+    o3: number | null;
+    no2: number | null;
+  };
+  /** last 48 h, one entry per hour, aligned across every series */
+  history: {
+    time: Date;
+    aqi: number | null;
+    pm25: number | null;
+    pm10: number | null;
+    o3: number | null;
+    no2: number | null;
+  }[];
 }
 
 export async function fetchAirQuality(): Promise<AirQuality> {
@@ -80,8 +104,8 @@ export async function fetchAirQuality(): Promise<AirQuality> {
     latitude: String(LAT),
     longitude: String(LON),
     timezone: 'Asia/Tokyo',
-    current: 'pm2_5,pm10,ozone,nitrogen_dioxide',
-    hourly: 'pm2_5',
+    current: 'us_aqi,pm2_5,pm10,ozone,nitrogen_dioxide',
+    hourly: 'us_aqi,pm2_5,pm10,ozone,nitrogen_dioxide',
     past_days: '2',
     forecast_days: '1',
   }).toString();
@@ -91,22 +115,29 @@ export async function fetchAirQuality(): Promise<AirQuality> {
   const j = await res.json();
 
   const now = Date.now();
-  const pm25History = (j.hourly.time as string[])
+  const num = (arr: unknown, i: number): number | null =>
+    (Array.isArray(arr) ? (arr[i] as number | null) : null) ?? null;
+  const history = (j.hourly.time as string[])
     .map((t: string, i: number) => ({
       time: new Date(`${t}:00+09:00`),
-      value: (j.hourly.pm2_5?.[i] ?? null) as number | null,
+      aqi: num(j.hourly.us_aqi, i),
+      pm25: num(j.hourly.pm2_5, i),
+      pm10: num(j.hourly.pm10, i),
+      o3: num(j.hourly.ozone, i),
+      no2: num(j.hourly.nitrogen_dioxide, i),
     }))
     .filter((p) => p.time.getTime() <= now);
 
   return {
     current: {
       time: new Date(j.current.time + ':00+09:00'),
+      aqi: j.current.us_aqi ?? null,
       pm25: j.current.pm2_5 ?? null,
       pm10: j.current.pm10 ?? null,
       o3: j.current.ozone ?? null,
       no2: j.current.nitrogen_dioxide ?? null,
     },
-    pm25History,
+    history,
   };
 }
 
@@ -118,10 +149,5 @@ export function pm25Level(v: number): 'good' | 'moderate' | 'elevated' | 'high' 
   return 'high';
 }
 
-export function uvLevel(v: number): 'low' | 'moderate' | 'high' | 'veryHigh' | 'extreme' {
-  if (v < 3) return 'low';
-  if (v < 6) return 'moderate';
-  if (v < 8) return 'high';
-  if (v < 11) return 'veryHigh';
-  return 'extreme';
-}
+/* UV banding lives in scales.ts now, with the colours it shares with the
+   air-quality charts. */

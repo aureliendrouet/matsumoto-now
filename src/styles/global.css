@@ -34,6 +34,18 @@
   --status-warning: #fab219;
   --status-serious: #ec835a;
   --status-critical: #d03b3b;
+
+  /* Six-step "fine → dangerous" ramp shared by the AQI, pollutant and UV
+     charts. The first four are the status colours above, so the weather page
+     speaks the same visual language as the warnings banner; the last two are
+     the EPA's purple and maroon, which the status palette has no equivalent
+     for and which people recognise from air-quality apps. */
+  --aqi-1: var(--status-good);
+  --aqi-2: var(--status-warning);
+  --aqi-3: var(--status-serious);
+  --aqi-4: var(--status-critical);
+  --aqi-5: #8f3f97;
+  --aqi-6: #7a2233;
   --success-text: #006300;
 
   --accent: var(--series-1);
@@ -67,6 +79,9 @@
     --seq-400: #3987e5;
     --seq-550: #86b6ef;
     --success-text: #0ca30c;
+    /* lifted for contrast on the dark plane */
+    --aqi-5: #b46fbd;
+    --aqi-6: #c9606f;
     --accent: var(--series-1);
     --wash: rgba(57, 135, 229, 0.14);
     --shadow: none;
@@ -90,6 +105,9 @@
   --seq-400: #3987e5;
   --seq-550: #86b6ef;
   --success-text: #0ca30c;
+  /* lifted for contrast on the dark plane */
+  --aqi-5: #b46fbd;
+  --aqi-6: #c9606f;
   --accent: var(--series-1);
   --wash: rgba(57, 135, 229, 0.14);
   --shadow: none;
@@ -419,6 +437,213 @@ main.container {
   flex: none;
 }
 
+/* ---- scales & explainers (weather page) --------------------------------- */
+
+.aqi-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.aqi-head .hero-figure {
+  line-height: 1;
+}
+.aqi-scale {
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.aqi-head .aqi-scale:last-child {
+  margin: 4px 0 0;
+}
+.aqi-advice {
+  margin: 10px 0 0;
+  font-size: 14px;
+  color: var(--ink-2);
+  max-width: 62ch;
+}
+
+/* the coloured dot in front of a pollutant name in the stat row */
+.inline-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: 1px;
+}
+
+.guide {
+  margin-top: 16px;
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+}
+.guide > summary {
+  cursor: pointer;
+  font-size: 13.5px;
+  color: var(--accent);
+  list-style: none;
+}
+.guide > summary::-webkit-details-marker {
+  display: none;
+}
+.guide > summary::before {
+  content: '▸ ';
+}
+.guide[open] > summary::before {
+  content: '▾ ';
+}
+.guide-body {
+  font-size: 13.5px;
+  color: var(--ink-2);
+  max-width: 68ch;
+}
+.guide-body p {
+  margin: 8px 0 12px;
+}
+
+.legend-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+.legend-swatch {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  margin-top: 3px;
+}
+.legend-name {
+  font-weight: 600;
+  color: var(--ink);
+}
+.legend-range {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.legend-advice {
+  line-height: 1.5;
+}
+
+.guide-body .defs {
+  margin: 14px 0 0;
+}
+.guide-body .defs dt {
+  font-weight: 600;
+  color: var(--ink);
+  margin-top: 10px;
+}
+.guide-body .defs dd {
+  margin: 2px 0 0;
+  line-height: 1.5;
+}
+
+/* An official alert is an instruction, not a reading, so it gets a banner above
+   the number rather than another coloured badge beside it. */
+.heat-alert {
+  border: 1px solid var(--status-critical);
+  border-left-width: 4px;
+  border-radius: var(--radius-s);
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  background: color-mix(in srgb, var(--status-critical) 8%, var(--surface));
+}
+.heat-alert.special {
+  border-color: var(--aqi-6);
+  background: color-mix(in srgb, var(--aqi-6) 12%, var(--surface));
+}
+.heat-alert strong {
+  display: block;
+  font-size: 15px;
+}
+.heat-alert p {
+  margin: 4px 0 0;
+  font-size: 13.5px;
+  color: var(--ink-2);
+}
+
+/* ---- station map --------------------------------------------------------- */
+
+.map-frame.station-map {
+  height: 380px;
+}
+/* The reading is the marker: pairing a pin with a legend would make the reader
+   look twice for the one thing the map exists to show. */
+.station-icon {
+  width: 0;
+  height: 0;
+  overflow: visible;
+}
+.station-pin {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: 0 1px 3px rgba(11, 11, 11, 0.18);
+  white-space: nowrap;
+  line-height: 1.15;
+}
+.station-pin .v {
+  font-weight: 700;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+.station-pin .n {
+  font-size: 10.5px;
+  color: var(--ink-2);
+}
+.station-pin.warmest {
+  border-color: var(--status-critical);
+  color: var(--status-critical);
+}
+.station-pin.coldest {
+  border-color: var(--series-1);
+  color: var(--series-1);
+}
+.station-pin.no-temp .v {
+  color: var(--muted);
+}
+
+/* ---- moon ---------------------------------------------------------------- */
+
+.moon-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.moon-disc {
+  width: 76px;
+  height: 76px;
+  flex: none;
+}
+.moon-dark {
+  fill: var(--grid);
+}
+/* A warm off-white, not pure white: the moon is not a light source and a white
+   disc on the light theme's near-white card loses its edge. */
+.moon-lit {
+  fill: #d8d3c0;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme='light'])) .moon-lit {
+    fill: #f2eede;
+  }
+}
+:root[data-theme='dark'] .moon-lit {
+  fill: #f2eede;
+}
+.moon-name {
+  font-size: 17px;
+  font-weight: 650;
+}
+
 /* ---- line picker (bus page) --------------------------------------------- */
 
 .chip-row {
@@ -563,6 +788,12 @@ button.badge[aria-pressed='true'] {
 }
 .viz-tip .tip-label {
   color: var(--ink-2);
+}
+/* second line, e.g. the millimetres behind a chance-of-rain bar */
+.viz-tip .tip-extra {
+  color: var(--ink-2);
+  font-size: 12px;
+  margin-top: 2px;
 }
 
 /* refetch: hold previous render, dim */
@@ -917,10 +1148,30 @@ select.lang-select {
   height: 560px;
 }
 
-.map-frame .locate-btn {
+.map-frame .locate-btn,
+.map-frame .expand-btn {
   font-size: 18px;
   line-height: 26px;
   text-decoration: none;
+}
+
+/* Expanded map: a fixed overlay rather than the Fullscreen API, which iOS
+   Safari refuses for non-video elements. 100dvh so the mobile URL bar
+   collapsing doesn't leave the bottom of the map under it. */
+.map-frame.map-expanded {
+  /* !important because Leaflet writes position:relative as an inline style on
+     the container it initialises, which no class selector can outrank */
+  position: fixed !important;
+  inset: 0;
+  z-index: 2000;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  border: 0;
+  border-radius: 0;
+}
+body.map-locked {
+  overflow: hidden;
 }
 
 /* Leaflet layer-switcher: follow the site theme */
@@ -981,4 +1232,23 @@ select.lang-select {
 }
 .prose li {
   margin: 4px 0;
+}
+
+/* Terms of use: long prose in a card, so the headings need to be quieter than
+   the page's h2 and the paragraphs need a comfortable measure. */
+.terms h3 {
+  font-size: 15px;
+  margin: 20px 0 4px;
+}
+.terms h3:first-of-type {
+  margin-top: 14px;
+}
+.terms p {
+  margin: 0;
+  font-size: 14.5px;
+  color: var(--ink-2);
+  line-height: 1.65;
+}
+.terms .terms-date {
+  margin-bottom: 12px;
 }

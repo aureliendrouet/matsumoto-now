@@ -25,7 +25,9 @@ sources, hosted for free on GitHub Pages.
   `public/data/alerts.json` and committed, which redeploys the site.
   Slow-moving open data (police crime CSVs, GTFS bus feeds, shelter/AED
   designations) is refreshed monthly by `.github/workflows/fetch-monthly.yml`
-  into `public/data/{crime,bus,shelters}.json`. The bus fetch also scrapes the
+  into `public/data/{crime,bus,shelters}.json`. The 30-minute job also fetches
+  the heat index and heat alerts into `public/data/heat.json` while
+  `heatIndex` is on. The bus fetch also scrapes the
   city's bus page for each line's own timetable and fare PDF: every link there
   is labelled identically (`時刻表（R8.3.14～）`) with the line name in the
   `<h5>` above it, and the attachment IDs change at every timetable revision,
@@ -97,6 +99,75 @@ which is what made them feel broken. The map does the explaining because the
 PDFs are Japanese-only — for the other 12 languages, "where does this bus go"
 has to be answered visually.
 
+The **weather page** treats "is this number good or bad?" as the thing to
+answer, not the number itself. Air quality leads with the US EPA index
+(`us_aqi`, computed by Open-Meteo from all pollutants) — one 0–500 figure with a
+colour, a band name and one sentence of health advice — and the four raw
+concentrations sit below it, each dotted with its own band so you can see which
+pollutant is driving the index. A chip row switches the 48-hour chart between
+the index and each pollutant.
+
+Every chart on the page is coloured per bar rather than in one hue, so a glance
+finds the dangerous hour: UV, the index and the pollutants share one six-step
+ramp (`--aqi-1` … `--aqi-6`, the site's status colours plus the EPA's purple and
+maroon), defined once in `src/lib/scales.ts` with the EPA and WHO thresholds
+they come from. Rain deliberately uses the sequential blue ramp instead —
+heavy rain is wet, not hazardous, and colouring a 90 % chance red would be
+crying wolf on the page that also carries evacuation advice.
+
+Rain shows chance **and** amount as two charts, because they answer different
+questions: a 90 % chance of 0.2 mm is drizzle, a 30 % chance of 15 mm is worth
+planning around. Each chart's tooltip carries the other figure.
+
+Every scale a resident has no reason to already know has a collapsed "what does
+this mean?" panel: a colour legend with per-band advice, and for air quality a
+plain-language definition of PM2.5, PM10, ozone and NO₂ — what they are, where
+they come from and what they do to you. These are written and translated in all
+13 languages rather than linking to Wikipedia, whose leads are chemistry rather
+than health advice and whose coverage across these 13 languages is uneven.
+
+Three more weather cards answer questions one number cannot:
+
+- **Heat index** (`heatIndex`). The 暑さ指数 (WBGT) is not the temperature — it
+  folds in humidity and sunlight, and it is what predicts heat stroke. When 環境省
+  issues a 熱中症警戒アラート for Nagano the card leads with the alert banner,
+  because an alert is an instruction and outranks any reading. Seasonal: the
+  ministry publishes from late April to 21 October, and `scripts/fetch-heat-data.mjs`
+  writes `season: false` on the expected off-season 404 so the card says so
+  instead of showing an error. Watch the units — the forecast feed is in tenths
+  of a degree, the observed feed in degrees.
+- **Around the city** (`stationMap`). Four AMeDAS stations sit inside the city
+  limits, from 610 m downtown to 1,510 m at Kamikochi, and on a summer night
+  Nagawa runs ~7 °C colder than the centre while both reach the same temperature
+  by midday. The reading *is* the map marker — a pin plus a legend would make the
+  reader look twice for the only thing the map exists to show. Kamikochi has a
+  rain gauge but no thermometer, so its marker says so rather than going blank.
+  Leaflet is behind a dynamic import here: `dashboard.ts` is shared with the
+  landing page, which has no map and should not pay ~150 kB for one.
+- **Moon** (`moon`). Computed from the orbit in `src/lib/moon.ts` — no API, no
+  licence, no network. Two things in there are easy to get wrong and were:
+  the phase must come from the elongation, not the bright-limb position angle,
+  which flips sign at new and full moon and sends a "next new moon" search to
+  the wrong date; and in the two-arc disc path the terminator's sweep flips
+  between crescent and gibbous, so getting it backwards renders the whole cycle
+  inside-out — new moon as a full disc.
+
+All three maps (buses, shelters, earthquakes) carry an **expand** button next to
+the locate button, which grows the map to fill the window (Escape or the button
+again returns it). It is a fixed-position CSS overlay, not the Fullscreen API:
+iOS Safari still refuses `requestFullscreen()` on anything but a `<video>`, and
+a phone is exactly where a 340 px-tall map is too small to follow a bus line.
+
+**About & Data** ends with a **Terms of use** section (`#terms`) rather than a
+separate page: no warranty, don't rely on it in an emergency, the reader is
+responsible for their own use, unofficial and unaffiliated, whose data it is,
+privacy, and how it may change. Its date is a constant in `about.astro`
+(`TERMS_REVISED`) rather than the build date — the build date moves on every
+deploy and would imply the terms had been revised when they had not. The
+privacy paragraph is a factual claim worth keeping true: the site sets no
+cookies, runs no analytics, and `localStorage` holds only the language and
+theme choice. Geolocation never leaves the browser.
+
 The nav wraps rather than scrolls horizontally: with 11 destinations (longer
 labels in German and French) a scrolling strip with a hidden scrollbar left
 items unreachable on phones. Every destination is now one tap away at every
@@ -139,6 +210,7 @@ old hardcoded footer had drifted exactly this way — it credited Weathernews wh
 | P2P地震情報 | earthquakes | secondary use permitted; rate limits apply |
 | Matsumoto City / 松本安心ネット | alerts, news | attribution (city terms, CC BY 4.0-aligned) |
 | 長野県警察 犯罪オープンデータ | crime statistics | CC BY 4.0-compatible, attribution |
+| 環境省 熱中症予防情報サイト | heat index (WBGT), 熱中症警戒アラート | PDL 1.0, attribution (出典: 環境省); published for third-party reuse, no permission needed |
 | 松本市 GTFS (gtfs-data.jp) | bus routes & stops | CC BY 4.0, attribution (松本市) |
 | 松本市 バス時刻表ページ | per-line timetable & fare PDF links | city page, CC BY 4.0; only the URLs are stored, the PDFs are linked |
 | 国土地理院 指定緊急避難場所データ | evacuation shelters | attribution (政府標準利用規約) |

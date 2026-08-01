@@ -6,6 +6,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { ui, getLang, type Lang, type UIKey } from '../i18n/ui';
 import { addLocateControl } from './geolocate';
+import { addExpandControl } from './map-expand';
 
 const MATSUMOTO: [number, number] = [36.238, 137.972];
 const AED_MIN_ZOOM = 14;
@@ -196,6 +197,7 @@ export function initShelterPage(): void {
         }
         best?.marker.openPopup();
       });
+      addExpandControl(map, t);
 
       // hazard filter chips
       if (filterHost) {

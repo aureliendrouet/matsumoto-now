@@ -22,6 +22,15 @@ export const features = {
   precipitationChart: true, // 24 h precipitation-probability chart
   airQuality: true, // Open-Meteo modelled air quality
   uv: true, // UV index card
+  // 暑さ指数 (WBGT) and the official 熱中症警戒アラート from 環境省. Free to
+  // republish under PDL 1.0 with 出典: 環境省 — no permission needed. Seasonal:
+  // the ministry runs the service from late April to 21 October only.
+  heatIndex: true,
+  // Live temperature at every AMeDAS station inside the city limits. Matsumoto
+  // spans 610 m downtown to 1,510 m at Kamikochi, so one number cannot speak
+  // for the whole city.
+  stationMap: true,
+  moon: true, // moon phase & rise/set — computed locally, no data source
   // Soramame measured station values — OFF until Nagano Prefecture (station
   // operator) confirms republication; the Soramame API manual asks to inquire
   // for non-national stations. Data pipeline is ready (scripts/fetch-air-data.mjs).
