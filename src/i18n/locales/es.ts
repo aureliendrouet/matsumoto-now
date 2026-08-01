@@ -115,7 +115,7 @@ export const dict = {
   "moon.set": "Puesta de la Luna",
   "moon.nextFull": "Próxima luna llena",
   "moon.nextNew": "Próxima luna nueva",
-  "moon.note": "Calculado a partir de la órbita lunar, sin ninguna fuente externa. Las horas son para Matsumoto, con un margen de pocos minutos.",
+  "moon.note": "La fase y las horas se calculan a partir de la órbita lunar, sin ninguna fuente externa; son para Matsumoto, con un margen de pocos minutos. La fotografía de la cara visible es de la NASA.",
   "moon.phase.new": "Luna nueva",
   "moon.phase.waxingCrescent": "Luna creciente",
   "moon.phase.firstQuarter": "Cuarto creciente",

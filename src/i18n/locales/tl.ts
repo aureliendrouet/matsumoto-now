@@ -115,7 +115,7 @@ export const dict = {
   "moon.set": "Paglubog ng buwan",
   "moon.nextFull": "Susunod na kabilugan",
   "moon.nextNew": "Susunod na bagong buwan",
-  "moon.note": "Kinalkula mula sa orbita ng buwan, hindi kinuha kahit saan. Ang mga oras ay para sa Matsumoto at tama sa loob ng ilang minuto.",
+  "moon.note": "Ang yugto at mga oras ay kinalkula mula sa orbita ng buwan, hindi kinuha kahit saan; para ang mga ito sa Matsumoto at tama sa loob ng ilang minuto. Ang larawan ng nakaharap na mukha ay sa NASA.",
   "moon.phase.new": "Bagong buwan",
   "moon.phase.waxingCrescent": "Papalaking gasuklay",
   "moon.phase.firstQuarter": "Unang kwarto",

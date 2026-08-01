@@ -623,21 +623,23 @@ main.container {
   height: 76px;
   flex: none;
 }
-.moon-dark {
-  fill: var(--grid);
+/* The lit face is the photograph as-is; the unlit side is the same photograph
+   dimmed to earthshine rather than blanked, so the disc keeps its outline
+   against the card instead of looking like a chunk is missing. */
+.moon-face {
+  filter: brightness(1.04) contrast(1.06);
 }
-/* A warm off-white, not pure white: the moon is not a light source and a white
-   disc on the light theme's near-white card loses its edge. */
-.moon-lit {
-  fill: #d8d3c0;
+.moon-shadow {
+  opacity: 0.16;
+  filter: grayscale(0.5) brightness(0.7);
 }
 @media (prefers-color-scheme: dark) {
-  :root:where(:not([data-theme='light'])) .moon-lit {
-    fill: #f2eede;
+  :root:where(:not([data-theme='light'])) .moon-shadow {
+    opacity: 0.22;
   }
 }
-:root[data-theme='dark'] .moon-lit {
-  fill: #f2eede;
+:root[data-theme='dark'] .moon-shadow {
+  opacity: 0.22;
 }
 .moon-name {
   font-size: 17px;

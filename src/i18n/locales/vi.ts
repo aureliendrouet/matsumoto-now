@@ -115,7 +115,7 @@ export const dict = {
   "moon.set": "Trăng lặn",
   "moon.nextFull": "Trăng tròn kế tiếp",
   "moon.nextNew": "Trăng non kế tiếp",
-  "moon.note": "Tính từ quỹ đạo Mặt Trăng, không lấy từ nguồn nào. Giờ áp dụng cho Matsumoto, sai số vài phút.",
+  "moon.note": "Pha trăng và giờ được tính từ quỹ đạo Mặt Trăng, không lấy từ nguồn nào; áp dụng cho Matsumoto, sai số vài phút. Ảnh mặt gần là của NASA.",
   "moon.phase.new": "Trăng non",
   "moon.phase.waxingCrescent": "Trăng lưỡi liềm đầu tháng",
   "moon.phase.firstQuarter": "Bán nguyệt đầu tháng",

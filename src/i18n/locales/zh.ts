@@ -115,7 +115,7 @@ export const dict = {
   "moon.set": "月落",
   "moon.nextFull": "下次满月",
   "moon.nextNew": "下次新月",
-  "moon.note": "根据月球轨道计算得出，未从任何外部获取。时刻以松本为准，误差为几分钟。",
+  "moon.note": "月相与时刻根据月球轨道计算得出，未从任何外部获取；时刻以松本为准，误差为几分钟。月面照片来自NASA。",
   "moon.phase.new": "新月",
   "moon.phase.waxingCrescent": "娥眉月",
   "moon.phase.firstQuarter": "上弦月",

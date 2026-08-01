@@ -115,7 +115,7 @@ export const dict = {
   "moon.set": "Monduntergang",
   "moon.nextFull": "Nächster Vollmond",
   "moon.nextNew": "Nächster Neumond",
-  "moon.note": "Aus der Mondbahn berechnet, nicht abgerufen. Die Zeiten gelten für Matsumoto und stimmen auf wenige Minuten.",
+  "moon.note": "Phase und Zeiten sind aus der Mondbahn berechnet, nicht abgerufen; sie gelten für Matsumoto und stimmen auf wenige Minuten. Das Foto der erdzugewandten Seite stammt von der NASA.",
   "moon.phase.new": "Neumond",
   "moon.phase.waxingCrescent": "Zunehmende Sichel",
   "moon.phase.firstQuarter": "Erstes Viertel",

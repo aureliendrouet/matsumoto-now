@@ -115,7 +115,7 @@ export const dict = {
   "moon.set": "Pôr da Lua",
   "moon.nextFull": "Próxima lua cheia",
   "moon.nextNew": "Próxima lua nova",
-  "moon.note": "Calculado a partir da órbita da Lua, sem buscar em lugar nenhum. Os horários são para Matsumoto, com precisão de poucos minutos.",
+  "moon.note": "A fase e os horários são calculados a partir da órbita da Lua, sem buscar em lugar nenhum; valem para Matsumoto, com precisão de poucos minutos. A fotografia da face visível é da NASA.",
   "moon.phase.new": "Lua nova",
   "moon.phase.waxingCrescent": "Lua crescente côncava",
   "moon.phase.firstQuarter": "Quarto crescente",

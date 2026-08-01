@@ -115,7 +115,7 @@ export const dict = {
   "moon.set": "Moonset",
   "moon.nextFull": "Next full moon",
   "moon.nextNew": "Next new moon",
-  "moon.note": "Calculated from the moon’s orbit, not fetched from anywhere. Times are for Matsumoto and accurate to a few minutes.",
+  "moon.note": "Phase and times are calculated from the moon’s orbit, not fetched from anywhere; they are for Matsumoto and accurate to a few minutes. The photograph of the near side is NASA’s.",
   "moon.phase.new": "New moon",
   "moon.phase.waxingCrescent": "Waxing crescent",
   "moon.phase.firstQuarter": "First quarter",

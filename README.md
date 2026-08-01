@@ -144,8 +144,13 @@ Three more weather cards answer questions one number cannot:
   rain gauge but no thermometer, so its marker says so rather than going blank.
   Leaflet is behind a dynamic import here: `dashboard.ts` is shared with the
   landing page, which has no map and should not pay ~150 kB for one.
-- **Moon** (`moon`). Computed from the orbit in `src/lib/moon.ts` — no API, no
-  licence, no network. Two things in there are easy to get wrong and were:
+- **Moon** (`moon`). Phase and rise/set are computed from the orbit in
+  `src/lib/moon.ts` — no API, no network. The disc itself is a NASA/GSFC
+  photograph of the near side (`public/images/moon.jpg`, 13 kB, public domain),
+  clipped to the terminator: the near side always faces us, so the image never
+  rotates and only the clip changes. Both layers are clipped to a circle —
+  without that, the dimmed earthshine layer shows the photo's black sky corners
+  as a grey box around the moon. Two things in there are easy to get wrong and were:
   the phase must come from the elongation, not the bright-limb position angle,
   which flips sign at new and full moon and sends a "next new moon" search to
   the wrong date; and in the two-arc disc path the terminator's sweep flips

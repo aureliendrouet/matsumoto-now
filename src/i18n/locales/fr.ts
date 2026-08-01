@@ -115,7 +115,7 @@ export const dict = {
   "moon.set": "Coucher de la Lune",
   "moon.nextFull": "Prochaine pleine lune",
   "moon.nextNew": "Prochaine nouvelle lune",
-  "moon.note": "Calculé à partir de l’orbite lunaire, sans source extérieure. Les heures valent pour Matsumoto, à quelques minutes près.",
+  "moon.note": "La phase et les heures sont calculées à partir de l’orbite lunaire, sans source extérieure ; elles valent pour Matsumoto, à quelques minutes près. La photographie de la face visible est de la NASA.",
   "moon.phase.new": "Nouvelle lune",
   "moon.phase.waxingCrescent": "Premier croissant",
   "moon.phase.firstQuarter": "Premier quartier",

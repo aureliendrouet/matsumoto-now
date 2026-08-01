@@ -115,7 +115,7 @@ export const dict = {
   "moon.set": "Månen går ned",
   "moon.nextFull": "Neste fullmåne",
   "moon.nextNew": "Neste nymåne",
-  "moon.note": "Beregnet fra månens bane, ikke hentet noe sted fra. Tidene gjelder Matsumoto og stemmer på noen minutter.",
+  "moon.note": "Fase og tider er beregnet fra månens bane, ikke hentet noe sted fra; de gjelder Matsumoto og stemmer på noen minutter. Fotografiet av forsiden er NASAs.",
   "moon.phase.new": "Nymåne",
   "moon.phase.waxingCrescent": "Voksende månesigd",
   "moon.phase.firstQuarter": "Første kvarter",

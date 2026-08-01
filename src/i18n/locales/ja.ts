@@ -115,7 +115,7 @@ export const dict = {
   "moon.set": "月の入り",
   "moon.nextFull": "次の満月",
   "moon.nextNew": "次の新月",
-  "moon.note": "月の軌道から計算しています（外部データは使用していません）。時刻は松本のもので、誤差は数分程度です。",
+  "moon.note": "月齢と時刻は月の軌道から計算しています（外部データは使用していません）。時刻は松本のもので、誤差は数分程度です。表面の写真はNASAによるものです。",
   "moon.phase.new": "新月",
   "moon.phase.waxingCrescent": "三日月（上弦前）",
   "moon.phase.firstQuarter": "上弦",

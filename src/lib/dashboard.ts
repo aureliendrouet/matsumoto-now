@@ -829,21 +829,58 @@ function initMoon(lang: Lang, t: (k: UIKey) => string): void {
 
   const head = make('div', 'moon-head');
 
-  // Drawn rather than an emoji: the emoji set has eight fixed phases and its
-  // shapes are mirrored for the southern hemisphere in some fonts.
+  // A photograph of the real near side rather than a plain disc or an emoji:
+  // emoji have eight fixed shapes and some fonts mirror them for the southern
+  // hemisphere, and the maria are what make a moon read as the Moon. The disc
+  // never rotates — the near side always faces us; only the terminator moves,
+  // so the same image is simply clipped differently each night.
+  const NS_SVG = 'http://www.w3.org/2000/svg';
   const R = 30;
-  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  const svg = document.createElementNS(NS_SVG, 'svg');
   svg.setAttribute('viewBox', `${-R - 2} ${-R - 2} ${(R + 2) * 2} ${(R + 2) * 2}`);
   svg.setAttribute('class', 'moon-disc');
   svg.setAttribute('role', 'img');
   svg.setAttribute('aria-label', t(`moon.phase.${m.name}` as UIKey));
-  const dark = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-  dark.setAttribute('r', String(R));
-  dark.setAttribute('class', 'moon-dark');
-  const lit = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-  lit.setAttribute('d', moonDiscPath(m.phase, R));
-  lit.setAttribute('class', 'moon-lit');
-  svg.append(dark, lit);
+
+  const clipId = 'moon-lit-clip';
+  const discId = 'moon-disc-clip';
+  const defs = document.createElementNS(NS_SVG, 'defs');
+
+  const clip = document.createElementNS(NS_SVG, 'clipPath');
+  clip.setAttribute('id', clipId);
+  const clipPath = document.createElementNS(NS_SVG, 'path');
+  clipPath.setAttribute('d', moonDiscPath(m.phase, R));
+  clip.appendChild(clipPath);
+  defs.appendChild(clip);
+
+  // The photograph is square with black sky in the corners; without this the
+  // dimmed layer beneath shows those corners as a grey box around the moon.
+  const discClip = document.createElementNS(NS_SVG, 'clipPath');
+  discClip.setAttribute('id', discId);
+  const discCircle = document.createElementNS(NS_SVG, 'circle');
+  discCircle.setAttribute('r', String(R));
+  discClip.appendChild(discCircle);
+  defs.appendChild(discClip);
+
+  svg.appendChild(defs);
+
+  const src = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/images/moon.jpg`;
+  const image = (className: string, clipped: boolean) => {
+    const img = document.createElementNS(NS_SVG, 'image');
+    img.setAttribute('href', src);
+    img.setAttribute('x', String(-R));
+    img.setAttribute('y', String(-R));
+    img.setAttribute('width', String(R * 2));
+    img.setAttribute('height', String(R * 2));
+    img.setAttribute('preserveAspectRatio', 'xMidYMid slice');
+    img.setAttribute('class', className);
+    img.setAttribute('clip-path', `url(#${clipped ? clipId : discId})`);
+    return img;
+  };
+  // the unlit side stays faintly visible, the way earthshine makes it — a
+  // hard-edged black bite out of the card reads as a rendering fault
+  svg.appendChild(image('moon-shadow', false));
+  svg.appendChild(image('moon-face', true));
   head.appendChild(svg);
 
   const side = make('div');
@@ -868,6 +905,16 @@ function initMoon(lang: Lang, t: (k: UIKey) => string): void {
   host.appendChild(stats);
 
   host.appendChild(make('p', 'card-note', t('moon.note')));
+  // NASA imagery is public domain and needs no credit, but this site credits
+  // every source it shows; the line carries no translatable words.
+  const credit = make('p', 'card-note');
+  const link = make('a', undefined, 'NASA / GSFC') as HTMLAnchorElement;
+  link.href = 'https://images.nasa.gov/details/GSFC_20171208_Archive_e000868';
+  link.target = '_blank';
+  link.rel = 'noopener';
+  // no © — NASA imagery is not copyrighted; the bare credit is the honest form
+  credit.appendChild(link);
+  host.appendChild(credit);
 }
 
 async function initQuakes(lang: Lang, t: (k: UIKey) => string): Promise<void> {

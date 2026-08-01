@@ -115,7 +115,7 @@ export const dict = {
   "moon.set": "월몰",
   "moon.nextFull": "다음 보름달",
   "moon.nextNew": "다음 그믐달",
-  "moon.note": "달의 궤도로 계산한 값이며 외부에서 받아오지 않습니다. 시각은 마쓰모토 기준이며 오차는 몇 분 정도입니다.",
+  "moon.note": "달 위상과 시각은 달의 궤도로 계산한 값이며 외부에서 받아오지 않습니다. 시각은 마쓰모토 기준이며 오차는 몇 분 정도입니다. 앞면 사진은 NASA의 것입니다.",
   "moon.phase.new": "삭(신월)",
   "moon.phase.waxingCrescent": "초승달",
   "moon.phase.firstQuarter": "상현달",
