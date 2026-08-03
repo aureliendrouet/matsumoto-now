@@ -1,5 +1,5 @@
 {
-  "fetched": "2026-08-03T05:03:48.096Z",
+  "fetched": "2026-08-03T08:48:11.845Z",
   "items": [
     {
       "source": "important",
@@ -32,6 +32,14 @@
       "date": "2026-06-23T15:00:00.000Z",
       "titleEn": "Watch out for bears!",
       "titleFr": "Attention aux ours !"
+    },
+    {
+      "source": "news",
+      "title": "若者△プロジェクトの企画・運営者を募集します",
+      "link": "https://www.city.matsumoto.nagano.jp/site/kyoiku/189999.html",
+      "date": "2026-08-03T06:00:00.000Z",
+      "titleEn": "We are seeking planners and organizers for the Youth △ Project",
+      "titleFr": "Nous recherchons des responsables pour la conception et la gestion du projet « Jeunes △ »"
     },
     {
       "source": "news",
@@ -144,14 +152,6 @@
       "date": "2026-07-31T00:00:00.000Z",
       "titleEn": "[Nagawa District] The Matsumoto Nagawa Rogaining Event Is Here!",
       "titleFr": "[Région de Nagawa] Organisation du Rogaining de Matsumoto-Nagawa !"
-    },
-    {
-      "source": "news",
-      "title": "【追加募集】令和８年度松本市会計年度任用職員を募集します。",
-      "link": "https://www.city.matsumoto.nagano.jp/soshiki/4/198161.html",
-      "date": "2026-07-31T00:00:00.000Z",
-      "titleEn": "[Additional Recruitment] We are recruiting staff for fiscal year Reiwa 8 in Matsumoto City.",
-      "titleFr": "[Recrutement supplémentaire] Nous recrutons des agents contractuels pour l'exercice budgétaire de l'année Reiwa 8 de la ville de Matsumoto."
     },
     {
       "source": "anshin",
