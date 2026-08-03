@@ -1,5 +1,5 @@
 {
-  "fetched": "2026-08-02T23:01:30.599Z",
+  "fetched": "2026-08-03T01:06:30.176Z",
   "items": [
     {
       "source": "important",
@@ -139,6 +139,14 @@
     },
     {
       "source": "news",
+      "title": "【奈川地区】松本奈川ロゲイニングを開催！",
+      "link": "https://www.city.matsumoto.nagano.jp/site/chiku-info/210114.html",
+      "date": "2026-07-31T00:00:00.000Z",
+      "titleEn": "[Nagawa District] The Matsumoto Nagawa Rogaining Event Is Here!",
+      "titleFr": "[Région de Nagawa] Organisation du Rogaining de Matsumoto-Nagawa !"
+    },
+    {
+      "source": "news",
       "title": "【追加募集】令和８年度松本市会計年度任用職員を募集します。",
       "link": "https://www.city.matsumoto.nagano.jp/soshiki/4/198161.html",
       "date": "2026-07-31T00:00:00.000Z",
@@ -152,14 +160,6 @@
       "date": "2026-07-31T00:00:00.000Z",
       "titleEn": "[Nagawa District] Insect Observation Monitor Tour to Be Held!",
       "titleFr": "[Quartier de Nagawa] Organisation d'une visite guidée d'observation des insectes !"
-    },
-    {
-      "source": "news",
-      "title": "第24回あがたの森夏まつりを開催します",
-      "link": "https://www.city.matsumoto.nagano.jp/site/chiku-info/142706.html",
-      "date": "2026-07-30T15:00:00.000Z",
-      "titleEn": "The 24th Agata Forest Summer Festival Will Be Held",
-      "titleFr": "La 24e édition du festival d'été de la forêt d'Agata aura lieu"
     },
     {
       "source": "anshin",
