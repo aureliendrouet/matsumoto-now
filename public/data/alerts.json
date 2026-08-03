@@ -1,14 +1,6 @@
 {
-  "fetched": "2026-08-03T01:06:30.176Z",
+  "fetched": "2026-08-03T05:03:48.096Z",
   "items": [
-    {
-      "source": "important",
-      "title": "松本市公式LINEの通信障害は復旧しました",
-      "link": "https://www.city.matsumoto.nagano.jp/soshiki/216/174727.html",
-      "date": "2026-07-28T23:15:00.000Z",
-      "titleEn": "Service has been restored for the Matsumoto City Official LINE account",
-      "titleFr": "Le problème de connexion sur le compte LINE officiel de la ville de Matsumoto a été résolu"
-    },
     {
       "source": "important",
       "title": "クマの目撃情報",
@@ -43,6 +35,22 @@
     },
     {
       "source": "news",
+      "title": "松本市消防団支援隊　活動を紹介します",
+      "link": "https://www.city.matsumoto.nagano.jp/soshiki/228/210249.html",
+      "date": "2026-08-02T15:00:00.000Z",
+      "titleEn": "Introducing the Activities of the Matsumoto City Volunteer Fire Department Support Team",
+      "titleFr": "Présentation des activités de l'équipe de soutien des pompiers volontaires de Matsumoto"
+    },
+    {
+      "source": "news",
+      "title": "健診結果の提出にご協力ください",
+      "link": "https://www.city.matsumoto.nagano.jp/soshiki/65/210074.html",
+      "date": "2026-07-31T15:00:00.000Z",
+      "titleEn": "Please help us by submitting your health checkup results.",
+      "titleFr": "Merci de bien vouloir nous transmettre les résultats de votre examen médical."
+    },
+    {
+      "source": "news",
       "title": "【応募終了】「ベストショット！みんなのペット写真コンテスト2026」の作品を募集します",
       "link": "https://www.city.matsumoto.nagano.jp/soshiki/231/83121.html",
       "date": "2026-07-31T15:00:00.000Z",
@@ -64,14 +72,6 @@
       "date": "2026-07-31T15:00:00.000Z",
       "titleEn": "You can apply online for a National Health Insurance Certificate of Eligibility for the Maximum Benefit Limit.",
       "titleFr": "La demande de délivrance d'un certificat d'application du plafond de l'assurance maladie nationale peut être effectuée en ligne."
-    },
-    {
-      "source": "news",
-      "title": "松本市波田公民館",
-      "link": "https://www.city.matsumoto.nagano.jp/site/chiku-info/4248.html",
-      "date": "2026-07-31T15:00:00.000Z",
-      "titleEn": "Matsumoto City Hada Community Center",
-      "titleFr": "Centre communautaire de Hada, à Matsumoto"
     },
     {
       "source": "news",
@@ -152,14 +152,6 @@
       "date": "2026-07-31T00:00:00.000Z",
       "titleEn": "[Additional Recruitment] We are recruiting staff for fiscal year Reiwa 8 in Matsumoto City.",
       "titleFr": "[Recrutement supplémentaire] Nous recrutons des agents contractuels pour l'exercice budgétaire de l'année Reiwa 8 de la ville de Matsumoto."
-    },
-    {
-      "source": "news",
-      "title": "【奈川地区】昆虫観察会モニターツアー開催！",
-      "link": "https://www.city.matsumoto.nagano.jp/site/chiku-info/209985.html",
-      "date": "2026-07-31T00:00:00.000Z",
-      "titleEn": "[Nagawa District] Insect Observation Monitor Tour to Be Held!",
-      "titleFr": "[Quartier de Nagawa] Organisation d'une visite guidée d'observation des insectes !"
     },
     {
       "source": "anshin",
