@@ -1,5 +1,5 @@
 {
-  "fetched": "2026-08-04T05:47:08.730Z",
+  "fetched": "2026-08-04T08:37:12.261Z",
   "items": [
     {
       "source": "important",
@@ -32,6 +32,14 @@
       "date": "2026-06-23T15:00:00.000Z",
       "titleEn": "Watch out for bears!",
       "titleFr": "Attention aux ours !"
+    },
+    {
+      "source": "news",
+      "title": "市長記者会見　令和8年（2026）8月4日",
+      "link": "https://www.city.matsumoto.nagano.jp/site/yokosomayorsoffice/210652.html",
+      "date": "2026-08-04T06:00:00.000Z",
+      "titleEn": "Mayor's Press Conference, August 4, Reiwa 8 (2026)",
+      "titleFr": "Conférence de presse du maire, le 4 août de l'année Reiwa 8 (2026)"
     },
     {
       "source": "news",
@@ -144,14 +152,6 @@
       "date": "2026-07-31T08:00:00.000Z",
       "titleEn": "Information on Online Consultations with Judicial Scriveners",
       "titleFr": "Informations sur les consultations en ligne avec un notaire"
-    },
-    {
-      "source": "news",
-      "title": "多事争論会を開催しました",
-      "link": "https://www.city.matsumoto.nagano.jp/site/yokosomayorsoffice/183708.html",
-      "date": "2026-07-31T06:45:00.000Z",
-      "titleEn": "We Held a Discussion Forum on Various Issues",
-      "titleFr": "Nous avons organisé une réunion de débat sur divers sujets"
     },
     {
       "source": "anshin",
