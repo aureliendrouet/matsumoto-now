@@ -1,5 +1,5 @@
 {
-  "fetched": "2026-08-05T03:43:27.849Z",
+  "fetched": "2026-08-05T06:28:22.994Z",
   "items": [
     {
       "source": "important",
@@ -32,6 +32,14 @@
       "date": "2026-06-23T15:00:00.000Z",
       "titleEn": "Watch out for bears!",
       "titleFr": "Attention aux ours !"
+    },
+    {
+      "source": "news",
+      "title": "【奈川地区】昆虫観察会モニターツアー開催！",
+      "link": "https://www.city.matsumoto.nagano.jp/site/chiku-info/209985.html",
+      "date": "2026-08-05T04:00:00.000Z",
+      "titleEn": "[Nagawa District] Insect Observation Monitor Tour to Be Held!",
+      "titleFr": "[Quartier de Nagawa] Organisation d'une visite guidée d'observation des insectes !"
     },
     {
       "source": "news",
@@ -144,14 +152,6 @@
       "date": "2026-07-31T15:00:00.000Z",
       "titleEn": "Please use your Certificate of Eligibility for the Medical Expense Cap to reduce your out-of-pocket medical costs.",
       "titleFr": "Veuillez utiliser l'attestation de plafonnement des frais médicaux afin de limiter le montant de votre participation aux frais de santé."
-    },
-    {
-      "source": "news",
-      "title": "司法書士オンライン相談のご案内",
-      "link": "https://www.city.matsumoto.nagano.jp/soshiki/17/123829.html",
-      "date": "2026-07-31T08:00:00.000Z",
-      "titleEn": "Information on Online Consultations with Judicial Scriveners",
-      "titleFr": "Informations sur les consultations en ligne avec un notaire"
     },
     {
       "source": "anshin",
