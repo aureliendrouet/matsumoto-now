@@ -1,5 +1,5 @@
 {
-  "fetched": "2026-08-06T06:30:57.088Z",
+  "fetched": "2026-08-06T09:39:51.863Z",
   "items": [
     {
       "source": "important",
@@ -32,6 +32,14 @@
       "date": "2026-06-23T15:00:00.000Z",
       "titleEn": "Watch out for bears!",
       "titleFr": "Attention aux ours !"
+    },
+    {
+      "source": "news",
+      "title": "松本市母子父子寡婦福祉資金未収金整理業務委託に係る公募型プロポーザルを実施します。",
+      "link": "https://www.city.matsumoto.nagano.jp/site/nyusatsu-keiyaku/209822.html",
+      "date": "2026-08-06T08:00:00.000Z",
+      "titleEn": "We will conduct an open call for proposals regarding the outsourcing of collection services for outstanding payments under the Matsumoto City Welfare Fund for Single-Parent Families and Widows.",
+      "titleFr": "La ville de Matsumoto lance un appel à propositions ouvert au public concernant la sous-traitance des opérations de recouvrement des créances impayées au titre du Fonds d'aide sociale aux mères et pères isolés et aux veuves."
     },
     {
       "source": "news",
@@ -144,14 +152,6 @@
       "date": "2026-07-31T15:00:00.000Z",
       "titleEn": "Citizen Services Division: Making an appointment to visit the office is convenient",
       "titleFr": "Service des affaires civiles : il est pratique de prendre rendez-vous avant de se rendre à la mairie"
-    },
-    {
-      "source": "news",
-      "title": "令和8年度訪問理美容事業所向け衛生講習会を開催します",
-      "link": "https://www.city.matsumoto.nagano.jp/soshiki/63/206250.html",
-      "date": "2026-07-31T15:00:00.000Z",
-      "titleEn": "We will be holding a hygiene training session for mobile hair and beauty salons for the Reiwa 8 fiscal year.",
-      "titleFr": "Nous organisons une formation sur l'hygiène destinée aux salons de coiffure et de beauté à domicile pour l'année Reiwa 8"
     },
     {
       "source": "anshin",
