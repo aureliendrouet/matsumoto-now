@@ -1,5 +1,5 @@
 {
-  "fetched": "2026-08-05T21:46:55.498Z",
+  "fetched": "2026-08-06T00:06:10.397Z",
   "items": [
     {
       "source": "important",
@@ -32,6 +32,14 @@
       "date": "2026-06-23T15:00:00.000Z",
       "titleEn": "Watch out for bears!",
       "titleFr": "Attention aux ours !"
+    },
+    {
+      "source": "news",
+      "title": "【学校施設】スマートロックのご案内",
+      "link": "https://www.city.matsumoto.nagano.jp/soshiki/96/209418.html",
+      "date": "2026-08-05T15:00:00.000Z",
+      "titleEn": "[School Facilities] Information on Smart Locks",
+      "titleFr": "[Installations scolaires] Informations sur les serrures intelligentes"
     },
     {
       "source": "news",
@@ -144,14 +152,6 @@
       "date": "2026-07-31T15:00:00.000Z",
       "titleEn": "We will be holding a hygiene training session for mobile hair and beauty salons for the Reiwa 8 fiscal year.",
       "titleFr": "Nous organisons une formation sur l'hygiène destinée aux salons de coiffure et de beauté à domicile pour l'année Reiwa 8"
-    },
-    {
-      "source": "news",
-      "title": "医療費の窓口負担を抑えるために限度額適用認定証をご利用ください。",
-      "link": "https://www.city.matsumoto.nagano.jp/site/kokuho/3349.html",
-      "date": "2026-07-31T15:00:00.000Z",
-      "titleEn": "Please use your Certificate of Eligibility for the Medical Expense Cap to reduce your out-of-pocket medical costs.",
-      "titleFr": "Veuillez utiliser l'attestation de plafonnement des frais médicaux afin de limiter le montant de votre participation aux frais de santé."
     },
     {
       "source": "anshin",
