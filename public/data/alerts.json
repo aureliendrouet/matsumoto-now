@@ -1,5 +1,5 @@
 {
-  "fetched": "2026-08-07T03:28:44.916Z",
+  "fetched": "2026-08-07T05:17:09.590Z",
   "items": [
     {
       "source": "important",
@@ -32,6 +32,14 @@
       "date": "2026-06-23T15:00:00.000Z",
       "titleEn": "Watch out for bears!",
       "titleFr": "Attention aux ours !"
+    },
+    {
+      "source": "news",
+      "title": "令和8年度松本市職員採用資格試験【6月】の第2次試験結果について（保育士区分）",
+      "link": "https://www.city.matsumoto.nagano.jp/soshiki/4/210861.html",
+      "date": "2026-08-07T04:00:00.000Z",
+      "titleEn": "Results of the Second Round of the Reiwa 8 Matsumoto City Civil Service Qualification Examination [June] (Childcare Worker Category)",
+      "titleFr": "Résultats de la deuxième épreuve du concours de recrutement des agents de la ville de Matsumoto pour l'année Reiwa 8 [juin] (catégorie « éducateurs de maternelle »)"
     },
     {
       "source": "news",
@@ -144,14 +152,6 @@
       "date": "2026-07-31T15:00:00.000Z",
       "titleEn": "You can apply online for a National Health Insurance Certificate of Eligibility for the Maximum Benefit Limit.",
       "titleFr": "La demande de délivrance d'un certificat d'application du plafond de l'assurance maladie nationale peut être effectuée en ligne."
-    },
-    {
-      "source": "news",
-      "title": "毎月の市民課窓口の混雑予想と支所・出張所のご案内",
-      "link": "https://www.city.matsumoto.nagano.jp/soshiki/50/2943.html",
-      "date": "2026-07-31T15:00:00.000Z",
-      "titleEn": "Monthly Crowd Forecasts for the Civic Affairs Division Counter and Information on Branch Offices and Satellite Offices",
-      "titleFr": "Prévisions d'affluence mensuelles aux guichets du service des affaires civiles et informations sur les antennes et les bureaux décentralisés"
     },
     {
       "source": "anshin",
