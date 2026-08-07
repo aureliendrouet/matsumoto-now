@@ -1,5 +1,5 @@
 {
-  "fetched": "2026-08-06T14:53:39.816Z",
+  "fetched": "2026-08-07T00:24:12.403Z",
   "items": [
     {
       "source": "important",
@@ -32,6 +32,14 @@
       "date": "2026-06-23T15:00:00.000Z",
       "titleEn": "Watch out for bears!",
       "titleFr": "Attention aux ours !"
+    },
+    {
+      "source": "news",
+      "title": "保育園の空き状況について（令和８年９月途中入園）",
+      "link": "https://www.city.matsumoto.nagano.jp/site/kosodate/55781.html",
+      "date": "2026-08-06T15:00:00.000Z",
+      "titleEn": "Regarding Daycare Availability (Mid-Reiwa 8 Enrollment)",
+      "titleFr": "Disponibilités dans les crèches (inscription en cours de mois de septembre de l'année Reiwa 8)"
     },
     {
       "source": "news",
@@ -144,14 +152,6 @@
       "date": "2026-07-31T15:00:00.000Z",
       "titleEn": "Monthly Crowd Forecasts for the Civic Affairs Division Counter and Information on Branch Offices and Satellite Offices",
       "titleFr": "Prévisions d'affluence mensuelles aux guichets du service des affaires civiles et informations sur les antennes et les bureaux décentralisés"
-    },
-    {
-      "source": "news",
-      "title": "市民課 来庁予約が便利です",
-      "link": "https://www.city.matsumoto.nagano.jp/soshiki/50/208405.html",
-      "date": "2026-07-31T15:00:00.000Z",
-      "titleEn": "Citizen Services Division: Making an appointment to visit the office is convenient",
-      "titleFr": "Service des affaires civiles : il est pratique de prendre rendez-vous avant de se rendre à la mairie"
     },
     {
       "source": "anshin",
